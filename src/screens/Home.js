@@ -1,0 +1,252 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from 'react-native';
+import {Colors, Images, Metrix} from '../config';
+import Feather from 'react-native-vector-icons/Feather';
+import OwnerCard from '../components/OwnerCard';
+
+const Home = () => {
+  const categoryData = [
+    {
+      id: 1,
+      name: 'Cat',
+      image: Images.cat,
+      color: 'pink',
+    },
+    {
+      id: 2,
+      name: 'Dog',
+      image: Images.dog,
+      color: 'lightblue',
+    },
+    {
+      id: 3,
+      name: 'Rabbit',
+      image: Images.rabbit,
+      color: 'lightgreen',
+    },
+    {
+      id: 4,
+      name: 'Bird',
+      image: Images.bird,
+      color: 'yellow',
+    },
+    {
+      id: 5,
+      name: 'Turtle',
+      image: Images.turtle,
+      color: 'tomato',
+    },
+  ];
+
+  const topPets = [
+    {
+      id: 1,
+      name: 'Rocky',
+      image: 'https://picsum.photos/200/300',
+      breed: 'Poodle',
+      price: '450',
+    },
+    {
+      id: 2,
+      name: 'Bella',
+      image: 'https://picsum.photos/200/300',
+      breed: 'Persian',
+      price: '450',
+    },
+    {
+      id: 3,
+      name: 'Leo',
+      image: 'https://picsum.photos/200/300',
+      breed: 'Cocktail',
+      price: '450',
+    },
+  ];
+
+  const renderItem = item => {
+    return (
+      <TouchableOpacity style={{marginHorizontal: 10}}>
+        <View
+          style={{
+            borderRadius: 20,
+            backgroundColor: item.item.color,
+            padding: 12,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Image
+            source={item.item.image}
+            style={{
+              resizeMode: 'contain',
+              width: Metrix.HorizontalSize(50),
+              height: Metrix.VerticalSize(50),
+            }}
+          />
+        </View>
+        <View
+          style={{
+            marginVertical: Metrix.VerticalSize(10),
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: Colors.primary}}>{item.item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderContent = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={{
+          borderRadius: 10,
+          height: Metrix.VerticalSize(220),
+          width: Metrix.HorizontalSize(150),
+          padding: 5,
+          backgroundColor: Colors.white,
+          marginHorizontal: 10,
+          marginVertical: 5,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+        }}>
+        <Image
+          source={{uri: item.image}}
+          style={{
+            borderRadius: 15,
+            height: Metrix.VerticalSize(130),
+            width: Metrix.HorizontalSize(140),
+          }}
+        />
+        <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
+          <Text
+            style={{
+                color: Colors.black,
+                fontSize: Metrix.customFontSize(17),
+                fontWeight: 'bold',
+            }}>
+            {item.name}
+          </Text>
+          <Text
+            style={{
+                color: Colors.placeholderGray,
+                // fontSize: Metrix.customFontSize(17),
+                marginVertical: 3,
+                fontWeight: 'bold',
+            }}>
+            {item.breed}
+          </Text>
+          <Text
+            style={{
+                color: Colors.primary,
+                // fontSize: Metrix.customFontSize(17),
+                fontWeight: 'bold',
+            }}>
+            Rs.{item.price}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={{marginVertical: Metrix.VerticalSize(10), ...styles.topView}}>
+        <View>
+          <Text>Icon</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity>
+            <Feather
+              name="search"
+              color={Colors.black}
+              size={Metrix.customFontSize(28)}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginLeft: 20}}>
+            <Feather
+              name="bell"
+              color={Colors.black}
+              size={Metrix.customFontSize(28)}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <OwnerCard />
+      <View style={{marginVertical: Metrix.VerticalSize(20)}}>
+        <View style={{marginBottom: 15, ...styles.topView}}>
+          <Text
+            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+            Categories
+          </Text>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.primary,
+                textDecorationLine: 'underline',
+                marginTop: 5,
+              }}>
+              View All
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={categoryData}
+          horizontal={true}
+          keyExtractor={index => index.toString()}
+          renderItem={item => renderItem(item)}
+        />
+      </View>
+      <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+        <View style={{marginBottom: 15, ...styles.topView}}>
+          <Text
+            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+            Everyone is talking about
+          </Text>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.primary,
+                textDecorationLine: 'underline',
+                marginTop: 5,
+              }}>
+              View All
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={topPets}
+          horizontal={true}
+          keyExtractor={index => index.toString()}
+          renderItem={item => renderContent(item)}
+        />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingHorizontal: Metrix.HorizontalSize(20),
+  },
+  topView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
+
+export default Home;
