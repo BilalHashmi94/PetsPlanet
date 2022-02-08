@@ -7,7 +7,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import {Colors, Images, Metrix} from '../config';
+import {Colors, Images, Metrix, NavigationService} from '../config';
 import Feather from 'react-native-vector-icons/Feather';
 import OwnerCard from '../components/OwnerCard';
 
@@ -52,6 +52,10 @@ const Home = () => {
       image: 'https://picsum.photos/200/300',
       breed: 'Poodle',
       price: '450',
+      age: '4 months',
+      weight: '2.8kg',
+      description:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
     },
     {
       id: 2,
@@ -59,6 +63,10 @@ const Home = () => {
       image: 'https://picsum.photos/200/300',
       breed: 'Persian',
       price: '450',
+      age: '4 months',
+      weight: '2.8kg',
+      description:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
     },
     {
       id: 3,
@@ -66,6 +74,10 @@ const Home = () => {
       image: 'https://picsum.photos/200/300',
       breed: 'Cocktail',
       price: '450',
+      age: '4 months',
+      weight: '2.8kg',
+      description:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
     },
   ];
 
@@ -104,22 +116,23 @@ const Home = () => {
   const renderContent = ({item}) => {
     return (
       <TouchableOpacity
+        onPress={() => NavigationService.navigate('PetDetail', {data: item})}
         style={{
-          borderRadius: 10,
+          borderRadius: 20,
           height: Metrix.VerticalSize(220),
           width: Metrix.HorizontalSize(150),
           padding: 5,
           backgroundColor: Colors.white,
           marginHorizontal: 10,
-          marginVertical: 5,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-            elevation: 5,
+          marginVertical: 8,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 4,
+          elevation: 5,
         }}>
         <Image
           source={{uri: item.image}}
@@ -132,26 +145,26 @@ const Home = () => {
         <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
           <Text
             style={{
-                color: Colors.black,
-                fontSize: Metrix.customFontSize(17),
-                fontWeight: 'bold',
+              color: Colors.black,
+              fontSize: Metrix.customFontSize(17),
+              fontWeight: 'bold',
             }}>
             {item.name}
           </Text>
           <Text
             style={{
-                color: Colors.placeholderGray,
-                // fontSize: Metrix.customFontSize(17),
-                marginVertical: 3,
-                fontWeight: 'bold',
+              color: Colors.placeholderGray,
+              // fontSize: Metrix.customFontSize(17),
+              marginVertical: 3,
+              fontWeight: 'bold',
             }}>
             {item.breed}
           </Text>
           <Text
             style={{
-                color: Colors.primary,
-                // fontSize: Metrix.customFontSize(17),
-                fontWeight: 'bold',
+              color: Colors.primary,
+              // fontSize: Metrix.customFontSize(17),
+              fontWeight: 'bold',
             }}>
             Rs.{item.price}
           </Text>
@@ -185,7 +198,7 @@ const Home = () => {
         </View>
       </View>
       <OwnerCard />
-      <View style={{marginVertical: Metrix.VerticalSize(20)}}>
+      <View style={{marginVertical: Metrix.VerticalSize(10)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
@@ -204,12 +217,13 @@ const Home = () => {
         </View>
         <FlatList
           data={categoryData}
+          showsHorizontalScrollIndicator={false}
           horizontal={true}
           keyExtractor={index => index.toString()}
           renderItem={item => renderItem(item)}
         />
       </View>
-      <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+      <View style={{marginVertical: Metrix.VerticalSize(5)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
@@ -228,6 +242,7 @@ const Home = () => {
         </View>
         <FlatList
           data={topPets}
+          showsHorizontalScrollIndicator={false}
           horizontal={true}
           keyExtractor={index => index.toString()}
           renderItem={item => renderContent(item)}
@@ -240,7 +255,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.back,
     paddingHorizontal: Metrix.HorizontalSize(20),
   },
   topView: {

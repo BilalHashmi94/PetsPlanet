@@ -24,5 +24,6 @@ export default Colors = {
   red: '#C92F2F',
   rowGreen: '#F2F2F2',
   blue: '#0075B2',
-  main: 'darkslategray'
+  main: 'darkslategray',
+  back: '#F8F8F8'
 };

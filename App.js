@@ -21,6 +21,7 @@
  import {PersistGate} from 'redux-persist/integration/react';
  import {Persistor, Store} from './src/redux';
  import Toast from 'react-native-toast-message';
+import { Colors } from './src/config';
  
  const App: () => Node = () => {
    const isDarkMode = useColorScheme() === 'dark';
@@ -29,7 +30,7 @@
      <SafeAreaView style={styles.container}>
        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
  
-       {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+       {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
        <Provider store={Store}>
          <PersistGate loading={null} persistor={Persistor}>
            {Platform.OS == 'ios' ? (

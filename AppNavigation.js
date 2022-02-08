@@ -4,7 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Colors, Metrix, NavigationService} from './src/config';
 import {ActivityIndicator, View} from 'react-native';
 import {connect, useSelector} from 'react-redux';
-import Home from './src/screens/Home';
+import PetDetail from './src/screens/PetDetail';
+import BottomTabs from './src/components/BottomTabs';
 
 const Stack = createStackNavigator();
 
@@ -58,8 +59,9 @@ class AppNavigation extends React.Component {
           ref={ref => NavigationService.setTopLevelNavigator(ref)}>
           <Stack.Navigator
             screenOptions={{headerShown: false}}
-            initialRouteName={'Home'}>
-            <Stack.Screen name="Home" component={Home} />
+            initialRouteName={'BottomTabs'}>
+            <Stack.Screen name="BottomTabs" component={BottomTabs} />
+            <Stack.Screen name="PetDetail" component={PetDetail} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
