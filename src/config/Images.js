@@ -5,4 +5,5 @@ export default Images = {
   bird: require('../assets/bird.png'),
   rabbit: require('../assets/rabbit.png'),
   turtle: require('../assets/turtle.png'),
+  avatar: require('../assets/avatar.jpeg'),
 };

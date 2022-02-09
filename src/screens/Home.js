@@ -61,7 +61,7 @@ const Home = () => {
       id: 2,
       name: 'Bella',
       image: 'https://picsum.photos/200/300',
-      breed: 'Persian',
+      breed: 'Golden Retriver',
       price: '450',
       age: '4 months',
       weight: '2.8kg',
