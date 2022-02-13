@@ -53,7 +53,7 @@ const BottomTabs = () => {
                     height: 45,
                     borderRadius: 70 / 2,
                     backgroundColor:
-                      props.state.index == index ? Colors.primary : Colors.white,
+                      props.state.index == index ? Colors.logoGreen : Colors.white,
                     // padding: 10
                   }}>
                   <AntDesign
@@ -120,7 +120,7 @@ const BottomTabs = () => {
                 <FontAwesome
                   name={'shopping-cart'}
                   size={25}
-                  color={focused ? '#CCCCFF' : Colors.primary}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
                 />
               </View>
             ),
@@ -135,7 +135,7 @@ const BottomTabs = () => {
                 <FontAwesome
                   name={'shopping-cart'}
                   size={25}
-                  color={focused ? '#CCCCFF' : Colors.primary}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
                 />
               </View>
             ),
@@ -150,7 +150,7 @@ const BottomTabs = () => {
                 <FontAwesome
                   name={'user'}
                   size={25}
-                  color={focused ? '#CCCCFF' : Colors.primary}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
                 />
               </View>
             ),

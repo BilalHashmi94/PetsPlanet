@@ -10,6 +10,9 @@ import {
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import Feather from 'react-native-vector-icons/Feather';
 import OwnerCard from '../components/OwnerCard';
+import CardComp from '../components/CardComp';
+import {ScrollView} from 'react-native-gesture-handler';
+import DoctorCard from '../components/DoctorCard';
 
 const Home = () => {
   const categoryData = [
@@ -81,19 +84,31 @@ const Home = () => {
     },
   ];
 
-  const renderItem = item => {
+  const renderItem = ({item}) => {
     return (
-      <TouchableOpacity style={{marginHorizontal: 10}}>
+      <TouchableOpacity
+        onPress={() =>
+          NavigationService.navigate('CategorySearch', {data: item})
+        }
+        style={{marginHorizontal: 10}}>
         <View
           style={{
             borderRadius: 20,
-            backgroundColor: item.item.color,
+            backgroundColor: item.color,
             padding: 12,
             alignItems: 'center',
             justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
           }}>
           <Image
-            source={item.item.image}
+            source={item.image}
             style={{
               resizeMode: 'contain',
               width: Metrix.HorizontalSize(50),
@@ -107,92 +122,48 @@ const Home = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{color: Colors.primary}}>{item.item.name}</Text>
+          <Text style={{color: Colors.primary, fontWeight: 'bold'}}>
+            {item.name}
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
   const renderContent = ({item}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => NavigationService.navigate('PetDetail', {data: item})}
-        style={{
-          borderRadius: 20,
-          height: Metrix.VerticalSize(220),
-          width: Metrix.HorizontalSize(150),
-          padding: 5,
-          backgroundColor: Colors.white,
-          marginHorizontal: 10,
-          marginVertical: 8,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 4,
-          elevation: 5,
-        }}>
-        <Image
-          source={{uri: item.image}}
-          style={{
-            borderRadius: 15,
-            height: Metrix.VerticalSize(130),
-            width: Metrix.HorizontalSize(140),
-          }}
-        />
-        <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
-          <Text
-            style={{
-              color: Colors.black,
-              fontSize: Metrix.customFontSize(17),
-              fontWeight: 'bold',
-            }}>
-            {item.name}
-          </Text>
-          <Text
-            style={{
-              color: Colors.placeholderGray,
-              // fontSize: Metrix.customFontSize(17),
-              marginVertical: 3,
-              fontWeight: 'bold',
-            }}>
-            {item.breed}
-          </Text>
-          <Text
-            style={{
-              color: Colors.primary,
-              // fontSize: Metrix.customFontSize(17),
-              fontWeight: 'bold',
-            }}>
-            Rs.{item.price}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
+    return <CardComp item={item} />;
   };
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{marginVertical: Metrix.VerticalSize(10), ...styles.topView}}>
+    <ScrollView style={styles.container}>
+      <View style={{marginVertical: Metrix.VerticalSize(0), ...styles.topView}}>
         <View>
-          <Text>Icon</Text>
+          <Image
+            source={Images.logo}
+            style={{
+              resizeMode: 'contain',
+              width: Metrix.HorizontalSize(100),
+              height: Metrix.VerticalSize(80),
+            }}
+          />
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: Metrix.VerticalSize(20),
+          }}>
+          {/* <TouchableOpacity>
             <Feather
               name="search"
-              color={Colors.black}
+              color={Colors.logoDarkGreen}
               size={Metrix.customFontSize(28)}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={{marginLeft: 20}}>
             <Feather
               name="bell"
-              color={Colors.black}
-              size={Metrix.customFontSize(28)}
+              color={Colors.logoDarkGreen}
+              size={Metrix.customFontSize(38)}
             />
           </TouchableOpacity>
         </View>
@@ -204,7 +175,8 @@ const Home = () => {
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
             Categories
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => NavigationService.navigate('AllCategories')}>
             <Text
               style={{
                 color: Colors.primary,
@@ -229,7 +201,8 @@ const Home = () => {
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
             Everyone is talking about
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => NavigationService.navigate('TopPets')}>
             <Text
               style={{
                 color: Colors.primary,
@@ -248,14 +221,17 @@ const Home = () => {
           renderItem={item => renderContent(item)}
         />
       </View>
-    </View>
+      <View style={{marginBottom: Metrix.VerticalSize(90)}}>
+        <DoctorCard />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.back,
+    backgroundColor: Colors.white,
     paddingHorizontal: Metrix.HorizontalSize(20),
   },
   topView: {

@@ -1,21 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Image,
-} from 'react-native';
 import React from 'react';
-import {Colors, Images, Metrix, NavigationService} from '../config';
-import SearchHeader from '../components/SearchHeader';
-import {ScrollView} from 'react-native-gesture-handler';
-import CardComp from '../components/CardComp';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import SearchHeader from '../../components/SearchHeader';
+import {Colors, Metrix} from '../../config';
+import CardComp from '../../components/CardComp';
 
-const Favourites = () => {
-  const runSearch = text => {
-    console.warn('search', text);
-  };
+const LocationWise = props => {
 
   const favPets = [
     {
@@ -125,20 +114,36 @@ const Favourites = () => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader getSearch={text => runSearch(text)} />
+      <SearchHeader back={true} />
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),
           marginTop: Metrix.VerticalSize(20),
+          flexDirection: 'row',
+          //   justifyContent: 'space-between',
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(25)}}>
-          Your Favourites
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: Metrix.customFontSize(25),
+            color: Colors.black,
+          }}>
+          Location:
+        </Text>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: Metrix.customFontSize(25),
+            color: Colors.primary,
+            marginLeft: 10,
+          }}>
+          Gulshan
         </Text>
       </View>
       <View
         style={{
           marginTop: Metrix.VerticalSize(5),
-          marginBottom: Metrix.VerticalSize(230),
+          marginBottom: Metrix.VerticalSize(150),
         }}>
         <FlatList
           data={favPets}
@@ -153,9 +158,7 @@ const Favourites = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{color: Colors.black}}>
-                You Don't Have Any Favourites
-              </Text>
+              <Text style={{color: Colors.black}}>Sorry! No Pets Found.</Text>
             </View>
           )}
         />
@@ -176,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Favourites;
+export default LocationWise;

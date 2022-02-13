@@ -4,8 +4,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Colors, Metrix, NavigationService} from './src/config';
 import {ActivityIndicator, View} from 'react-native';
 import {connect, useSelector} from 'react-redux';
-import PetDetail from './src/screens/PetDetail';
+import PetDetail from './src/screens/Pets/PetDetail';
 import BottomTabs from './src/components/BottomTabs';
+import CategorySearch from './src/screens/PetsCategories/CategorySearch';
+import TopPets from './src/screens/Pets/TopPets';
+import AllCategories from './src/screens/PetsCategories/AllCategories';
+import LocationWise from './src/screens/Pets/LocationWise';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +66,10 @@ class AppNavigation extends React.Component {
             initialRouteName={'BottomTabs'}>
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="PetDetail" component={PetDetail} />
+            <Stack.Screen name="CategorySearch" component={CategorySearch} />
+            <Stack.Screen name="TopPets" component={TopPets} />
+            <Stack.Screen name="AllCategories" component={AllCategories} />
+            <Stack.Screen name="LocationWise" component={LocationWise} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
@@ -79,7 +87,7 @@ class AppNavigation extends React.Component {
                 paddingHorizontal: Metrix.VerticalSize(30),
                 paddingVertical: Metrix.VerticalSize(30),
                 borderRadius: Metrix.VerticalSize(10),
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.primary,
               }}>
               <ActivityIndicator size="large" color={Colors.white} />
             </View>

@@ -25,5 +25,7 @@ export default Colors = {
   rowGreen: '#F2F2F2',
   blue: '#0075B2',
   main: 'darkslategray',
-  back: '#F8F8F8'
+  back: '#fffff',
+  logoGreen: '#15b342',
+  logoDarkGreen: '#1a4123',
 };

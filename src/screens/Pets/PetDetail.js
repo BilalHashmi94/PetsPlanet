@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Images, Metrix, NavigationService} from '../config';
+import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -186,7 +186,7 @@ const PetDetail = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.back,
+    backgroundColor: Colors.white,
     // paddingHorizontal: Metrix.HorizontalSize(20),
   },
   backButton: {

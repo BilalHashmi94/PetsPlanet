@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {Metrix, Colors, Images, NavigationService} from '../config';
 
-const OwnerCard = () => {
+const DoctorCard = () => {
   return (
     <View style={{marginVertical: Metrix.VerticalSize(10)}}>
       <View style={styles.topCard}>
@@ -14,19 +14,19 @@ const OwnerCard = () => {
                   color: Colors.white,
                   fontSize: Metrix.customFontSize(17),
                 }}>
-                Find the best pet
+                Is your pet sick?
               </Text>
               <Text
                 style={{
                   color: Colors.white,
-                  fontSize: Metrix.customFontSize(28),
+                  fontSize: Metrix.customFontSize(20),
                 }}>
-                in your location
+                Lets find you a Vet
               </Text>
             </View>
-            <TouchableOpacity 
-            onPress={() => NavigationService.navigate('LocationWise')}
-            style={styles.button}>
+            <TouchableOpacity
+              onPress={() => NavigationService.navigate('LocationWise')}
+              style={styles.button}>
               <Text
                 style={{
                   color: Colors.white,
@@ -44,7 +44,7 @@ const OwnerCard = () => {
               paddingHorizontal: Metrix.HorizontalSize(20),
             }}>
             <Image
-              source={Images.petOwner}
+              source={Images.doc}
               style={{
                 resizeMode: 'cover',
                 height: Metrix.VerticalSize(150),
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: Metrix.VerticalSize(180),
     width: '100%',
-    backgroundColor: Colors.orange,
+    backgroundColor: Colors.red,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OwnerCard;
+export default DoctorCard;
