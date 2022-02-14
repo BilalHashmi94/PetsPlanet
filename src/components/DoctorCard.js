@@ -25,7 +25,7 @@ const DoctorCard = () => {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() => NavigationService.navigate('LocationWise')}
+              onPress={() => NavigationService.navigate('DoctorsList')}
               style={styles.button}>
               <Text
                 style={{

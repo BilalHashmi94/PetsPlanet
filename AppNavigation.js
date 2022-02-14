@@ -10,6 +10,8 @@ import CategorySearch from './src/screens/PetsCategories/CategorySearch';
 import TopPets from './src/screens/Pets/TopPets';
 import AllCategories from './src/screens/PetsCategories/AllCategories';
 import LocationWise from './src/screens/Pets/LocationWise';
+import DoctorsList from './src/screens/Doctor/DoctorsList';
+import DoctorDetail from './src/screens/Doctor/DoctorDetail';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +72,8 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="TopPets" component={TopPets} />
             <Stack.Screen name="AllCategories" component={AllCategories} />
             <Stack.Screen name="LocationWise" component={LocationWise} />
+            <Stack.Screen name="DoctorsList" component={DoctorsList} />
+            <Stack.Screen name="DoctorDetail" component={DoctorDetail} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
