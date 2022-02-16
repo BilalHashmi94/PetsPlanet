@@ -12,6 +12,12 @@ import AllCategories from './src/screens/PetsCategories/AllCategories';
 import LocationWise from './src/screens/Pets/LocationWise';
 import DoctorsList from './src/screens/Doctor/DoctorsList';
 import DoctorDetail from './src/screens/Doctor/DoctorDetail';
+import ContactUs from './src/screens/ProfileStack/ContactUs';
+import EditProfile from './src/screens/ProfileStack/EditProfile';
+import PrivacyPolicy from './src/screens/ProfileStack/PrivacyPolicy';
+import TermsAndConditions from './src/screens/ProfileStack/TermsAndConditions';
+import SellersList from './src/screens/Seller/SellersList';
+import SellDetail from './src/screens/Seller/SellDetail';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +80,12 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="LocationWise" component={LocationWise} />
             <Stack.Screen name="DoctorsList" component={DoctorsList} />
             <Stack.Screen name="DoctorDetail" component={DoctorDetail} />
+            <Stack.Screen name="ContactUs" component={ContactUs} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+            <Stack.Screen name="TermsAndConditions" component={TermsAndConditions} />
+            <Stack.Screen name="SellersList" component={SellersList} />
+            <Stack.Screen name="SellDetail" component={SellDetail} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
