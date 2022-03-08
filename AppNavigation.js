@@ -18,6 +18,9 @@ import PrivacyPolicy from './src/screens/ProfileStack/PrivacyPolicy';
 import TermsAndConditions from './src/screens/ProfileStack/TermsAndConditions';
 import SellersList from './src/screens/Seller/SellersList';
 import SellDetail from './src/screens/Seller/SellDetail';
+import SignIn from './src/screens/Auth/SignIn';
+import SignUp from './src/screens/Auth/SignUp';
+import ForgotPass from './src/screens/Auth/ForgotPass';
 
 const Stack = createStackNavigator();
 
@@ -71,7 +74,7 @@ class AppNavigation extends React.Component {
           ref={ref => NavigationService.setTopLevelNavigator(ref)}>
           <Stack.Navigator
             screenOptions={{headerShown: false}}
-            initialRouteName={'BottomTabs'}>
+            initialRouteName={'SignIn'}>
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="PetDetail" component={PetDetail} />
             <Stack.Screen name="CategorySearch" component={CategorySearch} />
@@ -86,6 +89,9 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="TermsAndConditions" component={TermsAndConditions} />
             <Stack.Screen name="SellersList" component={SellersList} />
             <Stack.Screen name="SellDetail" component={SellDetail} />
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="ForgotPass" component={ForgotPass} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (

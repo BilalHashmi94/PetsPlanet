@@ -179,6 +179,7 @@ const Profile = () => {
             marginVertical: Metrix.VerticalSize(35),
           }}>
           <TouchableOpacity
+          onPress={() => NavigationService.navigate('SignIn')}
             style={{
               backgroundColor: Colors.logoGreen,
               ...styles.detailComp,

@@ -16,14 +16,14 @@ export class DataBaseMiddleware extends Component {
           if (response?.data?.isSuccess) {
             Keyboard.dismiss();
             dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
+            callback(response);
           } else {
             dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
+            callback(response);
           }
         } else {
           dispatch(LoaderAction.LoaderFalse());
-          callback(response?.data);
+          callback(response);
         }
       } catch (e) {
         dispatch(LoaderAction.LoaderFalse());
@@ -32,12 +32,12 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-  static GetStories({callback}) {
+  static GetTopPets({callback}) {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get('Common/GetHomePageData');
-        console.log('Story Response', response);
+        let response = await ApiCaller.Get('topPets');
+        console.log('Top Pets Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
             Keyboard.dismiss();
