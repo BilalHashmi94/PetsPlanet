@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import TextInputComp from '../../components/TextInputComp';
 import {Colors, Metrix, NavigationService} from '../../config';
 import Toast from 'react-native-toast-message';
+import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState('');
@@ -12,7 +13,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [secure, setSecure] = useState(true);
   const [secureCon, setSecureCon] = useState(true);
 
@@ -53,6 +54,27 @@ const SignUp = () => {
         position: 'bottom',
       });
     } else {
+      dispatch(
+        AuthMiddleware.Register({
+          email,
+          password,
+          firstName,
+          lastName,
+          callback: res => {
+            console.warn(res);
+            if (res.status == 200) {
+              NavigationService.navigate('Login');
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: res.message,
+                position: 'bottom',
+              });
+            }
+          },
+        }),
+      );
     }
   };
 

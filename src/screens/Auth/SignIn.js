@@ -12,6 +12,7 @@ import Button from '../../components/Button';
 import {Colors, Images, Metrix, NavigationService} from '../../config';
 // import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
+import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 
 const SignIn = props => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,16 @@ const SignIn = props => {
   // const dispatch = useDispatch(AuthMiddleware.LogIn({email, password}));
 
   const createLogin = () => {
-    NavigationService.navigate('BottomTabs');
+    dispatch(
+      AuthMiddleware.LoginWithEmail({
+        email,
+        password,
+        callback: res => {
+          console.log('res', res);
+          NavigationService.navigate('BottomTabs');
+        },
+      }),
+    );
   };
 
   return (

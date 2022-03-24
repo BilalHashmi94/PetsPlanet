@@ -51,15 +51,16 @@ export class AuthMiddleware extends Component {
     };
   }
 
-  static LoginWithEmail({username, callback, password}) {
+  static LoginWithEmail({email, callback, password}) {
     return async dispatch => {
       let payload = {
-        username: username,
+        email: email,
         password: password,
       };
+      console.log('payload', payload);
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('Users/AuthenticateUser', payload);
+        let response = await ApiCaller.Post('users/authenticate', payload);
         console.log('Login Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
@@ -94,12 +95,10 @@ export class AuthMiddleware extends Component {
         lastName: lastName,
         email: email,
         password: password,
-        userTypeID: 3,
-        isActive: true,
       };
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('Users/RegisterUser', payload);
+        let response = await ApiCaller.Post('users/register', payload);
         console.log('register Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
