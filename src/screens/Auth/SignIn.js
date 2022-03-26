@@ -28,8 +28,16 @@ const SignIn = props => {
         email,
         password,
         callback: res => {
-          console.log('res', res);
-          NavigationService.navigate('BottomTabs');
+          if (res == 'error') {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Invalid Email or Password',
+              position: 'bottom',
+            });
+          } else {
+            NavigationService.navigate('BottomTabs');
+          }
         },
       }),
     );

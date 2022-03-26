@@ -62,16 +62,7 @@ const SignUp = () => {
           lastName,
           callback: res => {
             console.warn(res);
-            if (res.status == 200) {
-              NavigationService.navigate('Login');
-            } else {
-              Toast.show({
-                type: 'success',
-                text1: 'Alert',
-                text2: res.message,
-                position: 'bottom',
-              });
-            }
+            NavigationService.navigate('Login');
           },
         }),
       );

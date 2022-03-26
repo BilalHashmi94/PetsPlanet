@@ -12,10 +12,12 @@ import {Colors, Images, Metrix, NavigationService} from '../../config';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../components/Header';
 import ActionSheet from 'react-native-actionsheet';
+import { useSelector } from 'react-redux';
 
 const actionSheetRef = createRef();
 
 const EditProfile = () => {
+  const user = useSelector(state => state.AuthReducer.user);
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -124,7 +126,7 @@ const EditProfile = () => {
               <TextInputComp
                 value={firstName}
                 onChange={text => setFirstName(text)}
-                placeholder={'Name'}
+                placeholder={user.firstName}
               />
             </View>
             <View style={{width: '48%'}}>
@@ -139,7 +141,7 @@ const EditProfile = () => {
               <TextInputComp
                 value={lastName}
                 onChange={text => setLastName(text)}
-                placeholder={'Last Name'}
+                placeholder={user.lastName}
               />
             </View>
           </View>
@@ -159,7 +161,7 @@ const EditProfile = () => {
             <TextInputComp
               value={email}
               onChange={text => setEmail(text)}
-              placeholder={'Email Address'}
+              placeholder={user.email}
             />
           </View>
         </View>

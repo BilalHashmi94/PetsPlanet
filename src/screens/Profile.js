@@ -8,12 +8,13 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-// import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // import {Button, Header, TextInputComp} from '../components';
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Profile = () => {
+  const user = useSelector(state => state.AuthReducer.user);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -42,7 +43,7 @@ const Profile = () => {
                 // fontFamily: 'Poppins-SemiBold',
                 fontWeight: 'bold',
               }}>
-              Paul Pogba
+              {user.firstName}{' '}{user.lastName}
             </Text>
           </View>
         </View>

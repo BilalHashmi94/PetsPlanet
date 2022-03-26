@@ -63,21 +63,15 @@ export class AuthMiddleware extends Component {
         let response = await ApiCaller.Post('users/authenticate', payload);
         console.log('Login Response', response);
         if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
             dispatch(LoaderAction.LoaderFalse());
             console.log('isSuccess');
             Keyboard.dismiss();
-            dispatch(AuthAction.Signin(response?.data?.data));
+            dispatch(AuthAction.Signin(response?.data));
             callback(response?.data);
-          } else {
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response.data);
-            console.log('erro00', response?.data?.message);
-          }
         } else {
           dispatch(LoaderAction.LoaderFalse());
           console.log('status false');
-          callback(response.data);
+          callback('error');
           if (response?.data?.statusCode != 401)
             console.log('erro', response?.data?.message);
         }
