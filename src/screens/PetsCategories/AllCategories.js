@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,100 +10,34 @@ import {
 import SearchHeader from '../../components/SearchHeader';
 import {Colors, Metrix, Images, NavigationService} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {useDispatch} from 'react-redux';
+import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 
 const AllCategories = () => {
-  const categoryData = [
-    {
-      id: 1,
-      name: 'Cat',
-      image: Images.cat,
-      color: 'pink',
-    },
-    {
-      id: 2,
-      name: 'Dog',
-      image: Images.dog,
-      color: 'lightblue',
-    },
-    {
-      id: 3,
-      name: 'Rabbit',
-      image: Images.rabbit,
-      color: 'lightgreen',
-    },
-    {
-      id: 4,
-      name: 'Bird',
-      image: Images.bird,
-      color: 'yellow',
-    },
-    {
-      id: 5,
-      name: 'Turtle',
-      image: Images.turtle,
-      color: 'tomato',
-    },
-    {
-      id: 1,
-      name: 'Cat',
-      image: Images.cat,
-      color: 'pink',
-    },
-    {
-      id: 2,
-      name: 'Dog',
-      image: Images.dog,
-      color: 'lightblue',
-    },
-    {
-      id: 3,
-      name: 'Rabbit',
-      image: Images.rabbit,
-      color: 'lightgreen',
-    },
-    {
-      id: 4,
-      name: 'Bird',
-      image: Images.bird,
-      color: 'yellow',
-    },
-    {
-      id: 5,
-      name: 'Turtle',
-      image: Images.turtle,
-      color: 'tomato',
-    },
-    {
-      id: 1,
-      name: 'Cat',
-      image: Images.cat,
-      color: 'pink',
-    },
-    {
-      id: 2,
-      name: 'Dog',
-      image: Images.dog,
-      color: 'lightblue',
-    },
-    {
-      id: 3,
-      name: 'Rabbit',
-      image: Images.rabbit,
-      color: 'lightgreen',
-    },
-    {
-      id: 4,
-      name: 'Bird',
-      image: Images.bird,
-      color: 'yellow',
-    },
-    {
-      id: 5,
-      name: 'Turtle',
-      image: Images.turtle,
-      color: 'tomato',
-    },
-  ];
+  const dispatch = useDispatch();
+  const [categoryData, setCategoryData] = useState([]);
+
+  const getAllCategories = () => {
+    dispatch(
+      DataBaseMiddleware.GetCategories({
+        callback: res => {
+          if(res.status == 200){
+            setCategoryData(res.data);
+          } else {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Something went wrong',
+              position: 'bottom',
+            });
+          }
+        },
+      }),
+    );
+  };
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   const renderItem = ({item}) => {
     return (
@@ -115,7 +49,7 @@ const AllCategories = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={{backgroundColor: item.color, ...styles.view}}>
             <Image
-              source={item.image}
+              source={item.name == 'Cat' ? Images.cat : item.name == 'Dog' ? Images.dog : item.name == 'Turtle' ? Images.turtle : item.name == 'Bird' ? Images.bird : item.name == 'Rabbit' ? Images.rabbit : item.image}
               style={{
                 resizeMode: 'contain',
                 width: Metrix.HorizontalSize(30),

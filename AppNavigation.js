@@ -67,14 +67,14 @@ class AppNavigation extends React.Component {
 
   render() {
     // const loading = useSelector(state => state.LoaderReducer.loading);
-    let {loading} = this.props;
+    let {loading, user} = this.props;
     return (
       <>
         <NavigationContainer
           ref={ref => NavigationService.setTopLevelNavigator(ref)}>
           <Stack.Navigator
             screenOptions={{headerShown: false}}
-            initialRouteName={'SignIn'}>
+            initialRouteName={user ? "BottomTabs" : 'SignIn'}>
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="PetDetail" component={PetDetail} />
             <Stack.Screen name="CategorySearch" component={CategorySearch} />
@@ -122,6 +122,7 @@ class AppNavigation extends React.Component {
 
 const mapStateToProps = state => ({
   loading: state.LoaderReducer.loading,
+  user: state.AuthReducer.user,
 });
 const mapDispatchToProps = dispatch => ({});
 

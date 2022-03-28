@@ -13,6 +13,7 @@ import {Colors, Images, Metrix, NavigationService} from '../../config';
 // import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
 import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
+import Toast from 'react-native-toast-message';
 
 const SignIn = props => {
   const [email, setEmail] = useState('');

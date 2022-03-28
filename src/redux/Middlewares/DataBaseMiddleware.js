@@ -6,21 +6,16 @@ import {ToastError, ToastSuccess} from '../../config/Constants';
 import {AuthAction, LoaderAction} from '../Actions';
 
 export class DataBaseMiddleware extends Component {
-  static GetSubscriptions({callback}) {
+  static GetCategories({callback}) {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get('Subscription/GetSubscriptions');
-        console.log('Subscription Response', response);
+        let response = await ApiCaller.Get('allCategories');
+        console.log('Categories Response', response);
         if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
             Keyboard.dismiss();
             dispatch(LoaderAction.LoaderFalse());
             callback(response);
-          } else {
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response);
-          }
         } else {
           dispatch(LoaderAction.LoaderFalse());
           callback(response);
@@ -39,14 +34,9 @@ export class DataBaseMiddleware extends Component {
         let response = await ApiCaller.Get('topPets');
         console.log('Top Pets Response', response);
         if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
             Keyboard.dismiss();
             dispatch(LoaderAction.LoaderFalse());
             callback(response?.data);
-          } else {
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
-          }
         } else {
           dispatch(LoaderAction.LoaderFalse());
           callback(response?.data);
