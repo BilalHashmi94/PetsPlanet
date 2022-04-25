@@ -13,9 +13,9 @@ export class DataBaseMiddleware extends Component {
         let response = await ApiCaller.Get('allCategories');
         console.log('Categories Response', response);
         if (response?.status == 200) {
-            Keyboard.dismiss();
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response);
+          Keyboard.dismiss();
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response);
         } else {
           dispatch(LoaderAction.LoaderFalse());
           callback(response);
@@ -27,16 +27,16 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-  static GetTopPets({callback}) {
+  static GetAllPets({callback}) {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get('topPets');
-        console.log('Top Pets Response', response);
+        let response = await ApiCaller.Get('allPets');
+        console.log('All Pets Response', response);
         if (response?.status == 200) {
-            Keyboard.dismiss();
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
+          Keyboard.dismiss();
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
         } else {
           dispatch(LoaderAction.LoaderFalse());
           callback(response?.data);
@@ -48,18 +48,36 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-  static GetStoriesByDate({callback, month, day, token}) {
+  static GetAllTopPets({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get('allPets/getAllTopPets');
+        console.log('Top Pets Response', response);
+        if (response?.status == 200) {
+          Keyboard.dismiss();
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
+  static GetPetByCategory({callback, name}) {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
         let response = await ApiCaller.Get(
-          `Story/GetStoryByDate/${day}/${month}`,
+          `allPets/getByCategory?category=${name}`,
           '',
-          {
-            Authorization: 'Bearer ' + token,
-          },
         );
-        console.log('Stories By Date Response', response);
+        console.log('Get Pet By Category Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
             Keyboard.dismiss();

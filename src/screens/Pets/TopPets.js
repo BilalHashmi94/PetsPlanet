@@ -7,115 +7,13 @@ import {useDispatch} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 
 const TopPets = props => {
-  // const favPets = [
-  //   {
-  //     id: 1,
-  //     name: 'Rocky',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Poodle',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Bella',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Golden Retriver',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Leo',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Cocktail',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 1,
-  //     name: 'Rocky',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Poodle',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Bella',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Golden Retriver',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Leo',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Cocktail',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 1,
-  //     name: 'Rocky',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Poodle',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Bella',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Golden Retriver',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Leo',
-  //     image: 'https://picsum.photos/200/300',
-  //     breed: 'Cocktail',
-  //     price: '450',
-  //     age: '4 months',
-  //     weight: '2.8kg',
-  //     description:
-  //       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-  //   },
-  // ];
-
   const [favPets, setFavPets] = useState();
 
   const dispatch = useDispatch();
 
   const getTopPets = () => {
     dispatch(
-      DataBaseMiddleware.GetTopPets({
+      DataBaseMiddleware.GetAllTopPets({
         callback: res => {
           setFavPets(res);
         },
