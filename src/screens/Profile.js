@@ -93,7 +93,7 @@ const Profile = () => {
           <View>
             {/* <View style={styles.line} /> */}
             <TouchableOpacity
-              // onPress={() => NavigationService.navigate('PrivacyPolicy')}
+              onPress={() => NavigationService.navigate('WhatDoYouWantToSell')}
               style={{
                 ...styles.profileView,
                 marginVertical: Metrix.VerticalSize(20),

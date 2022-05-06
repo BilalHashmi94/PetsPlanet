@@ -12,6 +12,7 @@ import {Colors, Metrix, Images, NavigationService} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useDispatch} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
+import Toast from 'react-native-toast-message';
 
 const AllCategories = () => {
   const dispatch = useDispatch();
