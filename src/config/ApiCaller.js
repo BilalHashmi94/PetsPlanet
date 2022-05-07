@@ -5,9 +5,9 @@ import {ToastError} from './Constants';
 import {Store} from '../redux';
 import {AuthAction} from '../redux/Actions';
 
-export var baseUrl = 'https://pets-planet.herokuapp.com/';
+export var baseUrl = 'http://localhost:8000/';
 
-export const Img_url = 'http://216.108.238.109:2215/Uploads/Blogs/';
+export const Img_url = 'https://pets-planet.herokuapp.com/uploads/';
 export const Img_url_user = 'http://216.108.238.109:2215/Uploads/Users/';
 
 const CancelToken = Axios.CancelToken.source();

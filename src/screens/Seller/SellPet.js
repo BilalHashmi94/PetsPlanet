@@ -9,12 +9,13 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Colors, Metrix} from '../../config';
 import Header from '../../components/Header';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
 import CustomModal from '../../components/CustomModal';
 import PickerButton from '../../components/PickerButton';
 import TextInputComp from '../../components/TextInputComp';
+import GetLocation from 'react-native-get-location';
 
 const SellPet = props => {
   const dispatch = useDispatch();
@@ -22,15 +23,38 @@ const SellPet = props => {
   const [modal, setModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [petName, setPetName] = useState('');
-  const [age, setage] = useState('');
+  const [age, setAge] = useState('');
+  const [breed, setBreed] = useState('');
   const [weight, setWeight] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [isTopEnabled, setIsTopEnabled] = useState(false);
   const [isTopTenEnabled, setIsTopTenEnabled] = useState(false);
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState()
   const toggleSwitch = () => setIsTopEnabled(previousState => !previousState);
   const toggleTenSwitch = () =>
     setIsTopTenEnabled(previousState => !previousState);
+
+  const user = useSelector(state => state.AuthReducer.user);
+
+  console.warn('user', user);
+
+  useEffect(() => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log(location);
+        setLat(location.latitude);
+        setLong(location.longitude);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  }, []);
 
   const getAllCategories = () => {
     dispatch(
@@ -95,10 +119,23 @@ const SellPet = props => {
               height: Metrix.VerticalSize(50),
               marginVertical: Metrix.VerticalSize(20),
             }}>
+            <Text style={styles.textInputText}>Breed</Text>
+            <TextInputComp
+              value={breed}
+              onChange={text => setBreed(text)}
+              placeholder={'Enter Here'}
+              type={'email-address'}
+            />
+          </View>
+          <View
+            style={{
+              height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(20),
+            }}>
             <Text style={styles.textInputText}>Pet Age</Text>
             <TextInputComp
               value={age}
-              onChange={text => setage(text)}
+              onChange={text => setAge(text)}
               placeholder={'Enter Here'}
               type={'email-address'}
             />
@@ -141,59 +178,60 @@ const SellPet = props => {
               placeholder={'Enter Here'}
               type={'email-address'}
             />
-            <View style={{marginVertical: Metrix.VerticalSize(10)}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: Metrix.VerticalSize(10),
-                }}>
-                <Text>Add you ad in Top Pets</Text>
-                <Switch
-                  trackColor={{false: '#767577', true: Colors.logoGreen}}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isTopEnabled}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: Metrix.VerticalSize(10),
-                }}>
-                <Text>Add you ad in Top 10 Pets</Text>
-                <Switch
-                  trackColor={{false: '#767577', true: Colors.logoGreen}}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleTenSwitch}
-                  value={isTopTenEnabled}
-                />
-              </View>
-            </View>
-            <View
+          </View>
+        </View>
+
+        <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: Metrix.VerticalSize(10),
+            }}>
+            <Text>Add you ad in Top Pets</Text>
+            <Switch
+              trackColor={{false: '#767577', true: Colors.logoGreen}}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isTopEnabled}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: Metrix.VerticalSize(10),
+            }}>
+            <Text>Add you ad in Top 10 Pets</Text>
+            <Switch
+              trackColor={{false: '#767577', true: Colors.logoGreen}}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleTenSwitch}
+              value={isTopTenEnabled}
+            />
+          </View>
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(15),
+              width: '100%',
+            }}>
+            <TouchableOpacity
+              //   onPress={() => NavigationService.navigate('SignIn')}
               style={{
-                // marginBottom: Metrix.VerticalSize(25),
-                width: '100%',
+                backgroundColor: Colors.backgroundBlue,
+                ...styles.detailComp,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              <TouchableOpacity
-                //   onPress={() => NavigationService.navigate('SignIn')}
+              <Text
                 style={{
-                  backgroundColor: Colors.backgroundBlue,
-                  ...styles.detailComp,
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  color: Colors.white,
+                  fontWeight: 'bold',
+                  fontSize: Metrix.customFontSize(20),
                 }}>
-                <Text
-                  style={{
-                    color: Colors.white,
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(20),
-                  }}>
-                  Pet Mall
-                </Text>
-              </TouchableOpacity>
-            </View>
+                Pet Mall
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <CustomModal

@@ -63,11 +63,11 @@ export class AuthMiddleware extends Component {
         let response = await ApiCaller.Post('users/authenticate', payload);
         console.log('Login Response', response);
         if (response?.status == 200) {
-            dispatch(LoaderAction.LoaderFalse());
-            console.log('isSuccess');
-            Keyboard.dismiss();
-            dispatch(AuthAction.Signin(response?.data));
-            callback(response?.data);
+          dispatch(LoaderAction.LoaderFalse());
+          console.log('isSuccess');
+          Keyboard.dismiss();
+          dispatch(AuthAction.Signin(response?.data));
+          callback(response?.data);
         } else {
           dispatch(LoaderAction.LoaderFalse());
           console.log('status false');
@@ -82,17 +82,35 @@ export class AuthMiddleware extends Component {
     };
   }
 
-  static Register({firstName, callback, lastName, email, password}) {
+  static Register({
+    firstName,
+    callback,
+    lastName,
+    email,
+    password,
+    phone,
+    profilePic,
+  }) {
     return async dispatch => {
       let payload = {
         firstName: firstName,
         lastName: lastName,
         email: email,
         password: password,
+        phoneNumber: phone,
+        profilePicture: profilePic,
       };
+      const formData = new FormData();
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('phoneNumber', phone);
+      formData.append('profilePicture', profilePic);
+
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('users/register', payload);
+        let response = await ApiCaller.Post('users/register', formData);
         console.log('register Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
@@ -161,13 +179,7 @@ export class AuthMiddleware extends Component {
     };
   }
 
-  static ContactUs({
-    id,
-    callback,
-    contactName,
-    contactEmail,
-    contactMessage,
-  }) {
+  static ContactUs({id, callback, contactName, contactEmail, contactMessage}) {
     return async dispatch => {
       let payload = {
         id: id,

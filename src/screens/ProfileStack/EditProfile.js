@@ -12,7 +12,9 @@ import {Colors, Images, Metrix, NavigationService} from '../../config';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../components/Header';
 import ActionSheet from 'react-native-actionsheet';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import { Img_url } from '../../config/ApiCaller';
 
 const actionSheetRef = createRef();
 
@@ -21,46 +23,52 @@ const EditProfile = () => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
-  // const [profilePic, setProfilePic] = useState(null);
-  // const [imageObj, setImageObj] = useState(null);
+  const [phone, setPhone] = useState();
+  const [profilePic, setProfilePic] = useState(null);
+  const [imageObj, setImageObj] = useState(null);
 
-  // const onLaunchCamera = () => {
-  //   ImagePicker.openCamera({
-  //     cropping: false,
-  //   })
-  //     .then(image => {
-  //       const source = image.path;
-  //       const mime = image.mime;
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
+  const openPicker = () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'photo',
+      cropping: true,
+    })
+      .then(photo => {
+        console.log('success', photo.path);
+        let arr = photo.path.split('/');
+        let name = photo.path.split('/')[arr.length - 1];
+        let file = {
+          name,
+          uri: photo.path,
+          type: photo.mime,
+        };
+        // this.setState({profilePicture: file});
+        setProfilePic(file);
+      })
+      .catch(err => {
+        console.warn('Error', err);
+      });
+  };
 
-  // const onOpenPhotos = () => {
-  //   ImagePicker.openPicker({
-  //     cropping: false,
-  //     multiple: false,
-  //     compressVideoPreset: 'HighestQuality',
-  //   })
-  //     .then(image => {
-  //       const source = image.path;
-  //       const mime = image.mime;
-  //       let nameArr = image.path.split('/');
-  //       let name = nameArr[nameArr.length - 1];
-  //       let obj = {
-  //         name,
-  //         uri: source,
-  //         type: mime,
-  //       };
-  //       setImageObj(source);
-  //       setProfilePic(source);
-  //       console.log('obj', obj);
-  //     })
-  //     .catch(function (error) {
-  //       console.log('Image picker error', error);
-  //     });
-  // };
+  const onLaunchCamera = () => {
+    ImageCropPicker.openCamera({
+      cropping: false,
+      mediaType: 'photo',
+    })
+      .then(photo => {
+        console.log('success', photo);
+        let name = photo.path.split('/');
+        name = name[name.length - 1];
+        let file = {
+          name,
+          uri: photo.path,
+          type: photo.mime,
+        };
+        // this.setState({profilePicture: file});
+      })
+      .catch(err => {
+        console.warn('Error', err);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -68,9 +76,9 @@ const EditProfile = () => {
       <ScrollView style={{flex: 1}}>
         <View style={styles.profilePicView}>
           <View style={styles.imageStyle}>
-            {/* {user.imageUrl ? (
+            {user.profilePicture ? (
               <Image
-                source={{uri: user.imageUrl}}
+                source={{uri: Img_url + user.profilePicture}}
                 style={{
                   resizeMode: 'stretch',
                   ...styles.imageStyle,
@@ -78,21 +86,21 @@ const EditProfile = () => {
               />
             ) : profilePic ? (
               <Image
-                source={{uri: profilePic}}
+                source={{uri: profilePic.uri}}
                 style={{
                   resizeMode: 'stretch',
                   ...styles.imageStyle,
                 }}
               />
-            ) : ( */}
-            <Image
-              source={Images.avatar}
-              style={{
-                resizeMode: 'stretch',
-                ...styles.imageStyle,
-              }}
-            />
-            {/* )} */}
+            ) : (
+              <Image
+                source={Images.avatar}
+                style={{
+                  resizeMode: 'stretch',
+                  ...styles.imageStyle,
+                }}
+              />
+            )}
             <TouchableOpacity
               style={styles.changeDP}
               onPress={() => {
@@ -164,6 +172,26 @@ const EditProfile = () => {
               placeholder={user.email}
             />
           </View>
+          <View
+            style={{
+              height: Metrix.VerticalSize(50),
+              marginTop: Metrix.VerticalSize(10),
+              marginBottom: Metrix.VerticalSize(30),
+            }}>
+            <Text
+              style={{
+                // fontFamily: 'Poppins-Regular',
+                color: '#656565',
+                fontWeight: 'bold',
+              }}>
+              Phone Number
+            </Text>
+            <TextInputComp
+              value={email}
+              onChange={text => setEmail(text)}
+              placeholder={user.phoneNumber}
+            />
+          </View>
         </View>
         <TouchableOpacity
         // onPress={() => NavigationService.navigate('ChangePassword')}
@@ -231,9 +259,9 @@ const EditProfile = () => {
         cancelButtonIndex={2}
         onPress={index => {
           if (index == 0) {
-            // onLaunchCamera();
+            onLaunchCamera();
           } else if (index == 1) {
-            // onOpenPhotos();
+            openPicker();
           }
         }}
       />
