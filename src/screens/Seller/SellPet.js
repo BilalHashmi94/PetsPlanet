@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState, createRef} from 'react';
-import {Colors, Metrix} from '../../config';
+import {Colors, Metrix, NavigationService} from '../../config';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
@@ -48,11 +48,14 @@ const SellPet = props => {
 
   const user = useSelector(state => state.AuthReducer.user);
 
-  console.warn('user', user);
-
   const openPicker = () => {
     if (pictures.length >= 5) {
-      Alert.alert('You can add upto 5 images.');
+      Toast.show({
+        type: 'success',
+        text1: 'Alert',
+        text2: 'You can add upto 5 images.',
+        position: 'bottom',
+      });
     } else {
       ImageCropPicker.openPicker({
         mediaType: 'photo',
@@ -80,7 +83,12 @@ const SellPet = props => {
 
   const onLaunchCamera = () => {
     if (pictures.length >= 5) {
-      Alert.alert('You can add upto 5 images.');
+      Toast.show({
+        type: 'success',
+        text1: 'Alert',
+        text2: 'You can add upto 5 images.',
+        position: 'bottom',
+      });
     } else {
       ImageCropPicker.openCamera({
         cropping: false,
@@ -144,8 +152,48 @@ const SellPet = props => {
     getAllCategories();
   }, []);
 
+  const postAd = () => {
+    dispatch(
+      DataBaseMiddleware.PostPetAd({
+        name: petName,
+        category: selectedCategory,
+        breed: breed,
+        age: age,
+        description: description,
+        weight: weight,
+        price: price,
+        lat: lat,
+        lng: long,
+        topPet: isTopEnabled,
+        topTen: isTopTenEnabled,
+        seller_id: user.id,
+        seller_name: user.firstName + user.lastName,
+        seller_number: user.phoneNumber,
+        seller_picture: user.profilePicture,
+        pet_pictures: pictures,
+        callback: res => {
+          if (res.status == 200) {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Ad Posted Successfully',
+              position: 'bottom',
+            });
+            NavigationService.goBack();
+          } else {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Something went wrong',
+              position: 'bottom',
+            });
+          }
+        },
+      }),
+    );
+  };
+
   const renderItem = ({item}) => {
-    console.warn(item);
     return (
       <TouchableOpacity
         style={{
@@ -168,7 +216,7 @@ const SellPet = props => {
     );
   };
 
-  console.warn('pics', pictures);
+  console.warn('user', user);
 
   return (
     <ScrollView style={styles.container}>
@@ -370,7 +418,7 @@ const SellPet = props => {
               width: '100%',
             }}>
             <TouchableOpacity
-              //   onPress={() => NavigationService.navigate('SignIn')}
+              onPress={() => postAd()}
               style={{
                 backgroundColor: Colors.backgroundBlue,
                 ...styles.detailComp,
@@ -383,7 +431,7 @@ const SellPet = props => {
                   fontWeight: 'bold',
                   fontSize: Metrix.customFontSize(20),
                 }}>
-                Pet Mall
+                Post Ad
               </Text>
             </TouchableOpacity>
           </View>

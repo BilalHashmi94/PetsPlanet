@@ -98,105 +98,53 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-  static StoryLike({likeByUserID, storyIdentifier, token, callback}) {
-    return async dispatch => {
-      let payload = {
-        likeByUserID: likeByUserID,
-        storyIdentifier: storyIdentifier,
-        isActive: true,
-      };
-      try {
-        // dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('Story/AddStoryLike', payload, {
-          Authorization: 'Bearer ' + token,
-        });
-        console.log('StoryLike Response', response);
-        if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
-            dispatch(LoaderAction.LoaderFalse());
-            Keyboard.dismiss();
-            callback(response?.data);
-          } else {
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
-          }
-        } else {
-          dispatch(LoaderAction.LoaderFalse());
-          console.log('status false');
-          callback(response?.data);
-          if (response?.data?.statusCode != 401)
-            console.log('erro', response?.data?.message);
-        }
-      } catch (e) {
-        dispatch(LoaderAction.LoaderFalse());
-        console.log('Error', e);
-      }
-    };
-  }
-  static CommentLiked({likeByUserID, commentID, token, callback}) {
-    return async dispatch => {
-      let payload = {
-        likeByUserID: likeByUserID,
-        commentID: commentID,
-        isActive: true,
-      };
-      try {
-        // dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('Story/AddCommentLike', payload, {
-          Authorization: 'Bearer ' + token,
-        });
-        console.log('CommentLike Response', response);
-        if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
-            dispatch(LoaderAction.LoaderFalse());
-            Keyboard.dismiss();
-            callback(response?.data);
-          } else {
-            dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
-          }
-        } else {
-          dispatch(LoaderAction.LoaderFalse());
-          console.log('status false');
-          callback(response?.data);
-          if (response?.data?.statusCode != 401)
-            console.log('erro', response?.data?.message);
-        }
-      } catch (e) {
-        dispatch(LoaderAction.LoaderFalse());
-        console.log('Error', e);
-      }
-    };
-  }
-
-  static AddComment({
-    storyIdentifier,
-    token,
+  static PostPetAd({
+    name,
+    breed,
+    category,
+    description,
+    weight,
+    age,
+    lat,
+    lng,
+    image,
+    price,
+    topPet,
+    topTen,
+    seller_id,
+    seller_name,
+    seller_number,
+    seller_picture,
+    pet_pictures,
     callback,
-    comment,
-    commentedByUserID,
-    userFullName,
-    userImageUrl,
   }) {
     return async dispatch => {
-      let payload = {
-        comment: comment,
-        storyIdentifier: storyIdentifier,
-        commentedByUserID: commentedByUserID,
-        userFullName: userFullName,
-        userImageUrl: userImageUrl,
-        isActive: true,
-      };
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('breed', breed);
+      formData.append('category', category);
+      formData.append('description', description);
+      formData.append('weight', weight);
+      formData.append('lat', lat);
+      formData.append('lng', lng);
+      formData.append('image', 'https://picsum.photos/200/300');
+      formData.append('price', price);
+      formData.append('topPet', topPet);
+      formData.append('topTen', topTen);
+      formData.append('seller_id', seller_id);
+      formData.append('seller_name', seller_name);
+      formData.append('seller_number', seller_number);
+      formData.append('seller_picture', seller_picture);
+      formData.append('pet_pictures', pet_pictures);
+      formData.append('age', age);
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('Story/AddStoryComment', payload, {
-          Authorization: 'Bearer ' + token,
-        });
-        console.log('Comment Response', response);
+        let response = await ApiCaller.Post('allPets/postPetAd/', formData);
+        console.log('Get Pet Ad Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
-            dispatch(LoaderAction.LoaderFalse());
             Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
             callback(response?.data);
           } else {
             dispatch(LoaderAction.LoaderFalse());
@@ -204,10 +152,7 @@ export class DataBaseMiddleware extends Component {
           }
         } else {
           dispatch(LoaderAction.LoaderFalse());
-          console.log('status false');
           callback(response?.data);
-          if (response?.data?.statusCode != 401)
-            console.log('erro', response?.data?.message);
         }
       } catch (e) {
         dispatch(LoaderAction.LoaderFalse());

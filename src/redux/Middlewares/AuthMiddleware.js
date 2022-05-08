@@ -110,7 +110,9 @@ export class AuthMiddleware extends Component {
 
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('users/register', formData);
+        let response = await ApiCaller.Post('users/register', formData, {
+          'Content-Type': 'multipart/form-data',
+        });
         console.log('register Response', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
