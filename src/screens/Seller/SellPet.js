@@ -5,8 +5,11 @@ import {
   ScrollView,
   Switch,
   TouchableOpacity,
+  Image,
+  Alert,
+  FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, createRef} from 'react';
 import {Colors, Metrix} from '../../config';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +19,11 @@ import CustomModal from '../../components/CustomModal';
 import PickerButton from '../../components/PickerButton';
 import TextInputComp from '../../components/TextInputComp';
 import GetLocation from 'react-native-get-location';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import ActionSheet from 'react-native-actionsheet';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+const actionSheetRef = createRef();
 
 const SellPet = props => {
   const dispatch = useDispatch();
@@ -31,14 +39,71 @@ const SellPet = props => {
   const [isTopEnabled, setIsTopEnabled] = useState(false);
   const [isTopTenEnabled, setIsTopTenEnabled] = useState(false);
   const [lat, setLat] = useState();
-  const [long, setLong] = useState()
+  const [long, setLong] = useState();
   const toggleSwitch = () => setIsTopEnabled(previousState => !previousState);
   const toggleTenSwitch = () =>
     setIsTopTenEnabled(previousState => !previousState);
+  const [pictures, setPictures] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const user = useSelector(state => state.AuthReducer.user);
 
   console.warn('user', user);
+
+  const openPicker = () => {
+    if (pictures.length >= 5) {
+      Alert.alert('You can add upto 5 images.');
+    } else {
+      ImageCropPicker.openPicker({
+        mediaType: 'photo',
+        cropping: true,
+      })
+        .then(photo => {
+          console.log('success', photo.path);
+          let arr = photo.path.split('/');
+          let name = photo.path.split('/')[arr.length - 1];
+          let file = {
+            name,
+            uri: photo.path,
+            type: photo.mime,
+          };
+          // this.setState({profilePicture: file});
+          // setProfilePic(file)
+          pictures.push(file);
+          setRefresh(!refresh);
+        })
+        .catch(err => {
+          console.warn('Error', err);
+        });
+    }
+  };
+
+  const onLaunchCamera = () => {
+    if (pictures.length >= 5) {
+      Alert.alert('You can add upto 5 images.');
+    } else {
+      ImageCropPicker.openCamera({
+        cropping: false,
+        mediaType: 'photo',
+      })
+        .then(photo => {
+          console.log('success', photo);
+          let name = photo.path.split('/');
+          name = name[name.length - 1];
+          let file = {
+            name,
+            uri: photo.path,
+            type: photo.mime,
+          };
+          // this.setState({profilePicture: file});
+          pictures.push(file);
+          setRefresh(!refresh);
+        })
+        .catch(err => {
+          console.warn('Error', err);
+        });
+    }
+  };
 
   useEffect(() => {
     GetLocation.getCurrentPosition({
@@ -79,6 +144,32 @@ const SellPet = props => {
     getAllCategories();
   }, []);
 
+  const renderItem = ({item}) => {
+    console.warn(item);
+    return (
+      <TouchableOpacity
+        style={{
+          width: Metrix.HorizontalSize(70),
+          height: Metrix.HorizontalSize(70),
+          borderRadius: 10,
+          marginRight: 10,
+          marginVertical: Metrix.VerticalSize(10),
+        }}>
+        <Image
+          source={{uri: item.uri}}
+          style={{
+            resizeMode: 'stretch',
+            width: '100%',
+            height: '100%',
+            borderRadius: 10,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  console.warn('pics', pictures);
+
   return (
     <ScrollView style={styles.container}>
       <Header />
@@ -91,6 +182,69 @@ const SellPet = props => {
         Sell Your Pet
       </Text>
       <View style={styles.view}>
+        <View style={{marginBottom: Metrix.VerticalSize(20)}}>
+          <Text style={{...styles.textInputText, fontWeight: 'bold'}}>
+            Add Pictures
+          </Text>
+          {/* {pictures.map(val => {
+            return (
+              <TouchableOpacity
+                style={{
+                  width: Metrix.HorizontalSize(70),
+                  height: Metrix.HorizontalSize(70),
+                  borderRadius: 10,
+                }}>
+                <Image
+                  source={{uri: val.uri}}
+                  style={{resizeMode: 'stretch', width: '100%', height: '100%', borderRadius: 10}}
+                />
+              </TouchableOpacity>
+            );
+          })} */}
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: Metrix.VerticalSize(5),
+            }}>
+            {pictures.length ? (
+              <FlatList
+                data={pictures}
+                // contentContainerStyle={{alignSelf: 'flex-start'}}
+                numColumns={4}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                // extraData={refresh}
+                // horizontal={true}
+                scrollEnabled={false}
+                keyExtractor={index => index.toString()}
+                renderItem={renderItem}
+                ListFooterComponent={() => {
+                  return (
+                    <TouchableOpacity
+                      style={styles.picturesBox}
+                      onPress={() => {
+                        actionSheetRef.current?.show();
+                      }}>
+                      <FontAwesome5
+                        name="plus"
+                        color={Colors.white}
+                        size={40}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.picturesBox}
+                onPress={() => {
+                  actionSheetRef.current?.show();
+                }}>
+                <FontAwesome5 name="plus" color={Colors.white} size={40} />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
         <View style={{height: 50}}>
           <PickerButton
             onPress={() => setModal(true)}
@@ -245,6 +399,19 @@ const SellPet = props => {
           type="object"
         />
       </View>
+      <ActionSheet
+        ref={actionSheetRef}
+        title={'Select Profile Picture'}
+        options={['Camera', 'Photos', 'Cancel']}
+        cancelButtonIndex={2}
+        onPress={index => {
+          if (index == 0) {
+            onLaunchCamera();
+          } else if (index == 1) {
+            openPicker();
+          }
+        }}
+      />
     </ScrollView>
   );
 };
@@ -253,7 +420,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: Metrix.HorizontalSize(35),
+    paddingHorizontal: Metrix.HorizontalSize(30),
   },
   view: {
     marginTop: Metrix.VerticalSize(20),
@@ -283,6 +450,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  picturesBox: {
+    width: 70,
+    height: 70,
+    borderRadius: 10,
+    backgroundColor: Colors.backgroundBlue,
+    // marginVertical: Metrix.VerticalSize(10),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
