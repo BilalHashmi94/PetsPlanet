@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Keyboard} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {ApiCaller, NavigationService} from '../../config';
+import {baseUrl} from '../../config/ApiCaller';
 import {ToastError, ToastSuccess} from '../../config/Constants';
 import {AuthAction, LoaderAction} from '../Actions';
 
@@ -120,6 +121,13 @@ export class DataBaseMiddleware extends Component {
   }) {
     return async dispatch => {
       const formData = new FormData();
+      pet_pictures.map(val => {
+        formData.append('file', {
+          name: val.name,
+          uri: val.uri,
+          type: val.type,
+        });
+      });
       formData.append('name', name);
       formData.append('breed', breed);
       formData.append('category', category);
@@ -135,29 +143,71 @@ export class DataBaseMiddleware extends Component {
       formData.append('seller_name', seller_name);
       formData.append('seller_number', seller_number);
       formData.append('seller_picture', seller_picture);
-      formData.append('pet_pictures', pet_pictures);
       formData.append('age', age);
-      try {
-        dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('allPets/postPetAd/', formData);
-        console.log('Get Pet Ad Response', response);
-        if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
-            Keyboard.dismiss();
+      // try {
+      console.log('file', pet_pictures);
+      dispatch(LoaderAction.LoaderTrue());
+      //   let response = await ApiCaller.Post('allPets/postPetAd/', formData);
+      //   console.log('Get Pet Ad Response', response);
+      //   if (response?.status == 200) {
+      //     if (response?.data?.isSuccess) {
+      //       Keyboard.dismiss();
+      //       dispatch(LoaderAction.LoaderFalse());
+      //       callback(response?.data);
+      //     } else {
+      //       dispatch(LoaderAction.LoaderFalse());
+      //       callback(response?.data);
+      //     }
+      //   } else {
+      //     dispatch(LoaderAction.LoaderFalse());
+      //     callback(response?.data);
+      //   }
+      // } catch (e) {
+      //   dispatch(LoaderAction.LoaderFalse());
+      //   console.log('Error', e);
+      // }
+      return new Promise((resolve, reject) => {
+        console.log('fetch');
+        fetch(`${baseUrl}allPets/postPetAd/`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+          .then(r => {
+            console.log('respoccc', r);
+            r.json();
+          })
+          .then(response => {
+            console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
-          } else {
+            if (response?.status == 200) {
+              NavigationService.goBack();
+              dispatch(LoaderAction.LoaderFalse());
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Somthing went wrong! Please try again later',
+                position: 'bottom',
+              });
+              dispatch(LoaderAction.LoaderFalse());
+            }
+            resolve();
+          })
+          .catch(e => {
             dispatch(LoaderAction.LoaderFalse());
-            callback(response?.data);
-          }
-        } else {
-          dispatch(LoaderAction.LoaderFalse());
-          callback(response?.data);
-        }
-      } catch (e) {
-        dispatch(LoaderAction.LoaderFalse());
-        console.log('Error', e);
-      }
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Somthing went wrong! Please try again later',
+              position: 'bottom',
+            });
+            reject();
+            console.log('Error', e);
+          });
+      });
     };
   }
 }

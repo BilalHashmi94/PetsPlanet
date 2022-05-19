@@ -82,6 +82,102 @@ export class AuthMiddleware extends Component {
     };
   }
 
+  // static Register({
+  //   firstName,
+  //   callback,
+  //   lastName,
+  //   email,
+  //   password,
+  //   phone,
+  //   profilePic,
+  // }) {
+  //   return async dispatch => {
+  //     let payload = {
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       email: email,
+  //       password: password,
+  //       phoneNumber: phone,
+  //       profilePicture: profilePic,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', profilePic);
+  //     formData.append('firstName', firstName);
+  //     formData.append('lastName', lastName);
+  //     formData.append('email', email);
+  //     formData.append('password', password);
+  //     formData.append('phoneNumber', phone);
+  //     dispatch(LoaderAction.LoaderTrue());
+  //     fetch('http://localhost:8000/users/register', {
+  //       method: 'POST',
+  //       body: formData,
+  //     })
+  //       .then(r => {
+  //         console.log('respoccc', r);
+  //         r.json();
+  //       })
+  //       .then(response => {
+  //         console.log('res', response);
+  //         if (response?.status == 200) {
+  //           if (response?.data?.isSuccess) {
+  //             dispatch(LoaderAction.LoaderFalse());
+  //             console.log('isSuccess');
+  //             Keyboard.dismiss();
+  //             callback(response?.data);
+  //           } else {
+  //             dispatch(LoaderAction.LoaderFalse());
+
+  //             callback(response.data);
+  //             console.log('erro00', response?.data?.message);
+  //           }
+  //         } else {
+  //           dispatch(LoaderAction.LoaderFalse());
+
+  //           console.log('status false');
+  //           callback(response.data);
+  //           if (response?.data?.statusCode != 401)
+  //             // Toast.show(ToastError(response?.data?.message));
+  //             console.log('erro', response?.data?.message);
+  //         }
+  //       })
+  //       .catch(e => {
+  //         dispatch(LoaderAction.LoaderFalse());
+  //         console.log('Error', e);
+  //       });
+  //     // try {
+  //     //   dispatch(LoaderAction.LoaderTrue());
+  //     //   let response = await ApiCaller.Post('users/register', formData, {
+  //     //     'Content-Type': 'multipart/form-data; boundary=Hello',
+  //     //   });
+  //     //   console.log('register Response', response);
+  //     //   if (response?.status == 200) {
+  //     //     if (response?.data?.isSuccess) {
+  //     //       dispatch(LoaderAction.LoaderFalse());
+  //     //       console.log('isSuccess');
+  //     //       Keyboard.dismiss();
+  //     //       callback(response?.data);
+  //     //     } else {
+  //     //       dispatch(LoaderAction.LoaderFalse());
+
+  //     //       callback(response.data);
+  //     //       console.log('erro00', response?.data?.message);
+  //     //     }
+  //     //   } else {
+  //     //     dispatch(LoaderAction.LoaderFalse());
+
+  //     //     console.log('status false');
+  //     //     callback(response.data);
+  //     //     if (response?.data?.statusCode != 401)
+  //     //       // Toast.show(ToastError(response?.data?.message));
+  //     //       console.log('erro', response?.data?.message);
+  //     //   }
+  //     // } catch (e) {
+  //     //   dispatch(LoaderAction.LoaderFalse());
+  //     //   console.log('Error', e);
+  //     // }
+  //   };
+  // }
+
   static Register({
     firstName,
     callback,
@@ -91,54 +187,51 @@ export class AuthMiddleware extends Component {
     phone,
     profilePic,
   }) {
-    return async dispatch => {
-      let payload = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        phoneNumber: phone,
-        profilePicture: profilePic,
-      };
+    return dispatch => {
       const formData = new FormData();
+      formData.append('file', profilePic);
       formData.append('firstName', firstName);
       formData.append('lastName', lastName);
       formData.append('email', email);
       formData.append('password', password);
       formData.append('phoneNumber', phone);
-      formData.append('profilePicture', profilePic);
+      dispatch(LoaderAction.LoaderTrue());
+      fetch('http://localhost:8000/users/register', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(r => {
+          console.log('respoccc', r);
+          r.json();
+        })
+        .then(response => {
+          console.log('res', response);
+          if (response?.status == 200) {
+            if (response?.data?.isSuccess) {
+              dispatch(LoaderAction.LoaderFalse());
+              console.log('isSuccess');
+              Keyboard.dismiss();
+              callback(response?.data);
+            } else {
+              dispatch(LoaderAction.LoaderFalse());
 
-      try {
-        dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post('users/register', formData, {
-          'Content-Type': 'multipart/form-data',
-        });
-        console.log('register Response', response);
-        if (response?.status == 200) {
-          if (response?.data?.isSuccess) {
-            dispatch(LoaderAction.LoaderFalse());
-            console.log('isSuccess');
-            Keyboard.dismiss();
-            callback(response?.data);
+              callback(response.data);
+              console.log('erro00', response?.data?.message);
+            }
           } else {
             dispatch(LoaderAction.LoaderFalse());
 
+            console.log('status false');
             callback(response.data);
-            console.log('erro00', response?.data?.message);
+            if (response?.data?.statusCode != 401)
+              // Toast.show(ToastError(response?.data?.message));
+              console.log('erro', response?.data?.message);
           }
-        } else {
+        })
+        .catch(e => {
           dispatch(LoaderAction.LoaderFalse());
-
-          console.log('status false');
-          callback(response.data);
-          if (response?.data?.statusCode != 401)
-            // Toast.show(ToastError(response?.data?.message));
-            console.log('erro', response?.data?.message);
-        }
-      } catch (e) {
-        dispatch(LoaderAction.LoaderFalse());
-        console.log('Error', e);
-      }
+          console.log('Error', e);
+        });
     };
   }
 

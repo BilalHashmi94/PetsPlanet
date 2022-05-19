@@ -16,16 +16,18 @@ import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ActionSheet from 'react-native-actionsheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import {LoaderAction} from '../../redux/Actions';
+import {baseUrl} from '../../config/ApiCaller';
 
 const actionSheetRef = createRef();
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('Test');
+  const [lastName, setLastName] = useState('Test');
+  const [email, setEmail] = useState('Test@pp.com');
+  const [phone, setPhone] = useState('12345678');
+  const [password, setPassword] = useState('123456');
+  const [confirmPassword, setConfirmPassword] = useState('123456');
   const dispatch = useDispatch();
   const [secure, setSecure] = useState(true);
   const [secureCon, setSecureCon] = useState(true);
@@ -41,12 +43,13 @@ const SignUp = () => {
         let arr = photo.path.split('/');
         let name = photo.path.split('/')[arr.length - 1];
         let file = {
-          name,
+          name: name,
           uri: photo.path,
           type: photo.mime,
         };
         // this.setState({profilePicture: file});
-        setProfilePic(file)
+        console.warn('file', file);
+        setProfilePic(file);
       })
       .catch(err => {
         console.warn('Error', err);
@@ -74,7 +77,7 @@ const SignUp = () => {
       });
   };
 
-  const Register = () => {
+  const Register = async () => {
     if (!email) {
       Toast.show({
         type: 'success',
@@ -111,20 +114,73 @@ const SignUp = () => {
         position: 'bottom',
       });
     } else {
-      dispatch(
-        AuthMiddleware.Register({
-          email,
-          password,
-          firstName,
-          lastName,
-          phone,
-          profilePic,
-          callback: res => {
-            console.warn(res);
-            NavigationService.navigate('Login');
+      // dispatch(
+      //   AuthMiddleware.Register({
+      //     email,
+      //     password,
+      //     firstName,
+      //     lastName,
+      //     phone,
+      //     profilePic,
+      //     callback: res => {
+      //       console.warn(res);
+      //       NavigationService.navigate('Login');
+      //     },
+      //   }),
+      // );
+      const formData = new FormData();
+      formData.append('file', profilePic);
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('phoneNumber', phone);
+      dispatch(LoaderAction.LoaderTrue());
+      return new Promise((resolve, reject) => {
+        console.log('fetch');
+        fetch(`${baseUrl}users/register`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
           },
-        }),
-      );
+        })
+          .then(response => {
+            console.log('respoccc', response);
+            response.json();
+            console.log('res', response);
+            dispatch(LoaderAction.LoaderFalse());
+            if (response?.status == 200) {
+              NavigationService.navigate('SignIn');
+              dispatch(LoaderAction.LoaderFalse());
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Registeration Successful',
+                position: 'bottom',
+              });
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Somthing went wrong! Please try again later',
+                position: 'bottom',
+              });
+              dispatch(LoaderAction.LoaderFalse());
+            }
+          })
+          .catch(e => {
+            dispatch(LoaderAction.LoaderFalse());
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Somthing went wrong! Please try again later',
+              position: 'bottom',
+            });
+            reject();
+            console.log('Error', e);
+          });
+      });
     }
   };
 
