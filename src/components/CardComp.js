@@ -1,6 +1,7 @@
 import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
 import React from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../config';
+import { Img_url } from '../config/ApiCaller';
 
 const CardComp = ({item}) => {
   return (
@@ -24,7 +25,7 @@ const CardComp = ({item}) => {
         elevation: 5,
       }}>
       <Image
-        source={{uri: item.image}}
+        source={{uri: item.pet_pictures ? Img_url + item.pet_pictures[0] : item.image}}
         style={{
           borderRadius: 15,
           height: Metrix.VerticalSize(130),

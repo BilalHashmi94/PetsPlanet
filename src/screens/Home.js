@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import OwnerCard from '../components/OwnerCard';
 import CardComp from '../components/CardComp';
 import {ScrollView} from 'react-native-gesture-handler';
 import DoctorCard from '../components/DoctorCard';
+import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
+import { useDispatch } from 'react-redux';
 
 const Home = () => {
   const categoryData = [
@@ -47,6 +49,26 @@ const Home = () => {
       color: 'tomato',
     },
   ];
+  const [favPets, setFavPets] = useState();
+  const dispatch = useDispatch();
+
+  const getTopPets = () => {
+    dispatch(
+      DataBaseMiddleware.GetAllTopPets({
+        callback: res => {
+          let arr = [];
+          arr.push(...res)
+          const data = arr.filter(val => val.topTen == true)
+          console.warn(data);
+          setFavPets(data);
+        },
+      }),
+    );
+  };
+
+  useEffect(() => {
+    getTopPets();
+  }, []);
 
   const topPets = [
     {
@@ -214,7 +236,7 @@ const Home = () => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={topPets}
+          data={favPets}
           showsHorizontalScrollIndicator={false}
           horizontal={true}
           keyExtractor={index => index.toString()}

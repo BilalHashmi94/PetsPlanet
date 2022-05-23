@@ -8,13 +8,24 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Img_url} from '../../config/ApiCaller';
+import {SliderBox} from 'react-native-image-slider-box';
 
 const PetDetail = props => {
   const data = props.route.params.data;
   const [petLiked, setPetLiked] = useState(false);
+  const [width, setWidth] = useState();
+  const [imagesArray, setImagesArray] = useState([]);
+
+  const onLayout = e => {
+    setWidth(e.nativeEvent.layout.width);
+  };
+
+  data.pet_pictures.map(val => {
+    imagesArray.push(Img_url + val);
+  });
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} onLayout={e => onLayout(e)}>
       <View style={styles.imageView}>
         <TouchableOpacity
           onPress={() => NavigationService.goBack()}
@@ -25,14 +36,28 @@ const PetDetail = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image
-          source={{
-            uri: data.pet_pictures[0]
-              ? Img_url + data?.pet_pictures[0]
-              : data.image,
-          }}
-          style={styles.imageStyle}
-        />
+        {data.pet_pictures ? (
+          <SliderBox
+            images={imagesArray}
+            sliderBoxHeight={300}
+            onCurrentImagePressed={index =>
+              console.warn(`image ${index} pressed`)
+            }
+            parentWidth={width}
+            dotColor={Colors.primary}
+            inactiveDotColor="#90A4AE"
+            paginationBoxVerticalPadding={20}
+            autoplay
+            circleLoop
+          />
+        ) : (
+          <Image
+            source={{
+              uri: Images.avatar,
+            }}
+            style={styles.imageStyle}
+          />
+        )}
       </View>
       <View style={{paddingHorizontal: Metrix.HorizontalSize(25)}}>
         <View
@@ -124,7 +149,11 @@ const PetDetail = props => {
           <View style={styles.detailComp}>
             <View style={{flexDirection: 'row'}}>
               <Image
-                source={Images.avatar}
+                source={{
+                  uri: data.seller_picture
+                    ? Img_url + data.seller_picture
+                    : Images.avatar,
+                }}
                 style={{
                   borderRadius: 10,
                   height: Metrix.VerticalSize(60),
@@ -137,15 +166,15 @@ const PetDetail = props => {
                     fontWeight: 'bold',
                     fontSize: Metrix.customFontSize(16),
                   }}>
-                  Robert
+                  {data.seller_name}
                 </Text>
                 <Text
                   style={{
                     fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(16),
+                    fontSize: Metrix.customFontSize(14),
                     marginVertical: 2,
                   }}>
-                  Peterson
+                  {data.seller_number}
                 </Text>
                 <Text
                   style={{

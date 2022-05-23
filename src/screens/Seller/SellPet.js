@@ -216,7 +216,7 @@ const SellPet = props => {
     );
   };
 
-  console.warn('user', user);
+  console.warn('user', isTopTenEnabled);
 
   return (
     <ScrollView style={styles.container}>
