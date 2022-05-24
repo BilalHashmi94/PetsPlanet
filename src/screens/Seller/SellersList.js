@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,118 +10,32 @@ import {
 import {Colors, Metrix, Images, NavigationService} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Header from '../../components/Header';
+import {useDispatch, useSelector} from 'react-redux';
+import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
+import {Img_url} from '../../config/ApiCaller';
 
 const SellersList = props => {
-  const favPets = [
-    {
-      id: 1,
-      productName: 'Cat Food',
-      sellerName: 'Ibrahim',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 2,
-      productName: 'Dog Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 3,
-      productName: 'Turtle Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 1,
-      productName: 'Cat Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 2,
-      productName: 'Dog Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 3,
-      productName: 'Turtle Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 1,
-      productName: 'Cat Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 2,
-      productName: 'Dog Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-    {
-      id: 3,
-      productName: 'Turtle Food',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      about: 'This is a grate Food',
-      number: '03311111111',
-      price: '455',
-      deliveryTime: '1 Day',
-      category: 'Food',
-      about: 'This is a grate Food',
-    },
-  ];
+  const [favPets, setFavPets] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.AuthReducer.user);
+
+  console.warn(user);
+
+  const GetAds = () => {
+    dispatch(
+      DataBaseMiddleware.GetSellersAds({
+        seller_id: user.id,
+        callback: res => {
+          console.warn('res', res);
+          setFavPets(res);
+        },
+      }),
+    );
+  };
+
+  useEffect(() => {
+    GetAds();
+  }, []);
 
   const renderContent = ({item}) => {
     return (
@@ -135,7 +49,7 @@ const SellersList = props => {
         <View style={styles.detailComp}>
           <View style={{flexDirection: 'row'}}>
             <Image
-              source={{uri: item.image}}
+              source={{uri: Img_url + item.pet_pictures[0]}}
               style={{
                 borderRadius: 10,
                 height: Metrix.VerticalSize(60),
@@ -148,28 +62,39 @@ const SellersList = props => {
                   fontWeight: 'bold',
                   fontSize: Metrix.customFontSize(16),
                 }}>
-                {item.productName}
+                {item.name}
               </Text>
-              <View style={{flexDirection: 'row', marginVertical: 3}}>
-                <Entypo name={'back-in-time'} color={Colors.red} size={15} />
+              {item.mallItem ? (
+                <View style={{flexDirection: 'row', marginVertical: 3}}>
+                  <Entypo name={'back-in-time'} color={Colors.red} size={15} />
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: Metrix.customFontSize(14),
+                      marginLeft: 5,
+                    }}>
+                    Delivery Time:
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: Metrix.customFontSize(14),
+                      marginLeft: 5,
+                      color: Colors.blue,
+                    }}>
+                    {item.deliveryTime}
+                  </Text>
+                </View>
+              ) : (
                 <Text
                   style={{
                     fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(14),
-                    marginLeft: 5,
+                    fontSize: Metrix.customFontSize(16),
+                    color: Colors.darkGray
                   }}>
-                  Delivery Time:
+                  {item.category}
                 </Text>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(14),
-                    marginLeft: 5,
-                    color: Colors.blue
-                  }}>
-                  {item.deliveryTime}
-                </Text>
-              </View>
+              )}
               <View style={{flexDirection: 'row'}}>
                 {/* <Entypo name={'location-pin'} color={Colors.green} size={15} /> */}
                 <Text

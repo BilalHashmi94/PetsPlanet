@@ -25,6 +25,13 @@ const TopPets = props => {
     getTopPets();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getTopPets();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+
   const renderContent = ({item}) => {
     return <CardComp item={item} />;
   };

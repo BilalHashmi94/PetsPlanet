@@ -6,118 +6,55 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import SearchHeader from '../components/SearchHeader';
 import {ScrollView} from 'react-native-gesture-handler';
 import CardComp from '../components/CardComp';
+import {useDispatch, useSelector} from 'react-redux';
+import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
+import Toast from 'react-native-toast-message';
 
-const Favourites = () => {
+const Favourites = ({navigation}) => {
   const runSearch = text => {
     console.warn('search', text);
   };
+  const [favPets, setFavPets] = useState([]);
 
-  const favPets = [
-    {
-      id: 1,
-      name: 'Rocky',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Poodle',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 2,
-      name: 'Bella',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Golden Retriver',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 3,
-      name: 'Leo',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Cocktail',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 1,
-      name: 'Rocky',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Poodle',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 2,
-      name: 'Bella',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Golden Retriver',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 3,
-      name: 'Leo',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Cocktail',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 1,
-      name: 'Rocky',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Poodle',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 2,
-      name: 'Bella',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Golden Retriver',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-    {
-      id: 3,
-      name: 'Leo',
-      image: 'https://picsum.photos/200/300',
-      breed: 'Cocktail',
-      price: '450',
-      age: '4 months',
-      weight: '2.8kg',
-      description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-    },
-  ];
+  const user = useSelector(state => state.AuthReducer.user);
+
+  const dispatch = useDispatch();
+
+  const getAllPets = () => {
+    dispatch(
+      DataBaseMiddleware.GetAllPets({
+        callback: res => {
+          if (res) {
+            const data = res.filter(val => val.isLiked.includes(user.id));
+            setFavPets(data);
+          } else {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Something went wrong',
+              position: 'bottom',
+            });
+          }
+        },
+      }),
+    );
+  };
+
+  useEffect(() => {
+    getAllPets();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getAllPets();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const renderContent = ({item}) => {
     return <CardComp item={item} />;

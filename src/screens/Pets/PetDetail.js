@@ -9,10 +9,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Img_url} from '../../config/ApiCaller';
 import {SliderBox} from 'react-native-image-slider-box';
+import {useDispatch, useSelector} from 'react-redux';
+import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
+import Toast from 'react-native-toast-message';
 
 const PetDetail = props => {
-  const data = props.route.params.data;
-  const [petLiked, setPetLiked] = useState(false);
+  const propdata = props.route.params.data;
+  const [data, setData] = useState(propdata);
+  const user = useSelector(state => state.AuthReducer.user);
+  const [petLiked, setPetLiked] = useState(
+    data.isLiked.includes(user.id) ? true : false,
+  );
   const [width, setWidth] = useState();
   const [imagesArray, setImagesArray] = useState([]);
 
@@ -23,6 +30,55 @@ const PetDetail = props => {
   data.pet_pictures.map(val => {
     imagesArray.push(Img_url + val);
   });
+
+  const dispatch = useDispatch();
+
+  const likeAd = () => {
+    if (petLiked) {
+      const body = data.isLiked.filter(val => !val.includes(user.id));
+      const newData = {...data, isLiked: [...body]};
+      console.log('body false', newData);
+      dispatch(
+        DataBaseMiddleware.PostPetAdLike({
+          body: newData,
+          callback: res => {
+            if (petLiked && !res.isLiked.includes(user.id)) {
+              setData({...data, ...res});
+              setPetLiked(false);
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Something went wrong',
+                position: 'bottom',
+              });
+            }
+          },
+        }),
+      );
+    } else {
+      const body = {...data, isLiked: [...data.isLiked, user.id]};
+      console.log('body', body);
+      dispatch(
+        DataBaseMiddleware.PostPetAdLike({
+          body: body,
+          callback: res => {
+            if (!petLiked && res.isLiked.includes(user.id)) {
+              setData({...data, ...res});
+              setPetLiked(true);
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Something went wrong',
+                position: 'bottom',
+              });
+            }
+          },
+        }),
+      );
+    }
+  };
 
   return (
     <ScrollView style={styles.container} onLayout={e => onLayout(e)}>
@@ -79,26 +135,24 @@ const PetDetail = props => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => setPetLiked(true)}
-            style={{marginTop: 5}}>
+          <TouchableOpacity onPress={() => likeAd()} style={{marginTop: 5}}>
             {petLiked ? (
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 50 / 2,
-                  backgroundColor: Colors.red,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesome name={'heart'} color={Colors.white} size={25} />
-              </View>
+              // <View
+              //   style={{
+              //     width: 50,
+              //     height: 50,
+              //     borderRadius: 50 / 2,
+              //     backgroundColor: Colors.red,
+              //     alignItems: 'center',
+              //     justifyContent: 'center',
+              //   }}>
+              <FontAwesome name={'heart'} color={Colors.red} size={25} />
             ) : (
+              // </View>
               <FontAwesome
                 name={'heart-o'}
                 color={Colors.placeholderGray}
-                size={35}
+                size={25}
               />
             )}
           </TouchableOpacity>

@@ -14,9 +14,9 @@ import CardComp from '../components/CardComp';
 import {ScrollView} from 'react-native-gesture-handler';
 import DoctorCard from '../components/DoctorCard';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const categoryData = [
     {
       id: 1,
@@ -57,8 +57,8 @@ const Home = () => {
       DataBaseMiddleware.GetAllTopPets({
         callback: res => {
           let arr = [];
-          arr.push(...res)
-          const data = arr.filter(val => val.topTen == true)
+          arr.push(...res);
+          const data = arr.filter(val => val.topTen == true);
           console.warn(data);
           setFavPets(data);
         },
@@ -69,6 +69,13 @@ const Home = () => {
   useEffect(() => {
     getTopPets();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTopPets();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const topPets = [
     {
