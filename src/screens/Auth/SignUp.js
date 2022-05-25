@@ -18,20 +18,184 @@ import ActionSheet from 'react-native-actionsheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {LoaderAction} from '../../redux/Actions';
 import {baseUrl} from '../../config/ApiCaller';
+import SearchableDropDown from 'react-native-searchable-dropdown';
 
 const actionSheetRef = createRef();
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState('Test');
-  const [lastName, setLastName] = useState('Test');
-  const [email, setEmail] = useState('Test@pp.com');
-  const [phone, setPhone] = useState('12345678');
-  const [password, setPassword] = useState('123456');
-  const [confirmPassword, setConfirmPassword] = useState('123456');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const dispatch = useDispatch();
   const [secure, setSecure] = useState(true);
   const [secureCon, setSecureCon] = useState(true);
   const [profilePic, setProfilePic] = useState();
+  const [city, setCity] = useState('');
+  const [marTop, setMarTop] = useState(false);
+
+  const cityData = [
+    {name: 'Karachi'},
+    {name: 'Lahore'},
+    {name: 'Faisalabad'},
+    {name: 'Rawalpindi'},
+    {name: 'Gujranwala'},
+    {name: 'Peshawar'},
+    {name: 'Multan'},
+    {name: 'Saidu Sharif'},
+    {name: 'Hyderabad City'},
+    {name: 'Islamabad'},
+    {name: 'Quetta'},
+    {name: 'Bahawalpur'},
+    {name: 'Sargodha'},
+    {name: 'Sialkot City'},
+    {name: 'Sukkur'},
+    {name: 'Larkana'},
+    {name: 'Chiniot'},
+    {name: 'Shekhupura'},
+    {name: 'Jhang City'},
+    {name: 'Dera Ghazi Khan'},
+    {name: 'Gujrat'},
+    {name: 'Rahimyar Khan'},
+    {name: 'Kasur'},
+    {name: 'Mardan'},
+    {name: 'Mingaora'},
+    {name: 'Nawabshah'},
+    {name: 'Sahiwal'},
+    {name: 'Mirpur Khas'},
+    {name: 'Okara'},
+    {name: 'Mandi Burewala'},
+    {name: 'Jacobabad'},
+    {name: 'Saddiqabad'},
+    {name: 'Kohat'},
+    {name: 'Muridke'},
+    {name: 'Muzaffargarh'},
+    {name: 'Khanpur'},
+    {name: 'Gojra'},
+    {name: 'Mandi Bahauddin'},
+    {name: 'Abbottabad'},
+    {name: 'Turbat'},
+    {name: 'Dadu'},
+    {name: 'Bahawalnagar'},
+    {name: 'Khuzdar'},
+    {name: 'Pakpattan'},
+    {name: 'Tando Allahyar'},
+    {name: 'Ahmadpur East'},
+    {name: 'Vihari'},
+    {name: 'Jaranwala'},
+    {name: 'New Mirpur'},
+    {name: 'Kamalia'},
+    {name: 'Kot Addu'},
+    {name: 'Nowshera'},
+    {name: 'Swabi'},
+    {name: 'Khushab'},
+    {name: 'Dera Ismail Khan'},
+    {name: 'Chaman'},
+    {name: 'Charsadda'},
+    {name: 'Kandhkot'},
+    {name: 'Chishtian'},
+    {name: 'Hasilpur'},
+    {name: 'Attock Khurd'},
+    {name: 'Muzaffarabad'},
+    {name: 'Mianwali'},
+    {name: 'Jalalpur Jattan'},
+    {name: 'Bhakkar'},
+    {name: 'Zhob'},
+    {name: 'Dipalpur'},
+    {name: 'Kharian'},
+    {name: 'Mian Channun'},
+    {name: 'Bhalwal'},
+    {name: 'Jamshoro'},
+    {name: 'Pattoki'},
+    {name: 'Harunabad'},
+    {name: 'Kahror Pakka'},
+    {name: 'Toba Tek Singh'},
+    {name: 'Samundri'},
+    {name: 'Shakargarh'},
+    {name: 'Sambrial'},
+    {name: 'Shujaabad'},
+    {name: 'Hujra Shah Muqim'},
+    {name: 'Kabirwala'},
+    {name: 'Mansehra'},
+    {name: 'Lala Musa'},
+    {name: 'Chunian'},
+    {name: 'Nankana Sahib'},
+    {name: 'Bannu'},
+    {name: 'Pasrur'},
+    {name: 'Timargara'},
+    {name: 'Parachinar'},
+    {name: 'Chenab Nagar'},
+    {name: 'Gwadar'},
+    {name: 'Abdul Hakim'},
+    {name: 'Hassan Abdal'},
+    {name: 'Tank'},
+    {name: 'Hangu'},
+    {name: 'Risalpur Cantonment'},
+    {name: 'Karak'},
+    {name: 'Kundian'},
+    {name: 'Umarkot'},
+    {name: 'Chitral'},
+    {name: 'Dainyor'},
+    {name: 'Kulachi'},
+    {name: 'Kalat'},
+    {name: 'Kotli'},
+    {name: 'Gilgit'},
+    {name: 'Narowal'},
+    {name: 'Khairpur Mir’s'},
+    {name: 'Khanewal'},
+    {name: 'Jhelum'},
+    {name: 'Haripur'},
+    {name: 'Shikarpur'},
+    {name: 'Rawala Kot'},
+    {name: 'Hafizabad'},
+    {name: 'Lodhran'},
+    {name: 'Malakand'},
+    {name: 'Attock City'},
+    {name: 'Batgram'},
+    {name: 'Matiari'},
+    {name: 'Ghotki'},
+    {name: 'Naushahro Firoz'},
+    {name: 'Alpurai'},
+    {name: 'Bagh'},
+    {name: 'Daggar'},
+    {name: 'Leiah'},
+    {name: 'Tando Muhammad Khan'},
+    {name: 'Chakwal'},
+    {name: 'Badin'},
+    {name: 'Lakki'},
+    {name: 'Rajanpur'},
+    {name: 'Dera Allahyar'},
+    {name: 'Shahdad Kot'},
+    {name: 'Pishin'},
+    {name: 'Sanghar'},
+    {name: 'Upper Dir'},
+    {name: 'Thatta'},
+    {name: 'Dera Murad Jamali'},
+    {name: 'Kohlu'},
+    {name: 'Mastung'},
+    {name: 'Dasu'},
+    {name: 'Athmuqam'},
+    {name: 'Loralai'},
+    {name: 'Barkhan'},
+    {name: 'Musa Khel Bazar'},
+    {name: 'Ziarat'},
+    {name: 'Gandava'},
+    {name: 'Sibi'},
+    {name: 'Dera Bugti'},
+    {name: 'Eidgah'},
+    {name: 'Uthal'},
+    {name: 'Khuzdar'},
+    {name: 'Chilas'},
+    {name: 'Panjgur'},
+    {name: 'Gakuch'},
+    {name: 'Qila Saifullah'},
+    {name: 'Kharan'},
+    {name: 'Aliabad'},
+    {name: 'Awaran'},
+    {name: 'Dalbandin'},
+  ];
 
   const openPicker = () => {
     ImageCropPicker.openPicker({
@@ -113,6 +277,13 @@ const SignUp = () => {
         text2: 'Password Mismatched',
         position: 'bottom',
       });
+    } else if (!city) {
+      Toast.show({
+        type: 'success',
+        text1: 'Alert',
+        text2: 'City Field is Reqired',
+        position: 'bottom',
+      });
     } else {
       // dispatch(
       //   AuthMiddleware.Register({
@@ -135,6 +306,8 @@ const SignUp = () => {
       formData.append('email', email);
       formData.append('password', password);
       formData.append('phoneNumber', phone);
+      formData.append('city', city);
+      console.log('formm', formData);
       dispatch(LoaderAction.LoaderTrue());
       return new Promise((resolve, reject) => {
         console.log('fetch');
@@ -183,6 +356,8 @@ const SignUp = () => {
       });
     }
   };
+
+  console.warn('city', city);
 
   return (
     <ScrollView style={styles.container}>
@@ -260,7 +435,70 @@ const SignUp = () => {
             type={'number-pad'}
           />
         </View>
-        <View style={{flexDirection: 'row', ...styles.textInputView}}>
+        <View style={styles.textInputView}>
+          {/* <TextInputComp
+            value={city}
+            onChange={text => setCity(text)}
+            placeholder={'City'}
+          /> */}
+
+          <SearchableDropDown
+            // multi={true}
+            selectedItems={city}
+            onItemSelect={item => {
+              // const items = this.state.selectedItems;
+              // items.push(item);
+              // this.setState({selectedItems: items});
+              setCity(item.name);
+              setMarTop(false);
+            }}
+            containerStyle={{padding: 5}}
+            onRemoveItem={(item, index) => {
+              const items = this.state.selectedItems.filter(
+                sitem => sitem.id !== item.id,
+              );
+              this.setState({selectedItems: items});
+            }}
+            itemStyle={{
+              padding: 10,
+              marginTop: 2,
+              backgroundColor: '#ddd',
+              borderColor: '#bbb',
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+            itemTextStyle={{color: '#222'}}
+            itemsContainerStyle={{maxHeight: 140}}
+            items={cityData}
+            defaultIndex={0}
+            chip={true}
+            resetValue={false}
+            textInputProps={{
+              placeholder: 'City',
+              underlineColorAndroid: 'transparent',
+              // onFocus: () => setMarTop(true),
+              style: {
+                padding: 12,
+                borderWidth: 1,
+                borderColor: '#ccc',
+                borderRadius: 5,
+              },
+              onTextChange: text => {
+                setMarTop(true);
+                console.warn('mar', marTop);
+              },
+            }}
+            listProps={{
+              nestedScrollEnabled: true,
+            }}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            ...styles.textInputView,
+            marginTop: marTop ? 140 : 10,
+          }}>
           <TextInputComp
             value={password}
             onChange={text => setPassword(text)}

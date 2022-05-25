@@ -21,7 +21,7 @@ const OwnerCard = () => {
                   color: Colors.white,
                   fontSize: Metrix.customFontSize(28),
                 }}>
-                in your location
+                in your city
               </Text>
             </View>
             <TouchableOpacity 

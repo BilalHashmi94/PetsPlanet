@@ -171,6 +171,7 @@ const SellPet = props => {
         seller_number: user.phoneNumber,
         seller_picture: user.profilePicture,
         pet_pictures: pictures,
+        city: user.city,
         callback: res => {
           if (res.status == 200) {
             Toast.show({

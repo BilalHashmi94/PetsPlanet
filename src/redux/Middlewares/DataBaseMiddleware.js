@@ -99,6 +99,35 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
+  static GetPetByCity({callback, city}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(
+          `allPets/getPetByCity?city=${city}`,
+          '',
+        );
+        console.log('getPetByCity Response', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
   static GetSellersAds({callback, seller_id}) {
     return async dispatch => {
       try {
@@ -132,10 +161,7 @@ export class DataBaseMiddleware extends Component {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Post(
-          `allPets/likePetsAd/`,
-          body,
-        );
+        let response = await ApiCaller.Post(`allPets/likePetsAd/`, body);
         console.log('getSellerAdsResponse', response);
         if (response?.status == 200) {
           if (response?.data?.isSuccess) {
@@ -157,8 +183,6 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-
-
   static PostPetAd({
     name,
     breed,
@@ -177,6 +201,7 @@ export class DataBaseMiddleware extends Component {
     seller_number,
     seller_picture,
     pet_pictures,
+    city,
     callback,
   }) {
     return async dispatch => {
@@ -204,6 +229,7 @@ export class DataBaseMiddleware extends Component {
       formData.append('seller_number', seller_number);
       formData.append('seller_picture', seller_picture);
       formData.append('age', age);
+      formData.append('city', city);
       // try {
       console.log('file', pet_pictures);
       dispatch(LoaderAction.LoaderTrue());
