@@ -9,4 +9,8 @@ export default Images = {
   logo: require('../assets/logo.png'),
   mall: require('../assets/mall.png'),
   doc: require('../assets/doc.png'),
+  acc1: require('../assets/acc1.jpeg'),
+  acc2: require('../assets/acc2.jpeg'),
+  acc3: require('../assets/acc3.jpg'),
+  acc4: require('../assets/acc4.jpeg'),
 };

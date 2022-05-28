@@ -8,15 +8,26 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import TextInputComp from '../../components/TextInputComp';
+import {SliderBox} from 'react-native-image-slider-box';
+import {Img_url} from '../../config/ApiCaller';
 
 const SellDetail = props => {
   const data = props.route.params.data;
-  const [petLiked, setPetLiked] = useState(false);
-  const [about, setAbout] = useState('');
+  const [about, setAbout] = useState(data.description);
+  const [imagesArray, setImagesArray] = useState([]);
+  const [width, setWidth] = useState();
+
+  data.pet_pictures.map(val => {
+    imagesArray.push(Img_url + val);
+  });
+
+  const onLayout = e => {
+    setWidth(e.nativeEvent.layout.width);
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.imageView}>
+      <View style={styles.imageView} onLayout={(e) => onLayout(e)}>
         <TouchableOpacity
           onPress={() => NavigationService.goBack()}
           style={styles.backButton}>
@@ -35,7 +46,28 @@ const SellDetail = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image source={{uri: data.image}} style={styles.imageStyle} />
+        {data.pet_pictures ? (
+          <SliderBox
+            images={imagesArray}
+            sliderBoxHeight={300}
+            onCurrentImagePressed={index =>
+              console.warn(`image ${index} pressed`)
+            }
+            parentWidth={width}
+            dotColor={Colors.primary}
+            inactiveDotColor="#90A4AE"
+            paginationBoxVerticalPadding={20}
+            autoplay
+            circleLoop
+          />
+        ) : (
+          <Image
+            source={{
+              uri: Images.avatar,
+            }}
+            style={styles.imageStyle}
+          />
+        )}
       </View>
       <View style={{paddingHorizontal: Metrix.HorizontalSize(25)}}>
         <View
@@ -53,7 +85,7 @@ const SellDetail = props => {
               <Entypo name={'location'} size={25} color={Colors.primary} />
               <Text
                 style={{marginLeft: 10, color: Colors.primary, marginTop: 5}}>
-                {data.location}
+                {data.city}
               </Text>
             </View>
           </View>
@@ -74,20 +106,33 @@ const SellDetail = props => {
               {data.price}
             </Text>
           </View>
-          <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
-            <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Delivery Time:
-            </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.deliveryTime}
-            </Text>
-          </View>
+          {data?.mallItem ? (
+            <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
+              <Text
+                style={{...styles.textStyle, color: Colors.placeholderGray}}>
+                Delivery Time:
+              </Text>
+              <Text style={{...styles.textStyle, color: Colors.black}}>
+                {data.deliveryTime}
+              </Text>
+            </View>
+          ) : (
+            <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
+              <Text
+                style={{...styles.textStyle, color: Colors.placeholderGray}}>
+                Breed:
+              </Text>
+              <Text style={{...styles.textStyle, color: Colors.black}}>
+                {data.breed}
+              </Text>
+            </View>
+          )}
           <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
             <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
               Number:
             </Text>
             <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.number}
+              {data.seller_number}
             </Text>
           </View>
         </View>

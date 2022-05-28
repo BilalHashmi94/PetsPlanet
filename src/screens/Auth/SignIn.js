@@ -114,11 +114,20 @@ const SignIn = props => {
             <Text style={styles.resetText}>Reset here</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Text style={styles.textInputText}>New on app? </Text>
           <TouchableOpacity
             onPress={() => NavigationService.navigate('SignUp')}>
             <Text style={styles.resetText}>Click here to register</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', marginVertical: Metrix.VerticalSize(10)}}>
+          <Text style={styles.textInputText}>Are you a vet? </Text>
+          <TouchableOpacity
+            onPress={() => NavigationService.navigate('SignUp')}>
+            <Text style={styles.resetText}>
+              Click here to register
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

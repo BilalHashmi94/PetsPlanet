@@ -24,6 +24,7 @@ import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const actionSheetRef = createRef();
+const actionSheetRefRemove = createRef();
 
 const SellPet = props => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const SellPet = props => {
     setIsTopTenEnabled(previousState => !previousState);
   const [pictures, setPictures] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [selectedPicIdex, setSelectedPicIndex] = useState();
 
   const user = useSelector(state => state.AuthReducer.user);
 
@@ -194,9 +196,18 @@ const SellPet = props => {
     );
   };
 
-  const renderItem = ({item}) => {
+  const RemovePic = () => {
+    pictures.splice(selectedPicIdex, 1);
+    setPictures([...pictures]);
+  };
+
+  const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
+        onPress={() => {
+          actionSheetRefRemove.current?.show();
+          setSelectedPicIndex(index);
+        }}
         style={{
           width: Metrix.HorizontalSize(70),
           height: Metrix.HorizontalSize(70),
@@ -450,7 +461,7 @@ const SellPet = props => {
       </View>
       <ActionSheet
         ref={actionSheetRef}
-        title={'Select Profile Picture'}
+        title={'Select Pet Picture'}
         options={['Camera', 'Photos', 'Cancel']}
         cancelButtonIndex={2}
         onPress={index => {
@@ -458,6 +469,19 @@ const SellPet = props => {
             onLaunchCamera();
           } else if (index == 1) {
             openPicker();
+          }
+        }}
+      />
+      <ActionSheet
+        ref={actionSheetRefRemove}
+        title={'Remove Picture'}
+        options={['Remove', 'Cancel']}
+        cancelButtonIndex={2}
+        onPress={index => {
+          if (index == 0) {
+            RemovePic();
+          } else if (index == 1) {
+            // actionSheetRefRemove.current?.show();
           }
         }}
       />

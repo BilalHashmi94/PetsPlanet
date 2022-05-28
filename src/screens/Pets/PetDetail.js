@@ -131,7 +131,7 @@ const PetDetail = props => {
               <Entypo name={'location'} size={25} color={Colors.primary} />
               <Text
                 style={{marginLeft: 10, color: Colors.primary, marginTop: 5}}>
-                North Nazimabad
+                {data.city}
               </Text>
             </View>
           </View>

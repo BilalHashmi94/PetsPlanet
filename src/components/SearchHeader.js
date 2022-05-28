@@ -10,7 +10,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Colors, Metrix, NavigationService} from '../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SearchHeader = ({getSearch = text => {}, back = false}) => {
+const SearchHeader = ({getSearch = text => {}, back = false, containerStyle}) => {
   const [sendButton, setSendButton] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -21,6 +21,7 @@ const SearchHeader = ({getSearch = text => {}, back = false}) => {
         marginBottom: Metrix.VerticalSize(10),
         flexDirection: 'row',
         justifyContent: 'space-between',
+        ...containerStyle,
       }}>
       {back ? (
         <TouchableOpacity
