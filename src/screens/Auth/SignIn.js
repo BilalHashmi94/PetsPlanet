@@ -124,7 +124,7 @@ const SignIn = props => {
         <View style={{flexDirection: 'row', marginVertical: Metrix.VerticalSize(10)}}>
           <Text style={styles.textInputText}>Are you a vet? </Text>
           <TouchableOpacity
-            onPress={() => NavigationService.navigate('SignUp')}>
+            onPress={() => NavigationService.navigate('RegisterAsDoctor')}>
             <Text style={styles.resetText}>
               Click here to register
             </Text>

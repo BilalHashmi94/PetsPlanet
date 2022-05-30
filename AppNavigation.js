@@ -23,6 +23,7 @@ import SignUp from './src/screens/Auth/SignUp';
 import ForgotPass from './src/screens/Auth/ForgotPass';
 import WhatDoYouWantToSell from './src/screens/Seller/WhatDoYouWantToSell';
 import SellPet from './src/screens/Seller/SellPet';
+import RegisterAsDoctor from './src/screens/Doctor/RegisterAsDoctor';
 
 const Stack = createStackNavigator();
 
@@ -96,6 +97,7 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="ForgotPass" component={ForgotPass} />
             <Stack.Screen name="WhatDoYouWantToSell" component={WhatDoYouWantToSell} />
             <Stack.Screen name="SellPet" component={SellPet} />
+            <Stack.Screen name="RegisterAsDoctor" component={RegisterAsDoctor} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (

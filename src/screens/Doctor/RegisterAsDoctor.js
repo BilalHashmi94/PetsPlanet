@@ -19,6 +19,9 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {LoaderAction} from '../../redux/Actions';
 import {baseUrl} from '../../config/ApiCaller';
 import SearchableDropDown from 'react-native-searchable-dropdown';
+import Modal from 'react-native-modal';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+// import { Marker } from 'react-native-maps';
 
 const actionSheetRef = createRef();
 
@@ -35,6 +38,8 @@ const RegisterAsDoctor = () => {
   const [profilePic, setProfilePic] = useState();
   const [city, setCity] = useState('');
   const [marTop, setMarTop] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [region, setRegion] = useState();
 
   const cityData = [
     {name: 'Karachi'},
@@ -357,246 +362,355 @@ const RegisterAsDoctor = () => {
     }
   };
 
-  console.warn('city', city);
+  // console.warn('city', city);
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.secondView}>
-        <Text style={styles.welcomeText}>Register Now</Text>
-        <Text style={styles.signinText}>
-          Please fill the details to get started
-        </Text>
-      </View>
-      <View style={styles.profilePicView}>
-        <View style={styles.imageStyle}>
-          {profilePic ? (
-            <Image
-              source={{uri: profilePic.uri}}
-              style={{
-                resizeMode: 'stretch',
-                ...styles.imageStyle,
-              }}
-            />
-          ) : (
-            <Image
-              source={Images.avatar}
-              style={{
-                resizeMode: 'stretch',
-                ...styles.imageStyle,
-              }}
-            />
-          )}
-          <TouchableOpacity
-            style={styles.changeDP}
-            onPress={() => {
-              actionSheetRef.current?.show();
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.secondView}>
+          <Text style={styles.welcomeText}>Register Now</Text>
+          <Text style={styles.signinText}>
+            Please fill the details to get started
+          </Text>
+        </View>
+        <View style={styles.profilePicView}>
+          <View style={styles.imageStyle}>
+            {profilePic ? (
+              <Image
+                source={{uri: profilePic.uri}}
+                style={{
+                  resizeMode: 'stretch',
+                  ...styles.imageStyle,
+                }}
+              />
+            ) : (
+              <Image
+                source={Images.avatar}
+                style={{
+                  resizeMode: 'stretch',
+                  ...styles.imageStyle,
+                }}
+              />
+            )}
+            <TouchableOpacity
+              style={styles.changeDP}
+              onPress={() => {
+                actionSheetRef.current?.show();
+              }}>
+              <FontAwesome5
+                name={'pencil-alt'}
+                color={Colors.white}
+                size={Metrix.customFontSize(10)}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{marginVertical: Metrix.VerticalSize(30)}}>
+          <View
+            style={{
+              height: Metrix.VerticalSize(50),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
-            <FontAwesome5
-              name={'pencil-alt'}
-              color={Colors.white}
-              size={Metrix.customFontSize(10)}
+            <TextInputComp
+              value={firstName}
+              onChange={text => setFirstName(text)}
+              placeholder={'First Name'}
+              names={true}
             />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{marginVertical: Metrix.VerticalSize(30)}}>
-        <View
-          style={{
-            height: Metrix.VerticalSize(50),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <TextInputComp
-            value={firstName}
-            onChange={text => setFirstName(text)}
-            placeholder={'First Name'}
-            names={true}
-          />
-          <TextInputComp
-            value={lastName}
-            onChange={text => setLastName(text)}
-            placeholder={'Last Name'}
-            names={true}
-          />
-        </View>
-        <View style={styles.textInputView}>
-          <TextInputComp
-            value={email}
-            onChange={text => setEmail(text)}
-            placeholder={'Email Address'}
-            type={'email-address'}
-          />
-        </View>
-        <View style={styles.textInputView}>
-          <TextInputComp
-            value={phone}
-            onChange={text => setPhone(text)}
-            placeholder={'Phone Number'}
-            type={'number-pad'}
-          />
-        </View>
-        <View style={styles.textInputView}>
-          {/* <TextInputComp
+            <TextInputComp
+              value={lastName}
+              onChange={text => setLastName(text)}
+              placeholder={'Last Name'}
+              names={true}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={email}
+              onChange={text => setEmail(text)}
+              placeholder={'Email Address'}
+              type={'email-address'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={phone}
+              onChange={text => setPhone(text)}
+              placeholder={'Phone Number'}
+              type={'number-pad'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={phone}
+              onChange={text => setPhone(text)}
+              placeholder={'Clinic Name'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={phone}
+              onChange={text => setPhone(text)}
+              placeholder={'Address Line One'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={phone}
+              onChange={text => setPhone(text)}
+              placeholder={'Address Line Two (optional)'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <TextInputComp
+              value={phone}
+              onChange={text => setPhone(text)}
+              placeholder={'Town e.g North Nazimabad, Gulshan e Iqbal'}
+            />
+          </View>
+          <View style={styles.textInputView}>
+            {/* <TextInputComp
             value={city}
             onChange={text => setCity(text)}
             placeholder={'City'}
           /> */}
 
-          <SearchableDropDown
-            // multi={true}
-            selectedItems={city}
-            onItemSelect={item => {
-              // const items = this.state.selectedItems;
-              // items.push(item);
-              // this.setState({selectedItems: items});
-              setCity(item.name);
-              setMarTop(false);
-            }}
-            containerStyle={{padding: 5}}
-            onRemoveItem={(item, index) => {
-              const items = this.state.selectedItems.filter(
-                sitem => sitem.id !== item.id,
-              );
-              this.setState({selectedItems: items});
-            }}
-            itemStyle={{
-              padding: 10,
-              marginTop: 2,
-              backgroundColor: '#ddd',
-              borderColor: '#bbb',
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-            itemTextStyle={{color: '#222'}}
-            itemsContainerStyle={{maxHeight: 140}}
-            items={cityData}
-            defaultIndex={0}
-            chip={true}
-            resetValue={false}
-            textInputProps={{
-              placeholder: 'City',
-              underlineColorAndroid: 'transparent',
-              // onFocus: () => setMarTop(true),
-              style: {
-                padding: 12,
+            <SearchableDropDown
+              // multi={true}
+              selectedItems={city}
+              onItemSelect={item => {
+                // const items = this.state.selectedItems;
+                // items.push(item);
+                // this.setState({selectedItems: items});
+                setCity(item.name);
+                setMarTop(false);
+              }}
+              containerStyle={{padding: 5}}
+              onRemoveItem={(item, index) => {
+                const items = this.state.selectedItems.filter(
+                  sitem => sitem.id !== item.id,
+                );
+                this.setState({selectedItems: items});
+              }}
+              itemStyle={{
+                padding: 10,
+                marginTop: 2,
+                backgroundColor: '#ddd',
+                borderColor: '#bbb',
                 borderWidth: 1,
-                borderColor: '#ccc',
                 borderRadius: 5,
-              },
-              onTextChange: text => {
-                setMarTop(true);
-                console.warn('mar', marTop);
-              },
-            }}
-            listProps={{
-              nestedScrollEnabled: true,
-            }}
+              }}
+              itemTextStyle={{color: '#222'}}
+              itemsContainerStyle={{maxHeight: 140}}
+              items={cityData}
+              defaultIndex={0}
+              chip={true}
+              resetValue={false}
+              textInputProps={{
+                placeholder: 'City',
+                underlineColorAndroid: 'transparent',
+                // onFocus: () => setMarTop(true),
+                style: {
+                  padding: 12,
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  borderRadius: 5,
+                },
+                onTextChange: text => {
+                  setMarTop(true);
+                  console.warn('mar', marTop);
+                },
+              }}
+              listProps={{
+                nestedScrollEnabled: true,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              ...styles.textInputView,
+              marginTop: marTop ? 140 : 10,
+            }}>
+            <TextInputComp
+              value={password}
+              onChange={text => setPassword(text)}
+              placeholder={'Password'}
+              secure={secure}
+              secureWidth={true}
+            />
+            <TouchableOpacity
+              style={{alignSelf: 'flex-end'}}
+              onPress={() => setSecure(!secure)}>
+              {secure ? (
+                <Text
+                  style={{
+                    marginVertical: 10,
+                    ...styles.textInputText,
+                  }}>
+                  Show
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    marginVertical: 10,
+                    ...styles.textInputText,
+                  }}>
+                  Hide
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+          <View style={{flexDirection: 'row', ...styles.textInputView}}>
+            <TextInputComp
+              value={confirmPassword}
+              onChange={text => setConfirmPassword(text)}
+              placeholder={'Confirm Password'}
+              secure={secureCon}
+              secureWidth={true}
+            />
+            <TouchableOpacity
+              style={{alignSelf: 'flex-end'}}
+              onPress={() => setSecureCon(!secureCon)}>
+              {secureCon ? (
+                <Text
+                  style={{
+                    marginVertical: 10,
+                    ...styles.textInputText,
+                  }}>
+                  Show
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    marginVertical: 10,
+                    ...styles.textInputText,
+                  }}>
+                  Hide
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View
+          style={{
+            // flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'center',
+            marginBottom: Metrix.VerticalSize(10),
+            // paddingHorizontal: Metrix.HorizontalSize(20),
+          }}>
+          <Text style={styles.textInputText}>
+            We recomend you to add your clinic's from one of the options below?{' '}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={{
+            // flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: Metrix.VerticalSize(10),
+            // paddingHorizontal: Metrix.HorizontalSize(20),
+          }}
+          onPress={() => setIsVisible(true)}>
+          <Text style={styles.resetText}>
+            Click Here to Select Location From Map!
+          </Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            // flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: Metrix.VerticalSize(10),
+            // paddingHorizontal: Metrix.HorizontalSize(20),
+          }}>
+          <Text style={styles.resetText}>OR</Text>
+        </View>
+        <TouchableOpacity
+          style={{
+            // flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: Metrix.VerticalSize(10),
+            // paddingHorizontal: Metrix.HorizontalSize(20),
+          }}
+          onPress={() => setIsVisible(true)}>
+          <Text style={styles.resetText}>
+            Click Here to Select Current Location!
+          </Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            height: Metrix.VerticalSize(60),
+            marginVertical: Metrix.VerticalSize(20),
+          }}>
+          <Button
+            color={Colors.black}
+            onPress={() => Register()}
+            textColor={Colors.white}
+            title={'Submit'}
           />
         </View>
         <View
           style={{
             flexDirection: 'row',
-            ...styles.textInputView,
-            marginTop: marTop ? 140 : 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: Metrix.VerticalSize(10),
           }}>
-          <TextInputComp
-            value={password}
-            onChange={text => setPassword(text)}
-            placeholder={'Password'}
-            secure={secure}
-            secureWidth={true}
-          />
+          <Text style={styles.textInputText}>Already have an account? </Text>
           <TouchableOpacity
-            style={{alignSelf: 'flex-end'}}
-            onPress={() => setSecure(!secure)}>
-            {secure ? (
-              <Text
-                style={{
-                  marginVertical: 10,
-                  ...styles.textInputText,
-                }}>
-                Show
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  marginVertical: 10,
-                  ...styles.textInputText,
-                }}>
-                Hide
-              </Text>
-            )}
+            onPress={() => NavigationService.navigate('SignIn')}>
+            <Text style={styles.resetText}>Login</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row', ...styles.textInputView}}>
-          <TextInputComp
-            value={confirmPassword}
-            onChange={text => setConfirmPassword(text)}
-            placeholder={'Confirm Password'}
-            secure={secureCon}
-            secureWidth={true}
-          />
-          <TouchableOpacity
-            style={{alignSelf: 'flex-end'}}
-            onPress={() => setSecureCon(!secureCon)}>
-            {secureCon ? (
-              <Text
-                style={{
-                  marginVertical: 10,
-                  ...styles.textInputText,
-                }}>
-                Show
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  marginVertical: 10,
-                  ...styles.textInputText,
-                }}>
-                Hide
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View
-        style={{
-          height: Metrix.VerticalSize(60),
-          marginVertical: Metrix.VerticalSize(20),
-        }}>
-        <Button
-          color={Colors.black}
-          onPress={() => Register()}
-          textColor={Colors.white}
-          title={'Submit'}
+        <ActionSheet
+          ref={actionSheetRef}
+          title={'Select Profile Picture'}
+          options={['Camera', 'Photos', 'Cancel']}
+          cancelButtonIndex={2}
+          onPress={index => {
+            if (index == 0) {
+              onLaunchCamera();
+            } else if (index == 1) {
+              openPicker();
+            }
+          }}
         />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: Metrix.VerticalSize(10),
-        }}>
-        <Text style={styles.textInputText}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => NavigationService.navigate('SignIn')}>
-          <Text style={styles.resetText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-      <ActionSheet
-        ref={actionSheetRef}
-        title={'Select Profile Picture'}
-        options={['Camera', 'Photos', 'Cancel']}
-        cancelButtonIndex={2}
-        onPress={index => {
-          if (index == 0) {
-            onLaunchCamera();
-          } else if (index == 1) {
-            openPicker();
-          }
-        }}
-      />
-    </ScrollView>
+      </ScrollView>
+      <Modal isVisible={isVisible}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: Colors.white,
+            width: '100%',
+            height: '70%',
+            position: 'absolute',
+            bottom: 0,
+          }}>
+          {/* <Button title="Hide modal" onPress={() => setIsVisible(false)} /> */}
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{width: '100%', height: '100%'}}
+            onRegionChangeComplete={(region) => setRegion(region)}
+            region={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            }}
+          />
+          {/* <Marker
+              draggable
+              coordinate={this.state.x}
+              onDragEnd={e => this.setState({x: e.nativeEvent.coordinate})}
+            /> */}
+          {/* </MapView> */}
+        </View>
+      </Modal>
+    </>
   );
 };
 
