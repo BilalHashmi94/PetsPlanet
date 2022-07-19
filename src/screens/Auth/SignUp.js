@@ -143,7 +143,7 @@ const SignUp = () => {
     {name: 'Kotli'},
     {name: 'Gilgit'},
     {name: 'Narowal'},
-    {name: 'Khairpur Mir’s'},
+    {name: "Khairpur Mir's"},
     {name: 'Khanewal'},
     {name: 'Jhelum'},
     {name: 'Haripur'},
@@ -360,7 +360,7 @@ const SignUp = () => {
   console.warn('city', city);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true}>
       <View style={styles.secondView}>
         <Text style={styles.welcomeText}>Register Now</Text>
         <Text style={styles.signinText}>
@@ -435,7 +435,7 @@ const SignUp = () => {
             type={'number-pad'}
           />
         </View>
-        <View style={styles.textInputView}>
+        <View>
           {/* <TextInputComp
             value={city}
             onChange={text => setCity(text)}
@@ -446,11 +446,8 @@ const SignUp = () => {
             // multi={true}
             selectedItems={city}
             onItemSelect={item => {
-              // const items = this.state.selectedItems;
-              // items.push(item);
-              // this.setState({selectedItems: items});
+              console.warn('itm', item);
               setCity(item.name);
-              setMarTop(false);
             }}
             containerStyle={{padding: 5}}
             onRemoveItem={(item, index) => {
@@ -468,24 +465,20 @@ const SignUp = () => {
               borderRadius: 5,
             }}
             itemTextStyle={{color: '#222'}}
-            itemsContainerStyle={{maxHeight: 140}}
+            itemsContainerStyle={{maxHeight: 140,}}
             items={cityData}
             defaultIndex={0}
             chip={true}
             resetValue={false}
             textInputProps={{
               placeholder: 'City',
+              placeholderTextColor: Colors.placeholderGray,
               underlineColorAndroid: 'transparent',
-              // onFocus: () => setMarTop(true),
               style: {
-                padding: 12,
-                borderWidth: 1,
-                borderColor: '#ccc',
-                borderRadius: 5,
-              },
-              onTextChange: text => {
-                setMarTop(true);
-                console.warn('mar', marTop);
+                paddingVertical: 12,
+                borderBottomWidth: 1,
+                borderColor: Colors.placeholderGray,
+                paddingHorizontal: 8
               },
             }}
             listProps={{
@@ -497,7 +490,7 @@ const SignUp = () => {
           style={{
             flexDirection: 'row',
             ...styles.textInputView,
-            marginTop: marTop ? 140 : 10,
+            marginTop: 10,
           }}>
           <TextInputComp
             value={password}
