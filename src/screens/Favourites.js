@@ -68,7 +68,12 @@ const Favourites = ({navigation}) => {
           marginBottom: Metrix.VerticalSize(10),
           marginTop: Metrix.VerticalSize(20),
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(25)}}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: Metrix.customFontSize(25),
+            color: Colors.black,
+          }}>
           Your Favourites
         </Text>
       </View>

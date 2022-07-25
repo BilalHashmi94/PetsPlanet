@@ -261,15 +261,11 @@ export class DataBaseMiddleware extends Component {
             'Content-Type': 'multipart/form-data',
           },
         })
-          .then(r => {
-            console.log('respoccc', r);
-            r.json();
-          })
           .then(response => {
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
-              NavigationService.goBack();
+              NavigationService.resetStack('BottomTabs');
               dispatch(LoaderAction.LoaderFalse());
             } else {
               Toast.show({

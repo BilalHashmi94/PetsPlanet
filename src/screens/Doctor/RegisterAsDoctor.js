@@ -21,6 +21,7 @@ import {baseUrl} from '../../config/ApiCaller';
 import SearchableDropDown from 'react-native-searchable-dropdown';
 import Modal from 'react-native-modal';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import GetLocation from 'react-native-get-location';
 // import { Marker } from 'react-native-maps';
 
 const actionSheetRef = createRef();
@@ -40,7 +41,8 @@ const RegisterAsDoctor = () => {
   const [marTop, setMarTop] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [region, setRegion] = useState();
-
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
   const cityData = [
     {name: 'Karachi'},
     {name: 'Lahore'},
@@ -201,6 +203,22 @@ const RegisterAsDoctor = () => {
     {name: 'Awaran'},
     {name: 'Dalbandin'},
   ];
+
+  const GetCurrentLocation = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log('location', location);
+        setLat(location.latitude);
+        setLong(location.longitude);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  };
 
   const openPicker = () => {
     ImageCropPicker.openPicker({
@@ -636,7 +654,7 @@ const RegisterAsDoctor = () => {
             marginBottom: Metrix.VerticalSize(10),
             // paddingHorizontal: Metrix.HorizontalSize(20),
           }}
-          onPress={() => setIsVisible(true)}>
+          onPress={() => GetCurrentLocation()}>
           <Text style={styles.resetText}>
             Click Here to Select Current Location!
           </Text>
@@ -694,7 +712,7 @@ const RegisterAsDoctor = () => {
           <MapView
             provider={PROVIDER_GOOGLE}
             style={{width: '100%', height: '100%'}}
-            onRegionChangeComplete={(region) => setRegion(region)}
+            onRegionChangeComplete={region => setRegion(region)}
             region={{
               latitude: 37.78825,
               longitude: -122.4324,

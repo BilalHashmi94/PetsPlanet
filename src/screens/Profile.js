@@ -12,10 +12,13 @@ import {useDispatch, useSelector} from 'react-redux';
 // import {Button, Header, TextInputComp} from '../components';
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Img_url } from '../config/ApiCaller';
+import {Img_url} from '../config/ApiCaller';
+import {AuthAction} from '../redux/Actions';
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.AuthReducer.user);
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -24,7 +27,7 @@ const Profile = () => {
         </View>
         <View style={{marginVertical: 10, ...styles.profileView}}>
           <View style={styles.imageStyle}>
-            {user.profilePicture ? (
+            {user?.profilePicture ? (
               <Image
                 source={{uri: Img_url + user.profilePicture}}
                 style={{
@@ -32,15 +35,17 @@ const Profile = () => {
                   ...styles.imageStyle,
                 }}
               />
-            ) : profilePic ? (
-              <Image
-                source={{uri: profilePic.uri}}
-                style={{
-                  resizeMode: 'stretch',
-                  ...styles.imageStyle,
-                }}
-              />
-            ) : (
+            ) 
+            // : profilePic ? (
+            //   <Image
+            //     source={{uri: profilePic.uri}}
+            //     style={{
+            //       resizeMode: 'stretch',
+            //       ...styles.imageStyle,
+            //     }}
+            //   />
+            // ) 
+            : (
               <Image
                 source={Images.avatar}
                 style={{
@@ -61,8 +66,9 @@ const Profile = () => {
                 fontSize: Metrix.customFontSize(18),
                 // fontFamily: 'Poppins-SemiBold',
                 fontWeight: 'bold',
+                color: Colors.black,
               }}>
-              {user.firstName} {user.lastName}
+              {user?.firstName} {user?.lastName}
             </Text>
           </View>
         </View>
@@ -81,6 +87,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Edit Profile
               </Text>
@@ -102,6 +109,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Seller's List
               </Text>
@@ -123,6 +131,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Become a Seller
               </Text>
@@ -144,6 +153,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Terms And Conditions
               </Text>
@@ -165,6 +175,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Privacy Policy
               </Text>
@@ -186,6 +197,7 @@ const Profile = () => {
                   fontSize: Metrix.customFontSize(18),
                   // fontFamily: 'Poppins-SemiBold',
                   fontWeight: 'bold',
+                  color: Colors.black,
                 }}>
                 Contact Us
               </Text>
@@ -199,7 +211,10 @@ const Profile = () => {
             marginVertical: Metrix.VerticalSize(35),
           }}>
           <TouchableOpacity
-            onPress={() => NavigationService.navigate('SignIn')}
+            onPress={() => {
+              NavigationService.navigate('SignIn');
+              dispatch(AuthAction.Signout());
+            }}
             style={{
               backgroundColor: Colors.logoGreen,
               ...styles.detailComp,

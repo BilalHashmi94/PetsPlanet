@@ -176,6 +176,7 @@ const DoctorsList = props => {
                 style={{
                   fontWeight: 'bold',
                   fontSize: Metrix.customFontSize(16),
+                  color: Colors.black
                 }}>
                 Dr {item.firstName} {item.lastName}
               </Text>
@@ -186,6 +187,7 @@ const DoctorsList = props => {
                     fontWeight: 'bold',
                     fontSize: Metrix.customFontSize(14),
                     marginLeft: 5,
+                    color: Colors.black
                   }}>
                   11:00AM - 09:00PM
                 </Text>

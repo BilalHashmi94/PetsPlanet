@@ -24,6 +24,7 @@ const TextInputComp = ({
         borderBottomColor: focus ? Colors.logoGreen : Colors.placeholderGray,
         width: secureWidth ? '90%' : names ? '48%' : verification ? 50 : '100%',
         backgroundColor: backgroundColor ? backgroundColor : Colors.white,
+        color: Colors.black
       }}
       ref={val => inputRef(val)}
       onChangeText={onChange}

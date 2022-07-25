@@ -391,6 +391,7 @@ const SellPet = props => {
               onChange={text => setDescription(text)}
               placeholder={'Enter Here'}
               type={'email-address'}
+              // multi={true}
             />
           </View>
         </View>
@@ -402,7 +403,7 @@ const SellPet = props => {
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
             }}>
-            <Text>Add you ad in Top Pets</Text>
+            <Text style={{color: Colors.black}}>Add you ad in Top Pets</Text>
             <Switch
               trackColor={{false: '#767577', true: Colors.logoGreen}}
               ios_backgroundColor="#3e3e3e"
@@ -416,7 +417,7 @@ const SellPet = props => {
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
             }}>
-            <Text>Add you ad in Top 10 Pets</Text>
+            <Text style={{color: Colors.black}}>Add you ad in Top 10 Pets</Text>
             <Switch
               trackColor={{false: '#767577', true: Colors.logoGreen}}
               ios_backgroundColor="#3e3e3e"

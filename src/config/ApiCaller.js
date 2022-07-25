@@ -10,7 +10,6 @@ export var baseUrl = 'http://localhost:8000/';
 
 // export const Img_url = 'https://pets-planet.herokuapp.com/uploads/';
 export const Img_url = 'http://localhost:8000/uploads/';
-// export const Img_url_user = 'http://216.108.238.109:2215/Uploads/Users/';
 
 const CancelToken = Axios.CancelToken.source();
 // create the source

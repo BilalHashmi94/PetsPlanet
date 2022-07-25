@@ -360,7 +360,7 @@ const SignUp = () => {
   console.warn('city', city);
 
   return (
-    <ScrollView style={styles.container} nestedScrollEnabled={true}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true} keyboardShouldPersistTaps={true}>
       <View style={styles.secondView}>
         <Text style={styles.welcomeText}>Register Now</Text>
         <Text style={styles.signinText}>
@@ -471,10 +471,11 @@ const SignUp = () => {
             chip={true}
             resetValue={false}
             textInputProps={{
-              placeholder: 'City',
+              placeholder: city ? city : 'City',
               placeholderTextColor: Colors.placeholderGray,
               underlineColorAndroid: 'transparent',
               style: {
+                color: Colors.black,
                 paddingVertical: 12,
                 borderBottomWidth: 1,
                 borderColor: Colors.placeholderGray,

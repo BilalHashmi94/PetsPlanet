@@ -1,69 +1,78 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
-import {Colors, Metrix, NavigationService} from '../../config';
+import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Header from '../../components/Header';
 
 const WhatDoYouWantToSell = () => {
   return (
-    <View style={styles.mainContainer}>
-      <Header />
-      <View style={styles.container}>
-        <Text
-          style={{
-            color: Colors.black,
-            fontWeight: 'bold',
-            fontSize: Metrix.customFontSize(20),
-          }}>
-          What Do You Want To Sell?
-        </Text>
-        <View
-          style={{
-            marginVertical: Metrix.VerticalSize(35),
-            width: '80%',
-          }}>
-          <TouchableOpacity
-            onPress={() => NavigationService.navigate('SellPet')}
+    <ImageBackground source={Images.DogBack} style={styles.mainContainer}>
+      <View >
+        <Header />
+        <View style={styles.container}>
+          {/* <Text
             style={{
-              backgroundColor: Colors.logoGreen,
-              ...styles.detailComp,
-              alignItems: 'center',
-              justifyContent: 'center',
+              color: Colors.white,
+              fontWeight: 'bold',
+              fontSize: Metrix.customFontSize(24),
+              textAlign: 'center'
             }}>
-            <Text
-              style={{
-                color: Colors.white,
-                fontWeight: 'bold',
-                fontSize: Metrix.customFontSize(20),
-              }}>
-              Pet
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            marginVertical: Metrix.VerticalSize(5),
-            width: '80%',
-          }}>
-          <TouchableOpacity
-            //   onPress={() => NavigationService.navigate('SignIn')}
+            What Do You Want To Sell?
+          </Text> */}
+          <View
             style={{
-              backgroundColor: Colors.backgroundBlue,
-              ...styles.detailComp,
-              alignItems: 'center',
-              justifyContent: 'center',
+              marginVertical: Metrix.VerticalSize(10),
+              width: '80%',
             }}>
-            <Text
+            <TouchableOpacity
+              onPress={() => NavigationService.navigate('SellPet')}
               style={{
-                color: Colors.white,
-                fontWeight: 'bold',
-                fontSize: Metrix.customFontSize(20),
+                backgroundColor: Colors.logoGreen,
+                ...styles.detailComp,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              Pet Mall
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: Colors.white,
+                  fontWeight: 'bold',
+                  fontSize: Metrix.customFontSize(20),
+                }}>
+                Pet
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(10),
+              width: '80%',
+            }}>
+            <TouchableOpacity
+              //   onPress={() => NavigationService.navigate('SignIn')}
+              style={{
+                backgroundColor: Colors.backgroundBlue,
+                ...styles.detailComp,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  color: Colors.white,
+                  fontWeight: 'bold',
+                  fontSize: Metrix.customFontSize(20),
+                }}>
+                Pet Mall
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -74,10 +83,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrix.HorizontalSize(35),
   },
   container: {
-      flex: 1,
-    justifyContent: 'center',
+    // flex: 1,
+    // justifyContent: 'center',
     alignItems: 'center',
-
+    marginTop: Metrix.VerticalSize(420),
   },
   detailComp: {
     // backgroundColor: Colors.white,

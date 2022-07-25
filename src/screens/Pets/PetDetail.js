@@ -12,10 +12,13 @@ import {SliderBox} from 'react-native-image-slider-box';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
+import ReactNativeModal from 'react-native-modal';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
   const [data, setData] = useState(propdata);
+  const [selectedImage, setSelectedImage] = useState(propdata);
+  const [mediaModal, setMediaModal] = useState(false);
   const user = useSelector(state => state.AuthReducer.user);
   const [petLiked, setPetLiked] = useState(
     data.isLiked.includes(user.id) ? true : false,
@@ -96,9 +99,11 @@ const PetDetail = props => {
           <SliderBox
             images={imagesArray}
             sliderBoxHeight={300}
-            onCurrentImagePressed={index =>
-              console.warn(`image ${index} pressed`)
-            }
+            onCurrentImagePressed={(index, image) => {
+              // console.warn(`image ${index} pressed`)
+              setSelectedImage(index);
+              setMediaModal(true);
+            }}
             parentWidth={width}
             dotColor={Colors.primary}
             inactiveDotColor="#90A4AE"
@@ -270,6 +275,36 @@ const PetDetail = props => {
           </View>
         </View>
       </View>
+      <ReactNativeModal isVisible={mediaModal} style={{margin: 0}}>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: Colors.black,
+          }}>
+          <TouchableOpacity
+            onPress={() => setMediaModal(false)}
+            style={{
+              paddingTop: Metrix.VerticalSize(50),
+              position: 'absolute',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+              right: 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              zIndex: 99999
+            }}>
+            <View></View>
+            <View></View>
+            <AntDesign name="close" color={Colors.white} size={25} />
+          </TouchableOpacity>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image
+              source={{uri: imagesArray[selectedImage]}}
+              style={{resizeMode: 'contain', width: '100%', height: '100%'}}
+            />
+          </View>
+        </View>
+      </ReactNativeModal>
     </ScrollView>
   );
 };
