@@ -397,6 +397,29 @@ export class AuthMiddleware extends Component {
     };
   }
 
+  static GetDoctors({callback, city}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(`getDocByCity/${city}`);
+        console.log('Verify Register Response', response);
+        if (response?.status == 200) {
+          dispatch(LoaderAction.LoaderFalse());
+          Keyboard.dismiss();
+          callback(response?.data);
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+          if (response?.status != 401)
+            Toast.show(ToastError(response?.data?.message));
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
   static VerifyForgotPassword({callback, code, email}) {
     return async dispatch => {
       try {

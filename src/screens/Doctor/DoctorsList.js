@@ -19,9 +19,9 @@ const DoctorsList = props => {
       id: 1,
       firstName: 'Hamid',
       lastName: 'Dildar',
-      image: 'https://picsum.photos/200/300',
-      location: 'North Nazimabad',
-      number: '03311111111',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'North Nazimabad',
+      phoneNumber: '03311111111',
       lng: '1234',
       lat: '1234',
       about:
@@ -34,9 +34,9 @@ const DoctorsList = props => {
       id: 2,
       firstName: 'Noor',
       lastName: 'Ahmed',
-      image: 'https://picsum.photos/200/300',
-      location: 'Gulshan e Iqbal',
-      number: '0123456789',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Gulshan e Iqbal',
+      phoneNumber: '0123456789',
       lng: '1234',
       lat: '1234',
       about:
@@ -49,9 +49,9 @@ const DoctorsList = props => {
       id: 3,
       firstName: 'Leo',
       lastName: 'Fernandiz',
-      image: 'https://picsum.photos/200/300',
-      location: 'Malir',
-      number: '01273652737',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Malir',
+      phoneNumber: '01273652737',
       lng: '1234',
       lat: '1234',
       about:
@@ -64,9 +64,9 @@ const DoctorsList = props => {
       id: 1,
       firstName: 'Rocky',
       lastName: 'Balboa',
-      image: 'https://picsum.photos/200/300',
-      location: 'Gulistan e Johar',
-      number: '03311111111',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Gulistan e Johar',
+      phoneNumber: '03311111111',
       lng: '1234',
       lat: '1234',
       about:
@@ -79,9 +79,9 @@ const DoctorsList = props => {
       id: 2,
       firstName: 'Bella',
       lastName: 'Martini',
-      image: 'https://picsum.photos/200/300',
-      location: 'DHA',
-      number: '0123456789',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'DHA',
+      phoneNumber: '0123456789',
       lng: '1234',
       lat: '1234',
       about:
@@ -94,9 +94,9 @@ const DoctorsList = props => {
       id: 3,
       firstName: 'Donald',
       lastName: 'Duck',
-      image: 'https://picsum.photos/200/300',
-      location: 'Sharah e Faisal',
-      number: '01273652737',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Sharah e Faisal',
+      phoneNumber: '01273652737',
       lng: '1234',
       lat: '1234',
       about:
@@ -109,9 +109,9 @@ const DoctorsList = props => {
       id: 1,
       firstName: 'Shaun',
       lastName: 'Dead',
-      image: 'https://picsum.photos/200/300',
-      location: 'Saddar',
-      number: '03311111111',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Saddar',
+      phoneNumber: '03311111111',
       lng: '1234',
       lat: '1234',
       about:
@@ -124,9 +124,9 @@ const DoctorsList = props => {
       id: 2,
       firstName: 'Alan',
       lastName: 'Musk',
-      image: 'https://picsum.photos/200/300',
-      location: 'Highway',
-      number: '0123456789',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Highway',
+      phoneNumber: '0123456789',
       lng: '1234',
       lat: '1234',
       about:
@@ -139,9 +139,9 @@ const DoctorsList = props => {
       id: 3,
       firstName: 'Green',
       lastName: 'Mile',
-      image: 'https://picsum.photos/200/300',
-      location: 'Nazimabad',
-      number: '01273652737',
+      clinicImage: 'https://picsum.photos/200/300',
+      town: 'Nazimabad',
+      phoneNumber: '01273652737',
       lng: '1234',
       lat: '1234',
       about:
@@ -193,7 +193,7 @@ const DoctorsList = props => {
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Entypo name={'location-pin'} color={Colors.green} size={15} />
+                <Entypo name={'town-pin'} color={Colors.green} size={15} />
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -201,7 +201,7 @@ const DoctorsList = props => {
                     color: Colors.placeholderGray,
                     marginLeft: 5,
                   }}>
-                  {item.location}
+                  {item.town}
                 </Text>
               </View>
             </View>

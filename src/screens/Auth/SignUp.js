@@ -307,6 +307,15 @@ const SignUp = () => {
       formData.append('password', password);
       formData.append('phoneNumber', phone);
       formData.append('city', city);
+
+      formData.append('clinicName', null);
+      formData.append('addressLineOne', null);
+      formData.append('addressLineTwo', null);
+      formData.append('town', null);
+      formData.append('lat', null);
+      formData.append('lng', null);
+      formData.append('userType', 'user');
+
       console.log('formm', formData);
       dispatch(LoaderAction.LoaderTrue());
       return new Promise((resolve, reject) => {

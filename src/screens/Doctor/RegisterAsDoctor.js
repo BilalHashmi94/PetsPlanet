@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Platform,
+  Linking,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import Button from '../../components/Button';
@@ -23,6 +25,7 @@ import Modal from 'react-native-modal';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 // import { Marker } from 'react-native-maps';
+import Geocoder from 'react-native-geocoder';
 
 const actionSheetRef = createRef();
 
@@ -36,13 +39,30 @@ const RegisterAsDoctor = () => {
   const dispatch = useDispatch();
   const [secure, setSecure] = useState(true);
   const [secureCon, setSecureCon] = useState(true);
-  const [profilePic, setProfilePic] = useState();
+  const [profilePic, setProfilePic] = useState(null);
+  const [clinicImage, setClinicImage] = useState(null);
   const [city, setCity] = useState('');
   const [marTop, setMarTop] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [region, setRegion] = useState();
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
+  const [region, setRegion] = useState('');
+  const [lat, setLat] = useState('');
+  const [long, setLong] = useState('');
+  const [location, setLocation] = useState(null);
+  const [clinicName, setClinicName] = useState('');
+  const [addressLineOne, setAddressLineOne] = useState('');
+  const [addressLineTwo, setAddressLineTwo] = useState('');
+  const [town, setTown] = useState('');
+  const [aboutClinic, setAboutClinic] = useState('');
+  const [imageType, setImageType] = useState('');
+
+  // const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
+  // const latLng = `${lat},${long}`;
+  // const label = 'Custom Label';
+  // const url = Platform.select({
+  //   ios: `${scheme}${label}@${latLng}`,
+  //   android: `${scheme}${latLng}(${label})`,
+  // });
+
   const cityData = [
     {name: 'Karachi'},
     {name: 'Lahore'},
@@ -210,9 +230,20 @@ const RegisterAsDoctor = () => {
       timeout: 15000,
     })
       .then(location => {
-        console.log('location', location);
+        // console.log('location', location);
         setLat(location.latitude);
         setLong(location.longitude);
+        let pos = {
+          lat: location.latitude,
+          lng: location.longitude,
+        };
+        // Geocoder.geocodePosition(pos)
+        //   .then(res => {
+        //     console.log(res);
+        //     setLocation(res);
+        //     alert(res[0].formattedAddress);
+        //   })
+        //   .catch(error => alert(error));
       })
       .catch(error => {
         const {code, message} = error;
@@ -236,12 +267,20 @@ const RegisterAsDoctor = () => {
         };
         // this.setState({profilePicture: file});
         console.warn('file', file);
-        setProfilePic(file);
+        if (imageType === 'user') {
+          setProfilePic(file);
+        } else {
+          setClinicImage(file);
+        }
       })
       .catch(err => {
         console.warn('Error', err);
       });
   };
+
+  useEffect(() => {
+    GetCurrentLocation();
+  }, []);
 
   const onLaunchCamera = () => {
     ImageCropPicker.openCamera({
@@ -258,6 +297,11 @@ const RegisterAsDoctor = () => {
           type: photo.mime,
         };
         // this.setState({profilePicture: file});
+        if (imageType === 'user') {
+          setProfilePic(file);
+        } else {
+          setClinicImage(file);
+        }
       })
       .catch(err => {
         console.warn('Error', err);
@@ -330,6 +374,14 @@ const RegisterAsDoctor = () => {
       formData.append('password', password);
       formData.append('phoneNumber', phone);
       formData.append('city', city);
+
+      formData.append('clinicName', clinicName);
+      formData.append('addressLineOne', addressLineOne);
+      formData.append('addressLineTwo', addressLineTwo);
+      formData.append('town', town);
+      formData.append('lat', lat);
+      formData.append('lng', long);
+      formData.append('userType', 'doctor');
       console.log('formm', formData);
       dispatch(LoaderAction.LoaderTrue());
       return new Promise((resolve, reject) => {
@@ -384,43 +436,80 @@ const RegisterAsDoctor = () => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps={'handled'}>
         <View style={styles.secondView}>
           <Text style={styles.welcomeText}>Register Now</Text>
           <Text style={styles.signinText}>
             Please fill the details to get started
           </Text>
         </View>
-        <View style={styles.profilePicView}>
-          <View style={styles.imageStyle}>
-            {profilePic ? (
-              <Image
-                source={{uri: profilePic.uri}}
-                style={{
-                  resizeMode: 'stretch',
-                  ...styles.imageStyle,
-                }}
-              />
-            ) : (
-              <Image
-                source={Images.avatar}
-                style={{
-                  resizeMode: 'stretch',
-                  ...styles.imageStyle,
-                }}
-              />
-            )}
-            <TouchableOpacity
-              style={styles.changeDP}
-              onPress={() => {
-                actionSheetRef.current?.show();
-              }}>
-              <FontAwesome5
-                name={'pencil-alt'}
-                color={Colors.white}
-                size={Metrix.customFontSize(10)}
-              />
-            </TouchableOpacity>
+        <View style={{paddingHorizontal: Metrix.HorizontalSize(30)}}>
+          <View style={styles.profilePicView}>
+            <View style={styles.imageStyle}>
+              {profilePic ? (
+                <Image
+                  source={{uri: profilePic.uri}}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              ) : (
+                <Image
+                  source={Images.avatar}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              )}
+              <TouchableOpacity
+                style={styles.changeDP}
+                onPress={() => {
+                  setImageType('user');
+                  actionSheetRef.current?.show();
+                }}>
+                <FontAwesome5
+                  name={'pencil-alt'}
+                  color={Colors.white}
+                  size={Metrix.customFontSize(10)}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.imageStyle}>
+              {clinicImage ? (
+                <Image
+                  source={{uri: clinicImage.uri}}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              ) : (
+                <Image
+                  source={Images.clinicImage}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              )}
+              <TouchableOpacity
+                style={styles.changeDP}
+                onPress={() => {
+                  setImageType('clinic');
+                  actionSheetRef.current?.show();
+                }}>
+                <FontAwesome5
+                  name={'pencil-alt'}
+                  color={Colors.white}
+                  size={Metrix.customFontSize(10)}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={{marginVertical: Metrix.VerticalSize(30)}}>
@@ -461,33 +550,42 @@ const RegisterAsDoctor = () => {
           </View>
           <View style={styles.textInputView}>
             <TextInputComp
-              value={phone}
-              onChange={text => setPhone(text)}
+              value={clinicName}
+              onChange={text => setClinicName(text)}
               placeholder={'Clinic Name'}
             />
           </View>
           <View style={styles.textInputView}>
             <TextInputComp
-              value={phone}
-              onChange={text => setPhone(text)}
+              value={addressLineOne}
+              onChange={text => setAddressLineOne(text)}
               placeholder={'Address Line One'}
             />
           </View>
           <View style={styles.textInputView}>
             <TextInputComp
-              value={phone}
-              onChange={text => setPhone(text)}
+              value={addressLineTwo}
+              onChange={text => setAddressLineTwo(text)}
               placeholder={'Address Line Two (optional)'}
+            />
+          </View>
+          <View
+            style={{...styles.textInputView, height: Metrix.VerticalSize(80)}}>
+            <TextInputComp
+              value={aboutClinic}
+              onChange={text => setAboutClinic(text)}
+              placeholder={'About Clinic'}
+              multi={true}
             />
           </View>
           <View style={styles.textInputView}>
             <TextInputComp
-              value={phone}
-              onChange={text => setPhone(text)}
+              value={town}
+              onChange={text => setTown(text)}
               placeholder={'Town e.g North Nazimabad, Gulshan e Iqbal'}
             />
           </View>
-          <View style={styles.textInputView}>
+          <View>
             {/* <TextInputComp
             value={city}
             onChange={text => setCity(text)}
@@ -498,11 +596,8 @@ const RegisterAsDoctor = () => {
               // multi={true}
               selectedItems={city}
               onItemSelect={item => {
-                // const items = this.state.selectedItems;
-                // items.push(item);
-                // this.setState({selectedItems: items});
+                console.warn('itm', item);
                 setCity(item.name);
-                setMarTop(false);
               }}
               containerStyle={{padding: 5}}
               onRemoveItem={(item, index) => {
@@ -526,18 +621,15 @@ const RegisterAsDoctor = () => {
               chip={true}
               resetValue={false}
               textInputProps={{
-                placeholder: 'City',
+                placeholder: city ? city : 'City',
+                placeholderTextColor: Colors.placeholderGray,
                 underlineColorAndroid: 'transparent',
-                // onFocus: () => setMarTop(true),
                 style: {
-                  padding: 12,
-                  borderWidth: 1,
-                  borderColor: '#ccc',
-                  borderRadius: 5,
-                },
-                onTextChange: text => {
-                  setMarTop(true);
-                  console.warn('mar', marTop);
+                  color: Colors.black,
+                  paddingVertical: 12,
+                  borderBottomWidth: 1,
+                  borderColor: Colors.placeholderGray,
+                  paddingHorizontal: 8,
                 },
               }}
               listProps={{
@@ -611,7 +703,7 @@ const RegisterAsDoctor = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             // flexDirection: 'row',
             // alignItems: 'center',
@@ -658,7 +750,7 @@ const RegisterAsDoctor = () => {
           <Text style={styles.resetText}>
             Click Here to Select Current Location!
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View
           style={{
             height: Metrix.VerticalSize(60),
@@ -666,7 +758,10 @@ const RegisterAsDoctor = () => {
           }}>
           <Button
             color={Colors.black}
-            onPress={() => Register()}
+            onPress={
+              () => Register()
+              // Linking.openURL(url)
+            }
             textColor={Colors.white}
             title={'Submit'}
           />
@@ -768,9 +863,11 @@ const styles = StyleSheet.create({
     // fontFamily: 'Poppins-SemiBold',
   },
   profilePicView: {
+    // width: '80%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginTop: Metrix.VerticalSize(20),
+    flexDirection: 'row',
   },
   imageStyle: {
     width: Metrix.HorizontalSize(98),
