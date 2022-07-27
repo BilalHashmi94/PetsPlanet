@@ -26,8 +26,13 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 // import { Marker } from 'react-native-maps';
 import Geocoder from 'react-native-geocoder';
+import RNDateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 const actionSheetRef = createRef();
+const actionSheetRefClinic = createRef();
 
 const RegisterAsDoctor = () => {
   const [firstName, setFirstName] = useState('');
@@ -53,7 +58,8 @@ const RegisterAsDoctor = () => {
   const [addressLineTwo, setAddressLineTwo] = useState('');
   const [town, setTown] = useState('');
   const [aboutClinic, setAboutClinic] = useState('');
-  const [imageType, setImageType] = useState('');
+  const [openAt, setOpenAt] = useState(new Date());
+  const [closeAt, setCloseAt] = useState(new Date());
 
   // const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
   // const latLng = `${lat},${long}`;
@@ -251,7 +257,7 @@ const RegisterAsDoctor = () => {
       });
   };
 
-  const openPicker = () => {
+  const openPicker = type => {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
       cropping: true,
@@ -266,11 +272,15 @@ const RegisterAsDoctor = () => {
           type: photo.mime,
         };
         // this.setState({profilePicture: file});
-        console.warn('file', file);
-        if (imageType === 'user') {
+        // console.warn('file', file);
+        console.warn('imageType', type);
+        if (type === 'user') {
           setProfilePic(file);
-        } else {
+          return;
+        }
+        if (type === 'clinic') {
           setClinicImage(file);
+          return;
         }
       })
       .catch(err => {
@@ -282,7 +292,7 @@ const RegisterAsDoctor = () => {
     GetCurrentLocation();
   }, []);
 
-  const onLaunchCamera = () => {
+  const onLaunchCamera = type => {
     ImageCropPicker.openCamera({
       cropping: false,
       mediaType: 'photo',
@@ -297,10 +307,13 @@ const RegisterAsDoctor = () => {
           type: photo.mime,
         };
         // this.setState({profilePicture: file});
-        if (imageType === 'user') {
+        if (type === 'user') {
           setProfilePic(file);
-        } else {
+          return;
+        }
+        if (type === 'clinic') {
           setClinicImage(file);
+          return;
         }
       })
       .catch(err => {
@@ -432,8 +445,6 @@ const RegisterAsDoctor = () => {
     }
   };
 
-  // console.warn('city', city);
-
   return (
     <>
       <ScrollView
@@ -469,7 +480,6 @@ const RegisterAsDoctor = () => {
               <TouchableOpacity
                 style={styles.changeDP}
                 onPress={() => {
-                  setImageType('user');
                   actionSheetRef.current?.show();
                 }}>
                 <FontAwesome5
@@ -500,8 +510,7 @@ const RegisterAsDoctor = () => {
               <TouchableOpacity
                 style={styles.changeDP}
                 onPress={() => {
-                  setImageType('clinic');
-                  actionSheetRef.current?.show();
+                  actionSheetRefClinic.current?.show();
                 }}>
                 <FontAwesome5
                   name={'pencil-alt'}
@@ -702,6 +711,122 @@ const RegisterAsDoctor = () => {
               )}
             </TouchableOpacity>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              ...styles.textInputView,
+              marginTop: Metrix.VerticalSize(20),
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{color: Colors.black, fontWeight: 'bold'}}>
+              Open At
+            </Text>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                // ...styles.textInputBox,
+                width: '55%',
+              }}>
+              {Platform.OS === 'android' ? (
+                <>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: Colors.textInputBackColor,
+                      height: Metrix.VerticalSize(48),
+                      borderRadius: 14,
+                      width: '100%',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    onPress={() =>
+                      DateTimePickerAndroid.open({
+                        mode: 'time',
+                        value: openAt ? new Date(openAt) : new Date(),
+                        onChange: val => {
+                          DateTimePickerAndroid.dismiss('date');
+                          setOpenAt(new Date(val.nativeEvent.timestamp));
+                        },
+                      })
+                    }>
+                    <Text style={CommonStyles.textStyles.textInputText}>
+                      {moment(openAt).format('hh:mm a')}
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <RNDateTimePicker
+                  mode="time"
+                  value={openAt}
+                  onChange={date => {
+                    console.log('date', new Date(date.nativeEvent.timestamp));
+                    // console.log(moment(new Date(date.nativeEvent.timestamp)).format("HH:mm"));
+                    setOpenAt(new Date(date.nativeEvent.timestamp));
+                  }}
+                />
+              )}
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              ...styles.textInputView,
+              // marginTop: Metrix.VerticalSize(20),
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{color: Colors.black, fontWeight: 'bold'}}>
+                Closes at:
+              </Text>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                // ...styles.textInputBox,
+                width: '55%',
+              }}>
+              {Platform.OS === 'android' ? (
+                <>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: Colors.textInputBackColor,
+                      height: Metrix.VerticalSize(48),
+                      borderRadius: 14,
+                      width: '100%',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    onPress={() =>
+                      DateTimePickerAndroid.open({
+                        mode: 'time',
+                        value: closeAt ? new Date(closeAt) : new Date(),
+                        onChange: val => {
+                          DateTimePickerAndroid.dismiss('date');
+                          setCloseAt(new Date(val.nativeEvent.timestamp));
+                        },
+                      })
+                    }>
+                    <Text style={CommonStyles.textStyles.textInputText}>
+                      {moment(closeAt).format('hh:mm a')}
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <RNDateTimePicker
+                  mode="time"
+                  value={closeAt}
+                  onChange={date => {
+                    console.log('date', new Date(date.nativeEvent.timestamp));
+                    // console.log(moment(new Date(date.nativeEvent.timestamp)).format("HH:mm"));
+                    setCloseAt(new Date(date.nativeEvent.timestamp));
+                  }}
+                />
+              )}
+            </View>
+          </View>
         </View>
         {/* <View
           style={{
@@ -785,10 +910,25 @@ const RegisterAsDoctor = () => {
           options={['Camera', 'Photos', 'Cancel']}
           cancelButtonIndex={2}
           onPress={index => {
+            let type = 'user';
             if (index == 0) {
-              onLaunchCamera();
+              onLaunchCamera(type);
             } else if (index == 1) {
-              openPicker();
+              openPicker(type);
+            }
+          }}
+        />
+        <ActionSheet
+          ref={actionSheetRefClinic}
+          title={'Select Profile Picture'}
+          options={['Camera', 'Photos', 'Cancel']}
+          cancelButtonIndex={2}
+          onPress={index => {
+            let type = 'clinic';
+            if (index == 0) {
+              onLaunchCamera(type);
+            } else if (index == 1) {
+              openPicker(type);
             }
           }}
         />
