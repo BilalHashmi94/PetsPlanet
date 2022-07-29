@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,145 +12,31 @@ import {Colors, Metrix, Images, NavigationService} from '../../config';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
+import {useDispatch, useSelector} from 'react-redux';
+import {Img_url} from '../../config/ApiCaller';
 
 const DoctorsList = props => {
-  const favPets = [
-    {
-      id: 1,
-      firstName: 'Hamid',
-      lastName: 'Dildar',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'North Nazimabad',
-      phoneNumber: '03311111111',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 2,
-      firstName: 'Noor',
-      lastName: 'Ahmed',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Gulshan e Iqbal',
-      phoneNumber: '0123456789',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 3,
-      firstName: 'Leo',
-      lastName: 'Fernandiz',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Malir',
-      phoneNumber: '01273652737',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 1,
-      firstName: 'Rocky',
-      lastName: 'Balboa',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Gulistan e Johar',
-      phoneNumber: '03311111111',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 2,
-      firstName: 'Bella',
-      lastName: 'Martini',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'DHA',
-      phoneNumber: '0123456789',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 3,
-      firstName: 'Donald',
-      lastName: 'Duck',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Sharah e Faisal',
-      phoneNumber: '01273652737',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 1,
-      firstName: 'Shaun',
-      lastName: 'Dead',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Saddar',
-      phoneNumber: '03311111111',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 2,
-      firstName: 'Alan',
-      lastName: 'Musk',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Highway',
-      phoneNumber: '0123456789',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-    {
-      id: 3,
-      firstName: 'Green',
-      lastName: 'Mile',
-      clinicImage: 'https://picsum.photos/200/300',
-      town: 'Nazimabad',
-      phoneNumber: '01273652737',
-      lng: '1234',
-      lat: '1234',
-      about:
-        'Hello I am Dr Dolittle And I am a Stupid Doctor. Killing Pets For Years',
-      clinicName: 'Pets Clinic',
-      openAt: '09:00AM',
-      closeAt: '09:00PM',
-    },
-  ];
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.AuthReducer.user);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getDoc();
+  }, []);
+  console.warn('user', user);
+
+  const getDoc = () => {
+    dispatch(
+      AuthMiddleware.GetDoctors({
+        city: user?.city,
+        callback: res => {
+          setData(res);
+          console.warn(res);
+        },
+      }),
+    );
+  };
 
   const renderContent = ({item}) => {
     return (
@@ -163,20 +49,31 @@ const DoctorsList = props => {
         }}>
         <View style={styles.detailComp}>
           <View style={{flexDirection: 'row'}}>
-            <Image
-              source={Images.avatar}
-              style={{
-                borderRadius: 10,
-                height: Metrix.VerticalSize(60),
-                width: Metrix.HorizontalSize(60),
-              }}
-            />
+            {item?.profilePicture ? (
+              <Image
+                source={{uri: Img_url + item?.profilePicture}}
+                style={{
+                  borderRadius: 10,
+                  height: Metrix.VerticalSize(60),
+                  width: Metrix.HorizontalSize(60),
+                }}
+              />
+            ) : (
+              <Image
+                source={Images.avatar}
+                style={{
+                  borderRadius: 10,
+                  height: Metrix.VerticalSize(60),
+                  width: Metrix.HorizontalSize(60),
+                }}
+              />
+            )}
             <View style={{marginLeft: 10, justifyContent: 'center'}}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: Metrix.customFontSize(16),
-                  color: Colors.black
+                  color: Colors.black,
                 }}>
                 Dr {item.firstName} {item.lastName}
               </Text>
@@ -187,13 +84,13 @@ const DoctorsList = props => {
                     fontWeight: 'bold',
                     fontSize: Metrix.customFontSize(14),
                     marginLeft: 5,
-                    color: Colors.black
+                    color: Colors.black,
                   }}>
-                  11:00AM - 09:00PM
+                  {item?.openAt} - {item?.closeAt}
                 </Text>
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Entypo name={'town-pin'} color={Colors.green} size={15} />
+                <Entypo name={'location-pin'} color={Colors.green} size={15} />
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -227,7 +124,7 @@ const DoctorsList = props => {
             fontSize: Metrix.customFontSize(25),
             color: Colors.black,
           }}>
-          Your Location:
+          All vets in
         </Text>
         <Text
           style={{
@@ -236,7 +133,7 @@ const DoctorsList = props => {
             color: Colors.primary,
             marginLeft: 10,
           }}>
-          Gulshan
+          {user?.city}
         </Text>
       </View>
       <View
@@ -245,7 +142,7 @@ const DoctorsList = props => {
           marginBottom: Metrix.VerticalSize(150),
         }}>
         <FlatList
-          data={favPets}
+          data={data}
           showsVerticalScrollIndicator={false}
           //   numColumns={2}
           keyExtractor={index => index.toString()}

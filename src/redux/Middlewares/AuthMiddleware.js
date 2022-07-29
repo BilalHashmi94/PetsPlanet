@@ -401,7 +401,7 @@ export class AuthMiddleware extends Component {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get(`getDocByCity/${city}`);
+        let response = await ApiCaller.Get(`allPets/getDocByCity/?city=${city}`);
         console.log('Verify Register Response', response);
         if (response?.status == 200) {
           dispatch(LoaderAction.LoaderFalse());

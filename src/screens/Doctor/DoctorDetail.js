@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
+import { Img_url } from '../../config/ApiCaller';
 
 const DoctorDetail = props => {
   const data = props.route.params.data;
@@ -24,7 +25,7 @@ const DoctorDetail = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image source={{uri: data.image}} style={styles.imageStyle} />
+        <Image source={{uri: Img_url + data.clinicImage}} style={styles.imageStyle} />
       </View>
       <View style={{paddingHorizontal: Metrix.HorizontalSize(25)}}>
         <View
