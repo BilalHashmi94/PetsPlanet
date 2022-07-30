@@ -1,4 +1,12 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+  Linking,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,11 +15,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
-import { Img_url } from '../../config/ApiCaller';
+import {Img_url} from '../../config/ApiCaller';
 
 const DoctorDetail = props => {
   const data = props.route.params.data;
   const [petLiked, setPetLiked] = useState(false);
+
+  const openGps = (lat, lng) => {
+    var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
+    var url = scheme + `${data?.lat},${data?.lng}`;
+    Linking.openURL(url);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -25,7 +39,10 @@ const DoctorDetail = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image source={{uri: Img_url + data.clinicImage}} style={styles.imageStyle} />
+        <Image
+          source={{uri: Img_url + data.clinicImage}}
+          style={styles.imageStyle}
+        />
       </View>
       <View style={{paddingHorizontal: Metrix.HorizontalSize(25)}}>
         <View
@@ -43,37 +60,25 @@ const DoctorDetail = props => {
               <Entypo name={'location'} size={25} color={Colors.primary} />
               <Text
                 style={{marginLeft: 10, color: Colors.primary, marginTop: 5}}>
-                {data.location}
+                {data.town}
               </Text>
             </View>
           </View>
           <View style={{flexDirection: 'row'}}>
-          <FontAwesome
-            name={'star'}
-            color={Colors.placeholderGray}
-            size={25}
+            <FontAwesome
+              name={'star'}
+              color={Colors.placeholderGray}
+              size={25}
             />
-          <FontAwesome
-            name={'star'}
-            color={Colors.placeholderGray}
-            size={25}
+            <FontAwesome
+              name={'star'}
+              color={Colors.placeholderGray}
+              size={25}
             />
-          <FontAwesome
-            name={'star'}
-            color={'tomato'}
-            size={25}
-            />
-          <FontAwesome
-            name={'star'}
-            color={'tomato'}
-            size={25}
-            />
-          <FontAwesome
-            name={'star'}
-            color={'tomato'}
-            size={25}
-            />
-            </View>
+            <FontAwesome name={'star'} color={'tomato'} size={25} />
+            <FontAwesome name={'star'} color={'tomato'} size={25} />
+            <FontAwesome name={'star'} color={'tomato'} size={25} />
+          </View>
         </View>
         <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
@@ -94,9 +99,18 @@ const DoctorDetail = props => {
           </View>
           <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
             <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Map:
+              Location:
             </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>Map</Text>
+            <TouchableOpacity onPress={() => openGps()}>
+              <Text
+                style={{
+                  ...styles.textStyle,
+                  color: Colors.blue,
+                  textDecorationLine: 'underline',
+                }}>
+                Open in maps
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         {/* Description ===============> */}
@@ -111,7 +125,7 @@ const DoctorDetail = props => {
               fontSize: Metrix.customFontSize(17),
               marginVertical: 10,
             }}>
-            {data.about}
+            {data.aboutClinic}
           </Text>
         </View>
         {/* Contact ==================>>>>>>>>>>>> */}
@@ -148,7 +162,7 @@ const DoctorDetail = props => {
                     fontSize: Metrix.customFontSize(14),
                     color: Colors.placeholderGray,
                   }}>
-                  {data.number}
+                  {data.phoneNumber}
                 </Text>
               </View>
             </View>
@@ -181,7 +195,7 @@ const DoctorDetail = props => {
             </View>
           </View>
           {/* Rate Modal ============>>>>>>>>>>>>>>>>> */}
-          <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+          {/* <View style={{marginVertical: Metrix.VerticalSize(10)}}>
             <TouchableOpacity
               style={{
                 backgroundColor: Colors.green,
@@ -198,7 +212,7 @@ const DoctorDetail = props => {
                 Rate Me
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
     </ScrollView>
@@ -257,7 +271,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontWeight: 'bold',
-    fontSize: Metrix.customFontSize(20),
+    fontSize: Metrix.customFontSize(16),
   },
 });
 
