@@ -16,8 +16,8 @@ import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import Toast from 'react-native-toast-message';
 
 const SignIn = props => {
-  const [email, setEmail] = useState('a@a.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [secure, setSecure] = useState(true);
   const dispatch = useDispatch();
 

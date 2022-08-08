@@ -132,14 +132,25 @@ const DoctorDetail = props => {
         <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>
             <View style={{flexDirection: 'row'}}>
-              <Image
-                source={Images.avatar}
-                style={{
-                  borderRadius: 10,
-                  height: Metrix.VerticalSize(60),
-                  width: Metrix.HorizontalSize(60),
-                }}
-              />
+              {data?.profilePicture ? (
+                <Image
+                  source={{uri: Img_url + data.profilePicture}}
+                  style={{
+                    borderRadius: 10,
+                    height: Metrix.VerticalSize(60),
+                    width: Metrix.HorizontalSize(60),
+                  }}
+                />
+              ) : (
+                <Image
+                  source={Images.avatar}
+                  style={{
+                    borderRadius: 10,
+                    height: Metrix.VerticalSize(60),
+                    width: Metrix.HorizontalSize(60),
+                  }}
+                />
+              )}
               <View style={{marginLeft: 10}}>
                 <Text
                   style={{
