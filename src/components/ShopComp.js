@@ -6,7 +6,7 @@ import {Img_url} from '../config/ApiCaller';
 const ShopComp = ({item}) => {
   return (
     <TouchableOpacity
-      //   onPress={() => NavigationService.navigate('PetDetail', {data: item})}
+        onPress={() => NavigationService.navigate('ShopStore', {data: item})}
       style={{
         borderRadius: 20,
         height: Metrix.VerticalSize(220),
