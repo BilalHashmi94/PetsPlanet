@@ -18,6 +18,10 @@ import ProductComp from '../../components/ProductComp';
 const ShopStore = props => {
   const data = props.route.params.data;
   const [width, setWidth] = useState();
+  const [numProducts, setNumProducts] = useState('100');
+  const [followers, setFollowers] = useState('100');
+  const [likes, setLikes] = useState('100');
+  const [like, setLike] = useState(false);
   const [products, setProducts] = useState([
     {
       id: 2,
@@ -114,6 +118,21 @@ const ShopStore = props => {
     return <ProductComp item={item} />;
   };
 
+  const LikeStore = () => {
+    setLike(!like);
+    if (like === false) {
+      let numLike = parseInt(likes);
+      let total = numLike + 1;
+      console.warn(total);
+      setLikes(total);
+    } else if (like === true) {
+      let numLike = parseInt(likes);
+      let total = numLike - 1;
+      console.warn(total);
+      setLikes(total);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageView} onLayout={e => onLayout(e)}>
@@ -137,11 +156,14 @@ const ShopStore = props => {
           style={{
             marginVertical: Metrix.VerticalSize(5),
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}>
           <Text style={styles.textStyle}>Shop Name</Text>
-          <TouchableOpacity>
-            <AntDesign name='like2' size={Metrix.customFontSize(25)}/>
+          <TouchableOpacity onPress={() => LikeStore()}>
+            <AntDesign
+              name={like ? 'like1' : 'like2'}
+              size={Metrix.customFontSize(25)}
+            />
           </TouchableOpacity>
         </View>
         <View
@@ -165,15 +187,15 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text>100</Text>
-            <Text>Item Sold</Text>
+            {/* <Text>100</Text>
+            <Text>Followers</Text> */}
           </View>
           <View
             style={{
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text>100</Text>
+            <Text>{likes}</Text>
             <Text>Likes</Text>
           </View>
         </View>
