@@ -26,6 +26,9 @@ import SellPet from './src/screens/Seller/SellPet';
 import RegisterAsDoctor from './src/screens/Doctor/RegisterAsDoctor';
 import ShopStore from './src/screens/Seller/ShopStore';
 import PorductDetail from './src/screens/Seller/PorductDetail';
+import SellOnMall from './src/screens/Seller/SellOnMall';
+import CreateShop from './src/screens/Seller/CreateShop';
+import CreateShopTwo from './src/screens/Seller/CreateShopTwo';
 
 const Stack = createStackNavigator();
 
@@ -102,6 +105,9 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="RegisterAsDoctor" component={RegisterAsDoctor} />
             <Stack.Screen name="ShopStore" component={ShopStore} />
             <Stack.Screen name="PorductDetail" component={PorductDetail} />
+            <Stack.Screen name="SellOnMall" component={SellOnMall} />
+            <Stack.Screen name="CreateShop" component={CreateShop} />
+            <Stack.Screen name="CreateShopTwo" component={CreateShopTwo} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (

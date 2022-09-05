@@ -1,30 +1,40 @@
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import {Metrix} from '../config';
+import {TouchableOpacity, Text, ActivityIndicator} from 'react-native';
+import {Colors, CommonStyles, Metrix} from '../config';
 
-const Button = ({onPress, title, color, textColor, border}) => {
+const Button = ({
+  onPress = () => {},
+  title,
+  backColor,
+  border,
+  propStyle,
+  textStyle,
+  disabled = false,
+  isLoading = false,
+}) => {
+  // console.warn('disabled===', disabled);
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
       style={{
-        flex: 1,
-        backgroundColor: color,
+        // flex: 1,
+        backgroundColor: backColor ? backColor : Colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 12,
-        borderWidth: border ? 1 : 0,
-        borderColor: '#fff',
+        borderRadius: 103,
+        width: '100%',
+        height: Metrix.VerticalSize(50),
+        // marginTop: Metrix.VerticalSize(40),
+        ...propStyle,
       }}>
-      <Text
-        style={{
-          color: textColor,
-          // fontFamily: border ? 'Poppins-SemiBold' : 'Poppins-Regular',
-          fontSize: border
-            ? Metrix.customFontSize(19)
-            : Metrix.customFontSize(14),
-        }}>
-        {title}
-      </Text>
+      {!isLoading ? (
+        <Text style={{...CommonStyles.textStyles.buttonText, ...textStyle}}>
+          {title}
+        </Text>
+      ) : (
+        <ActivityIndicator size={'small'} color={Colors.white} />
+      )}
     </TouchableOpacity>
   );
 };

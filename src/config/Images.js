@@ -15,4 +15,7 @@ export default Images = {
   acc4: require('../assets/acc4.jpeg'),
   DogBack: require('../assets/DogBack.jpeg'),
   clinicImage: require('../assets/clinicImage.png'),
+  sell1: require('../assets/sell1.png'),
+  sell2: require('../assets/sell2.png'),
+  sell3: require('../assets/sell3.png'),
 };

@@ -314,6 +314,7 @@ const SignUp = () => {
       formData.append('town', null);
       formData.append('lat', null);
       formData.append('lng', null);
+      formData.append('shopIdentifier', null);
       formData.append('userType', 'user');
 
       console.log('formm', formData);

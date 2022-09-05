@@ -53,7 +53,7 @@ const WhatDoYouWantToSell = () => {
               width: '80%',
             }}>
             <TouchableOpacity
-              //   onPress={() => NavigationService.navigate('SignIn')}
+                onPress={() => NavigationService.navigate('CreateShop')}
               style={{
                 backgroundColor: Colors.backgroundBlue,
                 ...styles.detailComp,
