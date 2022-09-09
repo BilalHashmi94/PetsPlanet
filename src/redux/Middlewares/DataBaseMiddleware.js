@@ -157,6 +157,58 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
+  static GetTopShops({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(`shop/getTopShops`, '');
+        console.log('GetTopShops', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
+  static GetAllShops({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(`shop/getAllShops`, '');
+        console.log('GetAllShops', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
   static PostPetAdLike({callback, body}) {
     return async dispatch => {
       try {
@@ -276,6 +328,61 @@ export class DataBaseMiddleware extends Component {
               });
               dispatch(LoaderAction.LoaderFalse());
             }
+            resolve();
+          })
+          .catch(e => {
+            dispatch(LoaderAction.LoaderFalse());
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Somthing went wrong! Please try again later',
+              position: 'bottom',
+            });
+            reject();
+            console.log('Error', e);
+          });
+      });
+    };
+  }
+  static CreateShop({shopName, callback, userId, file}) {
+    return async dispatch => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('shopName', shopName);
+      formData.append('userId', userId);
+      formData.append('numberOfProducts', '0');
+      formData.append('likes', '0');
+      dispatch(LoaderAction.LoaderTrue());
+      return new Promise((resolve, reject) => {
+        console.log('fetch');
+        fetch(`${baseUrl}shop/registerShop`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        })
+          .then(response => {
+            console.warn('respomse', response);
+            if (response?.status == 200) {
+              return response.json();
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Somthing went wrong! Please try again later',
+                position: 'bottom',
+              });
+              callback(response);
+              dispatch(LoaderAction.LoaderFalse());
+            }
+          })
+          .then(response => {
+            console.log('res', response);
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response);
+            dispatch(LoaderAction.LoaderFalse());
             resolve();
           })
           .catch(e => {

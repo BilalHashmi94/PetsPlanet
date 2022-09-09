@@ -14,18 +14,14 @@ import {SliderBox} from 'react-native-image-slider-box';
 import CardComp from '../components/CardComp';
 import ProductComp from '../components/ProductComp';
 import ShopComp from '../components/ShopComp';
+import {useDispatch} from 'react-redux';
+import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
+import {useEffect} from 'react';
 
-const Shop = () => {
+const Shop = props => {
   const [width, setWidth] = useState();
-  const [topSeller, setTopSeller] = useState([
-    {
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      shopBanner: Images.cat,
-      shopProducts: '9',
-      sales: '999',
-    },
-  ]);
+  const dispatch = useDispatch();
+  const [topSeller, setTopSeller] = useState([]);
   const [topSelling, setTopSellign] = useState([
     {
       id: 2,
@@ -160,7 +156,28 @@ const Shop = () => {
     return <ShopComp item={item} />;
   };
 
+  useEffect(() => {
+    GetTopShops();
+  }, []);
 
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      GetTopShops();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
+
+  const GetTopShops = () => {
+    dispatch(
+      DataBaseMiddleware.GetTopShops({
+        callback: res => {
+          if (res) {
+            setTopSeller(res);
+          }
+        },
+      }),
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -277,7 +294,7 @@ const Shop = () => {
               Top Sellers
             </Text>
             <TouchableOpacity
-              onPress={() => NavigationService.navigate('TopPets')}>
+              onPress={() => NavigationService.navigate('AllShops')}>
               <Text
                 style={{
                   color: Colors.primary,

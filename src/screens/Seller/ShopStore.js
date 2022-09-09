@@ -14,13 +14,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useState} from 'react';
 import ProductComp from '../../components/ProductComp';
+import { Img_url } from '../../config/ApiCaller';
 
 const ShopStore = props => {
   const data = props.route.params.data;
   const [width, setWidth] = useState();
   const [numProducts, setNumProducts] = useState('100');
   const [followers, setFollowers] = useState('100');
-  const [likes, setLikes] = useState('100');
+  const [likes, setLikes] = useState(data.likes);
   const [like, setLike] = useState(false);
   const [products, setProducts] = useState([
     {
@@ -145,7 +146,7 @@ const ShopStore = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image source={Images.avatar} style={styles.imageStyle} />
+        <Image source={{uri: Img_url + data.bannerImage}} style={styles.imageStyle} />
       </View>
       <View
         style={{
@@ -158,7 +159,7 @@ const ShopStore = props => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={styles.textStyle}>Shop Name</Text>
+          <Text style={styles.textStyle}>{data.shopName}</Text>
           <TouchableOpacity onPress={() => LikeStore()}>
             <AntDesign
               name={like ? 'like1' : 'like2'}
@@ -178,7 +179,7 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text>100</Text>
+            <Text>{data.numberOfProducts}</Text>
             <Text>Products</Text>
           </View>
           <View

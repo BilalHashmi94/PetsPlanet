@@ -25,7 +25,7 @@ const ShopComp = ({item}) => {
         elevation: 5,
       }}>
       <Image
-        source={item?.shopBanner}
+        source={{uri: Img_url + item?.bannerImage}}
         style={{
           borderRadius: 15,
           height: Metrix.VerticalSize(130),
@@ -49,7 +49,7 @@ const ShopComp = ({item}) => {
             marginVertical: 3,
             fontWeight: 'bold',
           }}>
-          Products: {item.shopProducts}
+          Products: {item.numberOfProducts}
         </Text>
         <Text
           style={{
@@ -57,7 +57,7 @@ const ShopComp = ({item}) => {
             // fontSize: Metrix.customFontSize(17),
             fontWeight: 'bold',
           }}>
-          Item Sold: {item.sales}
+          Likes: {item.likes}
         </Text>
       </View>
     </TouchableOpacity>
