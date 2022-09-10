@@ -43,11 +43,12 @@ const AddProduct = props => {
 
   const user = useSelector(state => state.AuthReducer.user);
 
-  let seller_id = user?.id;
-  let seller_name = user?.name;
-  let seller_number = user?.number;
-  let seller_picture = user?.profilePicture;
-  let city = user.city;
+  const seller_id = user?.id;
+  const seller_name = user?.firstName + user?.lastName;
+  const seller_number = user?.phoneNumber;
+  const seller_picture = user?.profilePicture;
+  const city = user.city;
+  const shopIdentifier = user?.shopIdentifier;
 
   const openPicker = () => {
     if (pictures.length >= 5) {
@@ -73,7 +74,8 @@ const AddProduct = props => {
           };
           // this.setState({profilePicture: file});
           // setProfilePic(file)
-          pictures.push(file);
+          // pictures.push(file);
+          setPictures([...pictures, file])
         })
         .catch(err => {
           console.warn('Error', err);
@@ -152,7 +154,25 @@ const AddProduct = props => {
   }, []);
 
   const postAd = () => {
-    console.warn('Post');
+    dispatch(
+      DataBaseMiddleware.PostProductAd({
+        name: name,
+        category: selectedCategory,
+        city: city,
+        description: description,
+        lat: lat,
+        lng: long,
+        isLiked: user.id,
+        price: price,
+        product_pictures: pictures,
+        seller_id: seller_id,
+        seller_name: seller_name,
+        seller_number: seller_number,
+        seller_picture: seller_picture,
+        shopIdentifier: shopIdentifier,
+        topPet: isTopEnabled,
+      }),
+    );
   };
 
   const RemovePic = () => {

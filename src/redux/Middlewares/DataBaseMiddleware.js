@@ -364,6 +364,90 @@ export class DataBaseMiddleware extends Component {
       });
     };
   }
+  static PostProductAd({
+    name,
+    category,
+    description,
+    lat,
+    lng,
+    price,
+    topPet,
+    seller_id,
+    seller_name,
+    seller_number,
+    seller_picture,
+    product_pictures,
+    city,
+    shopIdentifier,
+    isLiked,
+    callback,
+  }) {
+    return async dispatch => {
+      const formData = new FormData();
+      product_pictures.map(val => {
+        formData.append('file', {
+          name: val.name,
+          uri: val.uri,
+          type: val.type,
+        });
+      });
+      formData.append('name', name);
+      formData.append('category', category);
+      formData.append('description', description);
+      formData.append('lat', lat);
+      formData.append('lng', lng);
+      formData.append('price', price);
+      formData.append('topPet', topPet);
+      formData.append('seller_id', seller_id);
+      formData.append('seller_name', seller_name);
+      formData.append('seller_number', seller_number);
+      formData.append('seller_picture', seller_picture);
+      formData.append('shopIdentifier', shopIdentifier);
+      formData.append('isLiked', isLiked);
+      formData.append('city', city);
+
+      dispatch(LoaderAction.LoaderTrue());
+      return new Promise((resolve, reject) => {
+        console.log('fetch');
+        fetch(`${baseUrl}product/postProductAd`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+          .then(response => {
+            console.log('postProductAd', response);
+            dispatch(LoaderAction.LoaderFalse());
+            if (response?.status == 200) {
+              NavigationService.resetStack('BottomTabs');
+              dispatch(LoaderAction.LoaderFalse());
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Somthing went wrong! Please try again later',
+                position: 'bottom',
+              });
+              dispatch(LoaderAction.LoaderFalse());
+            }
+            resolve();
+          })
+          .catch(e => {
+            dispatch(LoaderAction.LoaderFalse());
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Somthing went wrong! Please try again later',
+              position: 'bottom',
+            });
+            reject();
+            console.log('Error', e);
+          });
+      });
+    };
+  }
+
   static CreateShop({shopName, callback, userId, file}) {
     return async dispatch => {
       const formData = new FormData();
