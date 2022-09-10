@@ -8,11 +8,13 @@ import {
 import React from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Header from '../../components/Header';
+import {useSelector} from 'react-redux';
 
 const WhatDoYouWantToSell = () => {
+  const user = useSelector(state => state.AuthReducer.user);
   return (
     <ImageBackground source={Images.DogBack} style={styles.mainContainer}>
-      <View >
+      <View>
         <Header />
         <View style={styles.container}>
           {/* <Text
@@ -53,7 +55,16 @@ const WhatDoYouWantToSell = () => {
               width: '80%',
             }}>
             <TouchableOpacity
-                onPress={() => NavigationService.navigate('CreateShop')}
+              onPress={() => {
+                if (
+                  user?.shopIdentifier === 'null' ||
+                  user?.shopIdentifier === null
+                ) {
+                  NavigationService.navigate('CreateShop');
+                } else {
+                  NavigationService.navigate('AddProduct');
+                }
+              }}
               style={{
                 backgroundColor: Colors.backgroundBlue,
                 ...styles.detailComp,

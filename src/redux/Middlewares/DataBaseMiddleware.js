@@ -27,6 +27,26 @@ export class DataBaseMiddleware extends Component {
       }
     };
   }
+  static GetShopCategories({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get('allCategories/shopCategories');
+        console.log('Categories Response', response);
+        if (response?.status == 200) {
+          Keyboard.dismiss();
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response);
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
 
   static GetAllPets({callback}) {
     return async dispatch => {
