@@ -49,7 +49,7 @@ const SellersList = props => {
         <View style={styles.detailComp}>
           <View style={{flexDirection: 'row'}}>
             <Image
-              source={{uri: Img_url + item.pet_pictures[0]}}
+              source={{uri: item?.pet_pictures ? Img_url + item?.pet_pictures[0] : Img_url + item?.product_pictures[0]}}
               style={{
                 borderRadius: 10,
                 height: Metrix.VerticalSize(60),
@@ -134,6 +134,7 @@ const SellersList = props => {
       <View
         style={{
           marginTop: Metrix.VerticalSize(5),
+          flex: 1
         }}>
         <FlatList
           data={favPets}

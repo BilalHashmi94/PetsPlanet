@@ -22,25 +22,9 @@ const Shop = props => {
   const [width, setWidth] = useState();
   const dispatch = useDispatch();
   const [topSeller, setTopSeller] = useState([]);
-  const [topSelling, setTopSellign] = useState([
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-  ]);
+  const [topSelling, setTopSellign] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+
   const categoryData = [
     {
       id: 5,
@@ -157,12 +141,10 @@ const Shop = props => {
   };
 
   useEffect(() => {
-    GetTopShops();
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       GetTopShops();
+      GetTopProducts();
+      GetAllProducts();
     });
     return unsubscribe;
   }, [props.navigation]);
@@ -173,6 +155,28 @@ const Shop = props => {
         callback: res => {
           if (res) {
             setTopSeller(res);
+          }
+        },
+      }),
+    );
+  };
+  const GetTopProducts = () => {
+    dispatch(
+      DataBaseMiddleware.GetTopProducts({
+        callback: res => {
+          if (res) {
+            setTopSellign(res);
+          }
+        },
+      }),
+    );
+  };
+  const GetAllProducts = () => {
+    dispatch(
+      DataBaseMiddleware.GetAllProducts({
+        callback: res => {
+          if (res) {
+            setAllProducts(res);
           }
         },
       }),
@@ -311,6 +315,23 @@ const Shop = props => {
             horizontal={true}
             keyExtractor={index => index.toString()}
             renderItem={item => renderShopComp(item)}
+          />
+        </View>
+
+        {/* Products */}
+
+        <View style={{marginTop: Metrix.VerticalSize(20)}}>
+          <Text
+            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+            Products
+          </Text>
+          <FlatList
+            data={allProducts}
+            showsVerticalScrollIndicator={false}
+            // horizontal={true}
+            numColumns={2}
+            keyExtractor={index => index.toString()}
+            renderItem={item => renderContent(item)}
           />
         </View>
       </View>

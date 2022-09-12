@@ -229,6 +229,58 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
+  static GetTopProducts({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(`product/getTopProducts`, '');
+        console.log('GetTopProducts', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
+  static GetAllProducts({callback}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(`product/getAllProducts`, '');
+        console.log('GetAllProducts', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
   static PostPetAdLike({callback, body}) {
     return async dispatch => {
       try {

@@ -25,7 +25,7 @@ const ProductComp = ({item}) => {
         elevation: 5,
       }}>
       <Image
-        source={item?.productImages[0]}
+        source={{uri: Img_url + item?.product_pictures[0]}}
         style={{
           borderRadius: 15,
           height: Metrix.VerticalSize(130),
