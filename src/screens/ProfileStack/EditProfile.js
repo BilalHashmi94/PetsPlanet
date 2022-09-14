@@ -12,20 +12,23 @@ import {Colors, Images, Metrix, NavigationService} from '../../config';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../components/Header';
 import ActionSheet from 'react-native-actionsheet';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import { Img_url } from '../../config/ApiCaller';
+import {baseUrl, Img_url} from '../../config/ApiCaller';
+import {AuthAction, LoaderAction} from '../../redux/Actions';
+import Toast from 'react-native-toast-message';
 
 const actionSheetRef = createRef();
 
 const EditProfile = () => {
   const user = useSelector(state => state.AuthReducer.user);
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
-  const [profilePic, setProfilePic] = useState(null);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.phoneNumber);
+  const [profilePic, setProfilePic] = useState();
   const [imageObj, setImageObj] = useState(null);
+  const dispatch = useDispatch();
 
   const openPicker = () => {
     ImageCropPicker.openPicker({
@@ -70,23 +73,102 @@ const EditProfile = () => {
       });
   };
 
+  const updateUser = () => {
+    const formData = new FormData();
+    if (profilePic) {
+      formData.append('file', profilePic);
+    } else {
+      formData.append('profilePicture', user.profilePicture);
+    }
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('phoneNumber', phone);
+    formData.append('city', user.city);
+
+    formData.append('clinicName', user.clinicName);
+    formData.append('addressLineOne', user.addressLineOne);
+    formData.append('addressLineTwo', null);
+    formData.append('town', user.town);
+    formData.append('lat', user.lat);
+    formData.append('lng', user.lng);
+    formData.append('shopIdentifier', user.shopIdentifier);
+    formData.append('userType', user.userType);
+    formData.append('id', user.id);
+    formData.append('token', user.token);
+
+    console.log('formm', formData);
+    dispatch(LoaderAction.LoaderTrue());
+    let token = user.token;
+    return new Promise((resolve, reject) => {
+      console.log('fetch');
+      fetch(`${baseUrl}users/update`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(response => {
+          console.log('respoccc', response);
+          return response.json();
+        })
+        .then(response => {
+          console.log('res', response);
+          dispatch(LoaderAction.LoaderFalse());
+          if (response) {
+            // NavigationService.navigate('SignIn');
+            let newUser = {...response, token: user.token};
+            dispatch(AuthAction.Signin(newUser));
+            dispatch(LoaderAction.LoaderFalse());
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Updated Successful',
+              position: 'bottom',
+            });
+            NavigationService.navigate('BottomTabs', {screen: 'Home'});
+          } else {
+            Toast.show({
+              type: 'success',
+              text1: 'Alert',
+              text2: 'Somthing went wrong! Please try again later',
+              position: 'bottom',
+            });
+            dispatch(LoaderAction.LoaderFalse());
+          }
+        })
+        .catch(e => {
+          dispatch(LoaderAction.LoaderFalse());
+          Toast.show({
+            type: 'success',
+            text1: 'Alert',
+            text2: 'Somthing went wrong! Please try again later',
+            position: 'bottom',
+          });
+          reject();
+          console.log('Error', e);
+        });
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Header />
       <ScrollView style={{flex: 1}}>
         <View style={styles.profilePicView}>
           <View style={styles.imageStyle}>
-            {user.profilePicture ? (
+            {profilePic ? (
               <Image
-                source={{uri: Img_url + user.profilePicture}}
+                source={{uri: profilePic.uri}}
                 style={{
                   resizeMode: 'stretch',
                   ...styles.imageStyle,
                 }}
               />
-            ) : profilePic ? (
+            ) : user.profilePicture ? (
               <Image
-                source={{uri: profilePic.uri}}
+                source={{uri: Img_url + user.profilePicture}}
                 style={{
                   resizeMode: 'stretch',
                   ...styles.imageStyle,
@@ -187,8 +269,8 @@ const EditProfile = () => {
               Phone Number
             </Text>
             <TextInputComp
-              value={email}
-              onChange={text => setEmail(text)}
+              value={phone}
+              onChange={text => setPhone(text)}
               placeholder={user.phoneNumber}
             />
           </View>
@@ -212,6 +294,7 @@ const EditProfile = () => {
               marginVertical: Metrix.VerticalSize(10),
             }}>
             <TouchableOpacity
+              onPress={() => updateUser()}
               style={{
                 backgroundColor: Colors.logoGreen,
                 ...styles.detailComp,
@@ -239,7 +322,8 @@ const EditProfile = () => {
                 ...styles.detailComp,
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}>
+              }}
+              onPress={() => NavigationService.goBack()}>
               <Text
                 style={{
                   color: Colors.white,

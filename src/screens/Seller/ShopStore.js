@@ -205,7 +205,7 @@ const ShopStore = props => {
           <View style={{marginBottom: Metrix.VerticalSize(20)}}>
             <Text style={styles.textStyle}>Products</Text>
           </View>
-          <FlatList
+          {/* <FlatList
             data={products}
             showsVerticalScrollIndicator={false}
             numColumns={2}
@@ -224,7 +224,7 @@ const ShopStore = props => {
                 </Text>
               </View>
             )}
-          />
+          /> */}
         </View>
       </View>
     </ScrollView>

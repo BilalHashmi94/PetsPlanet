@@ -28,9 +28,9 @@ const PetDetail = props => {
     setWidth(e.nativeEvent.layout.width);
   };
 
-  //   data?.pet_pictures.map(val => {
-  //     imagesArray.push(Img_url + val);
-  //   });
+    data?.product_pictures.map(val => {
+      imagesArray.push(Img_url + val);
+    });
 
   const dispatch = useDispatch();
 
@@ -93,7 +93,7 @@ const PetDetail = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        {data?.pet_pictures ? (
+        {data?.product_pictures ? (
           <SliderBox
             images={imagesArray}
             sliderBoxHeight={300}
@@ -158,26 +158,18 @@ const PetDetail = props => {
         <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <View style={styles.detailComp}>
             <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Breed:
+              Shop:
             </Text>
             <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.breed}
+              {data.shopName}
             </Text>
           </View>
           <View style={styles.detailComp}>
             <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Age:
+            price:
             </Text>
             <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.age}
-            </Text>
-          </View>
-          <View style={styles.detailComp}>
-            <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Weight:
-            </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.weight}
+              {data.price}
             </Text>
           </View>
         </View>
