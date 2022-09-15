@@ -90,7 +90,7 @@ const Shop = props => {
     return (
       <TouchableOpacity
         onPress={() =>
-          NavigationService.navigate('CategorySearch', {data: item})
+          NavigationService.navigate('CategorySearch', {data: item, comingFrom: 'products'})
         }
         style={{marginHorizontal: 10}}>
         <View
@@ -239,7 +239,7 @@ const Shop = props => {
               style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
               Categories
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => NavigationService.navigate('AllCategories')}>
               <Text
                 style={{
@@ -249,7 +249,7 @@ const Shop = props => {
                 }}>
                 View All
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <FlatList
             data={categoryData}

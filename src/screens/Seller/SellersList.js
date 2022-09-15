@@ -40,7 +40,13 @@ const SellersList = props => {
   const renderContent = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => NavigationService.navigate('SellDetail', {data: item})}
+        onPress={() => {
+          if (item?.pet_pictures) {
+            NavigationService.navigate('SellDetail', {data: item});
+          } else {
+            NavigationService.navigate('PorductDetail', {data: item});
+          }
+        }}
         style={{
           marginVertical: Metrix.VerticalSize(10),
           alignItems: 'center',
@@ -49,7 +55,11 @@ const SellersList = props => {
         <View style={styles.detailComp}>
           <View style={{flexDirection: 'row'}}>
             <Image
-              source={{uri: item?.pet_pictures ? Img_url + item?.pet_pictures[0] : Img_url + item?.product_pictures[0]}}
+              source={{
+                uri: item?.pet_pictures
+                  ? Img_url + item?.pet_pictures[0]
+                  : Img_url + item?.product_pictures[0],
+              }}
               style={{
                 borderRadius: 10,
                 height: Metrix.VerticalSize(60),
@@ -90,7 +100,7 @@ const SellersList = props => {
                   style={{
                     fontWeight: 'bold',
                     fontSize: Metrix.customFontSize(16),
-                    color: Colors.darkGray
+                    color: Colors.darkGray,
                   }}>
                   {item.category}
                 </Text>
@@ -134,7 +144,7 @@ const SellersList = props => {
       <View
         style={{
           marginTop: Metrix.VerticalSize(5),
-          flex: 1
+          flex: 1,
         }}>
         <FlatList
           data={favPets}

@@ -5,9 +5,11 @@ import {Colors, Metrix} from '../../config';
 import CardComp from '../../components/CardComp';
 import {useDispatch} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
+import ProductComp from '../../components/ProductComp';
 
 const CategorySearch = props => {
   const data = props.route.params?.data;
+  const comingFrom = props.route.params?.comingFrom;
   const [petsData, setPetsData] = useState([]);
 
   const dispatch = useDispatch();
@@ -17,18 +19,38 @@ const CategorySearch = props => {
   }, []);
 
   const getPetsData = () => {
-    dispatch(
-      DataBaseMiddleware.GetPetByCategory({
-        name: data.name,
-        callback: res => {
-          setPetsData(res);
-        },
-      }),
-    );
+    if (comingFrom === 'products') {
+      dispatch(
+        DataBaseMiddleware.GetProductsByCategory({
+          name: data.name,
+          callback: res => {
+            setPetsData(res);
+          },
+        }),
+      );
+    } else {
+      dispatch(
+        DataBaseMiddleware.GetPetByCategory({
+          name: data.name,
+          callback: res => {
+            setPetsData(res);
+          },
+        }),
+      );
+    }
   };
 
   const renderContent = ({item}) => {
-    return <CardComp item={item} />;
+    console.warn(item);
+    return (
+      <>
+        {comingFrom === 'products' ? (
+          <ProductComp item={item} />
+        ) : (
+          <CardComp item={item} />
+        )}
+      </>
+    );
   };
 
   return (
@@ -77,7 +99,11 @@ const CategorySearch = props => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{color: Colors.black}}>Sorry! No Pets Found.</Text>
+              <Text style={{color: Colors.black}}>
+                {comingFrom === 'products'
+                  ? 'Sorry! No Products Found.'
+                  : 'Sorry! No Pets Found.'}
+              </Text>
             </View>
           )}
         />

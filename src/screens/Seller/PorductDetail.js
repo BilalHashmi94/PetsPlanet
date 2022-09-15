@@ -81,6 +81,8 @@ const PetDetail = props => {
     }
   };
 
+  console.warn('data', data);
+
   return (
     <ScrollView style={styles.container} onLayout={e => onLayout(e)}>
       <View style={styles.imageView}>

@@ -119,6 +119,35 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
+  static GetProductsByCategory({callback, name}) {
+    return async dispatch => {
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Get(
+          `product/getProductsByCategory/?category=${name}`,
+          '',
+        );
+        console.log('GetProductsByCategory Response', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
+
   static GetPetByCity({callback, city}) {
     return async dispatch => {
       try {
