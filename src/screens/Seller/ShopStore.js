@@ -7,14 +7,16 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useState} from 'react';
 import ProductComp from '../../components/ProductComp';
-import { Img_url } from '../../config/ApiCaller';
+import {Img_url} from '../../config/ApiCaller';
+import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
+import {useDispatch} from 'react-redux';
 
 const ShopStore = props => {
   const data = props.route.params.data;
@@ -23,93 +25,8 @@ const ShopStore = props => {
   const [followers, setFollowers] = useState('100');
   const [likes, setLikes] = useState(data.likes);
   const [like, setLike] = useState(false);
-  const [products, setProducts] = useState([
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Cat Food',
-      category: 'Cat',
-      price: '1000',
-      deliveryTime: '2 Days',
-      aboutProduct: 'jkbbjaisbcioancuas bsiuas cjsc cnias casnciuascnjas c',
-      productImages: [Images.dog, Images.turtle],
-      shopName: 'AzherBhai Shop',
-      shopId: 1,
-      comments: [
-        {
-          userName: 'John',
-          comment: 'Very Nice Product',
-        },
-      ],
-    },
-  ]);
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
 
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
@@ -118,20 +35,36 @@ const ShopStore = props => {
   const renderContent = ({item}) => {
     return <ProductComp item={item} />;
   };
+  // console.log('data', data);
+
+  useEffect(() => {
+    GetProducts();
+  }, []);
+
+  const GetProducts = () => {
+    dispatch(
+      DataBaseMiddleware.GetProductOfShop({
+        name: data.id,
+        callback: res => {
+          setProducts(res);
+        },
+      }),
+    );
+  };
 
   const LikeStore = () => {
     setLike(!like);
-    if (like === false) {
-      let numLike = parseInt(likes);
-      let total = numLike + 1;
-      console.warn(total);
-      setLikes(total);
-    } else if (like === true) {
-      let numLike = parseInt(likes);
-      let total = numLike - 1;
-      console.warn(total);
-      setLikes(total);
-    }
+    // if (like === false) {
+    //   let numLike = parseInt(likes);
+    //   let total = numLike + 1;
+    //   console.warn(total);
+    //   setLikes(total);
+    // } else if (like === true) {
+    //   let numLike = parseInt(likes);
+    //   let total = numLike - 1;
+    //   console.warn(total);
+    //   setLikes(total);
+    // }
   };
 
   return (
@@ -146,7 +79,10 @@ const ShopStore = props => {
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-        <Image source={{uri: Img_url + data.bannerImage}} style={styles.imageStyle} />
+        <Image
+          source={{uri: Img_url + data.bannerImage}}
+          style={styles.imageStyle}
+        />
       </View>
       <View
         style={{
@@ -205,7 +141,7 @@ const ShopStore = props => {
           <View style={{marginBottom: Metrix.VerticalSize(20)}}>
             <Text style={styles.textStyle}>Products</Text>
           </View>
-          {/* <FlatList
+          <FlatList
             data={products}
             showsVerticalScrollIndicator={false}
             numColumns={2}
@@ -224,7 +160,7 @@ const ShopStore = props => {
                 </Text>
               </View>
             )}
-          /> */}
+          />
         </View>
       </View>
     </ScrollView>

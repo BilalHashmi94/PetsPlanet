@@ -397,6 +397,7 @@ const RegisterAsDoctor = () => {
       formData.append('userType', 'doctor');
       formData.append('aboutClinic', aboutClinic);
       formData.append('file', clinicImage);
+      formData.append('shopIdentifier', null);
       formData.append('openAt', moment(openAt).format('hh:mm a'));
       formData.append('closeAt', moment(closeAt).format('hh:mm a'));
       console.log('formm', formData);

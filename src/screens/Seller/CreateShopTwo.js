@@ -22,6 +22,7 @@ import GetLocation from 'react-native-get-location';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {AuthAction} from '../../redux/Actions';
 
 const actionSheetRef = createRef();
 const actionSheetRefRemove = createRef();
@@ -82,6 +83,10 @@ const CreateShopTwo = props => {
         shopName: shopName,
         callback: res => {
           console.warn('res', res);
+          if (res) {
+            dispatch(AuthAction.Signin(res));
+            NavigationService.navigate('AddProduct');
+          }
         },
       }),
     );

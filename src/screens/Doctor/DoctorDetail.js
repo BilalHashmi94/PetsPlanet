@@ -24,7 +24,9 @@ const DoctorDetail = props => {
   const openGps = (lat, lng) => {
     var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
     var url = scheme + `${data?.lat},${data?.lng}`;
-    Linking.openURL(url);
+    var iosURL =
+      'maps:' + `${data?.lat},${data?.lng}?q=${data?.lat},${data?.lng}`;
+    Linking.openURL(Platform.OS === 'ios' ? iosURL : url);
   };
 
   return (
