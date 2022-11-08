@@ -1,7 +1,8 @@
 import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
 import React from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../config';
-import { Img_url } from '../config/ApiCaller';
+import {Img_url} from '../config/ApiCaller';
+import FastImage from 'react-native-fast-image';
 
 const CardComp = ({item}) => {
   return (
@@ -24,13 +25,17 @@ const CardComp = ({item}) => {
         shadowRadius: 4,
         elevation: 5,
       }}>
-      <Image
-        source={{uri: item.pet_pictures ? Img_url + item.pet_pictures[0] : item.image}}
+      <FastImage
+        source={{
+          uri: item.pet_pictures ? Img_url + item.pet_pictures[0] : item.image,
+          priority: FastImage.priority.high,
+        }}
         style={{
           borderRadius: 15,
           height: Metrix.VerticalSize(130),
           width: Metrix.HorizontalSize(140),
         }}
+        resizeMode={FastImage.resizeMode.contain}
       />
       <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
         <Text

@@ -130,6 +130,10 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "com.petsplanet"
         minSdkVersion rootProject.ext.minSdkVersion
