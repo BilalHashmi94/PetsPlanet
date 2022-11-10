@@ -22,6 +22,7 @@ const Favourites = ({navigation}) => {
   const [favPets, setFavPets] = useState([]);
 
   const user = useSelector(state => state.AuthReducer.user);
+  const loader = useSelector(state => state.LoaderReducer.loading);
 
   const dispatch = useDispatch();
 
@@ -95,9 +96,11 @@ const Favourites = ({navigation}) => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{color: Colors.black}}>
-                You Don't Have Any Favourites
-              </Text>
+              {!loader ? (
+                <Text style={{color: Colors.black}}>
+                  You Don't Have Any Favourites
+                </Text>
+              ) : null}
             </View>
           )}
         />

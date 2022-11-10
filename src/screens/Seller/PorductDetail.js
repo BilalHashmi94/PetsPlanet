@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
 import ReactNativeModal from 'react-native-modal';
+import Button from '../../components/Button';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
@@ -28,9 +29,9 @@ const PetDetail = props => {
     setWidth(e.nativeEvent.layout.width);
   };
 
-    data?.product_pictures.map(val => {
-      imagesArray.push(Img_url + val);
-    });
+  data?.product_pictures.map(val => {
+    imagesArray.push(Img_url + val);
+  });
 
   const dispatch = useDispatch();
 
@@ -135,27 +136,29 @@ const PetDetail = props => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => likeAd()} style={{marginTop: 5}}>
-            {petLiked ? (
-              // <View
-              //   style={{
-              //     width: 50,
-              //     height: 50,
-              //     borderRadius: 50 / 2,
-              //     backgroundColor: Colors.red,
-              //     alignItems: 'center',
-              //     justifyContent: 'center',
-              //   }}>
-              <FontAwesome name={'heart'} color={Colors.red} size={25} />
-            ) : (
-              // </View>
-              <FontAwesome
-                name={'heart-o'}
-                color={Colors.placeholderGray}
-                size={25}
-              />
-            )}
-          </TouchableOpacity>
+          {user ? (
+            <TouchableOpacity onPress={() => likeAd()} style={{marginTop: 5}}>
+              {petLiked ? (
+                // <View
+                //   style={{
+                //     width: 50,
+                //     height: 50,
+                //     borderRadius: 50 / 2,
+                //     backgroundColor: Colors.red,
+                //     alignItems: 'center',
+                //     justifyContent: 'center',
+                //   }}>
+                <FontAwesome name={'heart'} color={Colors.red} size={25} />
+              ) : (
+                // </View>
+                <FontAwesome
+                  name={'heart-o'}
+                  color={Colors.placeholderGray}
+                  size={25}
+                />
+              )}
+            </TouchableOpacity>
+          ) : null}
         </View>
         <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <View style={styles.detailComp}>
@@ -168,7 +171,7 @@ const PetDetail = props => {
           </View>
           <View style={styles.detailComp}>
             <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-            price:
+              price:
             </Text>
             <Text style={{...styles.textStyle, color: Colors.black}}>
               {data.price}
@@ -191,83 +194,90 @@ const PetDetail = props => {
           </Text>
         </View>
         {/* Contact ==================>>>>>>>>>>>> */}
-        <View style={{marginVertical: Metrix.VerticalSize(10)}}>
-          <View style={styles.detailComp}>
-            <View style={{flexDirection: 'row'}}>
-              {data.seller_picture ? (
-                <Image
-                  source={{uri: Img_url + data.seller_picture}}
+        {user ? (
+          <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+            <View style={styles.detailComp}>
+              <View style={{flexDirection: 'row'}}>
+                {data.seller_picture ? (
+                  <Image
+                    source={{uri: Img_url + data.seller_picture}}
+                    style={{
+                      borderRadius: 10,
+                      height: Metrix.VerticalSize(60),
+                      width: Metrix.HorizontalSize(60),
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={Images.avatar}
+                    style={{
+                      borderRadius: 10,
+                      height: Metrix.VerticalSize(60),
+                      width: Metrix.HorizontalSize(60),
+                    }}
+                  />
+                )}
+                <View style={{marginLeft: 10}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: Metrix.customFontSize(16),
+                    }}>
+                    {data.seller_name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: Metrix.customFontSize(14),
+                      marginVertical: 2,
+                    }}>
+                    {data.seller_number}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: Metrix.customFontSize(14),
+                      color: Colors.placeholderGray,
+                    }}>
+                    Pet Owner
+                  </Text>
+                </View>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
                   style={{
-                    borderRadius: 10,
-                    height: Metrix.VerticalSize(60),
-                    width: Metrix.HorizontalSize(60),
-                  }}
-                />
-              ) : (
-                <Image
-                  source={Images.avatar}
-                  style={{
-                    borderRadius: 10,
-                    height: Metrix.VerticalSize(60),
-                    width: Metrix.HorizontalSize(60),
-                  }}
-                />
-              )}
-              <View style={{marginLeft: 10}}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(16),
+                    width: 40,
+                    height: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                  {data.seller_name}
-                </Text>
-                <Text
+                  <Feather
+                    name={'phone-call'}
+                    color={Colors.placeholderGray}
+                    size={25}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
                   style={{
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(14),
-                    marginVertical: 2,
+                    marginLeft: 10,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 40 / 2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: Colors.primary,
                   }}>
-                  {data.seller_number}
-                </Text>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(14),
-                    color: Colors.placeholderGray,
-                  }}>
-                  Pet Owner
-                </Text>
+                  <AntDesign name={'message1'} color={Colors.white} size={20} />
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{
-                  width: 40,
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Feather
-                  name={'phone-call'}
-                  color={Colors.placeholderGray}
-                  size={25}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  marginLeft: 10,
-                  width: 40,
-                  height: 40,
-                  borderRadius: 40 / 2,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: Colors.primary,
-                }}>
-                <AntDesign name={'message1'} color={Colors.white} size={20} />
-              </TouchableOpacity>
-            </View>
           </View>
-        </View>
+        ) : (
+          <Button
+            title={'Login to view phone number'}
+            onPress={() => NavigationService.resetStack('SignIn')}
+          />
+        )}
       </View>
       <ReactNativeModal isVisible={mediaModal} style={{margin: 0}}>
         <View

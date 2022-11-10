@@ -35,7 +35,7 @@ const CardComp = ({item}) => {
           height: Metrix.VerticalSize(130),
           width: Metrix.HorizontalSize(140),
         }}
-        resizeMode={FastImage.resizeMode.contain}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
         <Text

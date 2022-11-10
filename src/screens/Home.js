@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import {Colors, Images, Metrix, NavigationService} from '../config';
-import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import OwnerCard from '../components/OwnerCard';
 import CardComp from '../components/CardComp';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -154,8 +154,8 @@ const Home = ({navigation}) => {
             />
           </TouchableOpacity> */}
           <TouchableOpacity style={{marginLeft: 20}}>
-            <Feather
-              name="bell"
+            <AntDesign
+              name="shoppingcart"
               color={Colors.logoDarkGreen}
               size={Metrix.customFontSize(38)}
             />

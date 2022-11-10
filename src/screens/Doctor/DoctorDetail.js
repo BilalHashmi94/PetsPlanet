@@ -116,7 +116,7 @@ const DoctorDetail = props => {
           </View>
         </View>
         {/* Description ===============> */}
-        <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+        {/* <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <Text
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(20)}}>
             About:
@@ -129,7 +129,7 @@ const DoctorDetail = props => {
             }}>
             {data.aboutClinic}
           </Text>
-        </View>
+        </View> */}
         {/* Contact ==================>>>>>>>>>>>> */}
         <View style={{marginVertical: Metrix.VerticalSize(10)}}>
           <View style={{backgroundColor: Colors.white, ...styles.detailComp}}>

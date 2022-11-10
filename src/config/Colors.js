@@ -28,4 +28,6 @@ export default Colors = {
   back: '#fffff',
   logoGreen: '#15b342',
   logoDarkGreen: '#1a4123',
+  textInputBackColor: '#F2F3F7',
+  introText: '#9B9B9B',
 };

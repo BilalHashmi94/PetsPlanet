@@ -84,7 +84,7 @@ class AppNavigation extends React.Component {
           ref={ref => NavigationService.setTopLevelNavigator(ref)}>
           <Stack.Navigator
             screenOptions={{headerShown: false}}
-            initialRouteName={user ? "BottomTabs" : 'SignIn'}>
+            initialRouteName={user ? "BottomTabs" : 'BottomTabs'}>
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="PetDetail" component={PetDetail} />
             <Stack.Screen name="CategorySearch" component={CategorySearch} />

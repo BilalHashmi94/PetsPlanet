@@ -370,7 +370,10 @@ const SignUp = () => {
   console.warn('city', city);
 
   return (
-    <ScrollView style={styles.container} nestedScrollEnabled={true} keyboardShouldPersistTaps={true}>
+    <ScrollView
+      style={styles.container}
+      nestedScrollEnabled={true}
+      keyboardShouldPersistTaps={true}>
       <View style={styles.secondView}>
         <Text style={styles.welcomeText}>Register Now</Text>
         <Text style={styles.signinText}>
@@ -410,18 +413,15 @@ const SignUp = () => {
         </View>
       </View>
       <View style={{marginVertical: Metrix.VerticalSize(30)}}>
-        <View
-          style={{
-            height: Metrix.VerticalSize(50),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
+        <View style={styles.textInputView}>
           <TextInputComp
             value={firstName}
             onChange={text => setFirstName(text)}
             placeholder={'First Name'}
             names={true}
           />
+        </View>
+        <View style={styles.textInputView}>
           <TextInputComp
             value={lastName}
             onChange={text => setLastName(text)}
@@ -475,7 +475,7 @@ const SignUp = () => {
               borderRadius: 5,
             }}
             itemTextStyle={{color: '#222'}}
-            itemsContainerStyle={{maxHeight: 140,}}
+            itemsContainerStyle={{maxHeight: 140}}
             items={cityData}
             defaultIndex={0}
             chip={true}
@@ -489,7 +489,7 @@ const SignUp = () => {
                 paddingVertical: 12,
                 borderBottomWidth: 1,
                 borderColor: Colors.placeholderGray,
-                paddingHorizontal: 8
+                paddingHorizontal: 8,
               },
             }}
             listProps={{
@@ -511,7 +511,7 @@ const SignUp = () => {
             secureWidth={true}
           />
           <TouchableOpacity
-            style={{alignSelf: 'flex-end'}}
+            style={{alignSelf: 'flex-end', marginLeft: 5}}
             onPress={() => setSecure(!secure)}>
             {secure ? (
               <Text
@@ -541,7 +541,7 @@ const SignUp = () => {
             secureWidth={true}
           />
           <TouchableOpacity
-            style={{alignSelf: 'flex-end'}}
+            style={{alignSelf: 'flex-end', marginLeft: 5}}
             onPress={() => setSecureCon(!secureCon)}>
             {secureCon ? (
               <Text

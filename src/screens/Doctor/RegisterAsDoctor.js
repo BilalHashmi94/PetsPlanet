@@ -12,7 +12,13 @@ import {
 import {useDispatch} from 'react-redux';
 import Button from '../../components/Button';
 import TextInputComp from '../../components/TextInputComp';
-import {Colors, Images, Metrix, NavigationService} from '../../config';
+import {
+  Colors,
+  CommonStyles,
+  Images,
+  Metrix,
+  NavigationService,
+} from '../../config';
 import Toast from 'react-native-toast-message';
 import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -30,6 +36,7 @@ import RNDateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import Header from '../../components/Header';
 
 const actionSheetRef = createRef();
 const actionSheetRefClinic = createRef();
@@ -39,15 +46,12 @@ const RegisterAsDoctor = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState('password');
+  const [confirmPassword, setConfirmPassword] = useState('password');
   const dispatch = useDispatch();
-  const [secure, setSecure] = useState(true);
-  const [secureCon, setSecureCon] = useState(true);
   const [profilePic, setProfilePic] = useState(null);
   const [clinicImage, setClinicImage] = useState(null);
   const [city, setCity] = useState('');
-  const [marTop, setMarTop] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [region, setRegion] = useState('');
   const [lat, setLat] = useState('');
@@ -57,7 +61,6 @@ const RegisterAsDoctor = () => {
   const [addressLineOne, setAddressLineOne] = useState('');
   const [addressLineTwo, setAddressLineTwo] = useState('');
   const [town, setTown] = useState('');
-  const [aboutClinic, setAboutClinic] = useState('');
   const [openAt, setOpenAt] = useState(new Date());
   const [closeAt, setCloseAt] = useState(new Date());
 
@@ -384,7 +387,7 @@ const RegisterAsDoctor = () => {
       formData.append('firstName', firstName);
       formData.append('lastName', lastName);
       formData.append('email', email);
-      formData.append('password', password);
+      formData.append('password', 'password');
       formData.append('phoneNumber', phone);
       formData.append('city', city);
 
@@ -395,7 +398,7 @@ const RegisterAsDoctor = () => {
       formData.append('lat', lat);
       formData.append('lng', long);
       formData.append('userType', 'doctor');
-      formData.append('aboutClinic', aboutClinic);
+      formData.append('aboutClinic', 'aboutClinic');
       formData.append('file', clinicImage);
       formData.append('shopIdentifier', null);
       formData.append('openAt', moment(openAt).format('hh:mm a'));
@@ -417,7 +420,7 @@ const RegisterAsDoctor = () => {
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
-              NavigationService.navigate('SignIn');
+              NavigationService.navigate('DoctorsList');
               dispatch(LoaderAction.LoaderFalse());
               Toast.show({
                 type: 'success',
@@ -456,10 +459,11 @@ const RegisterAsDoctor = () => {
         style={styles.container}
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps={'handled'}>
+        <Header />
         <View style={styles.secondView}>
           <Text style={styles.welcomeText}>Register Now</Text>
           <Text style={styles.signinText}>
-            Please fill the details to get started
+            Please fill the details to register your clinic
           </Text>
         </View>
         <View style={{paddingHorizontal: Metrix.HorizontalSize(30)}}>
@@ -527,18 +531,15 @@ const RegisterAsDoctor = () => {
           </View>
         </View>
         <View style={{marginVertical: Metrix.VerticalSize(30)}}>
-          <View
-            style={{
-              height: Metrix.VerticalSize(50),
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
+          <View style={styles.textInputView}>
             <TextInputComp
               value={firstName}
               onChange={text => setFirstName(text)}
               placeholder={'First Name'}
               names={true}
             />
+          </View>
+          <View style={styles.textInputView}>
             <TextInputComp
               value={lastName}
               onChange={text => setLastName(text)}
@@ -576,22 +577,22 @@ const RegisterAsDoctor = () => {
               placeholder={'Address Line One'}
             />
           </View>
-          <View style={styles.textInputView}>
+          {/* <View style={styles.textInputView}>
             <TextInputComp
               value={addressLineTwo}
               onChange={text => setAddressLineTwo(text)}
               placeholder={'Address Line Two (optional)'}
             />
-          </View>
-          <View
-            style={{...styles.textInputView, height: Metrix.VerticalSize(80)}}>
+          </View> */}
+          {/* <View
+            style={{...styles.textInputView}}>
             <TextInputComp
               value={aboutClinic}
               onChange={text => setAboutClinic(text)}
               placeholder={'About Clinic'}
               multi={true}
             />
-          </View>
+          </View> */}
           <View style={styles.textInputView}>
             <TextInputComp
               value={town}
@@ -651,7 +652,7 @@ const RegisterAsDoctor = () => {
               }}
             />
           </View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               ...styles.textInputView,
@@ -685,8 +686,8 @@ const RegisterAsDoctor = () => {
                 </Text>
               )}
             </TouchableOpacity>
-          </View>
-          <View style={{flexDirection: 'row', ...styles.textInputView}}>
+          </View> */}
+          {/* <View style={{flexDirection: 'row', ...styles.textInputView}}>
             <TextInputComp
               value={confirmPassword}
               onChange={text => setConfirmPassword(text)}
@@ -715,7 +716,7 @@ const RegisterAsDoctor = () => {
                 </Text>
               )}
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View
             style={{
               flexDirection: 'row',
@@ -979,7 +980,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrix.HorizontalSize(35),
   },
   secondView: {
-    marginTop: Metrix.VerticalSize(40),
+    // marginTop: Metrix.VerticalSize(40),
   },
   welcomeText: {
     color: Colors.black,

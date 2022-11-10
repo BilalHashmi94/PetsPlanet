@@ -2,11 +2,12 @@ import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
 import React from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import {Img_url} from '../config/ApiCaller';
+import FastImage from 'react-native-fast-image';
 
 const ProductComp = ({item}) => {
   return (
     <TouchableOpacity
-        onPress={() => NavigationService.navigate('PorductDetail', {data: item})}
+      onPress={() => NavigationService.navigate('PorductDetail', {data: item})}
       style={{
         borderRadius: 20,
         height: Metrix.VerticalSize(220),
@@ -24,13 +25,17 @@ const ProductComp = ({item}) => {
         shadowRadius: 4,
         elevation: 5,
       }}>
-      <Image
-        source={{uri: Img_url + item?.product_pictures[0]}}
+      <FastImage
+        source={{
+          uri: Img_url + item?.product_pictures[0],
+          priority: FastImage.priority.high,
+        }}
         style={{
           borderRadius: 15,
           height: Metrix.VerticalSize(130),
           width: Metrix.HorizontalSize(140),
         }}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
         <Text

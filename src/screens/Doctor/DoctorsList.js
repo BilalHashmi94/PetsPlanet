@@ -15,10 +15,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import {useDispatch, useSelector} from 'react-redux';
 import {Img_url} from '../../config/ApiCaller';
+import FastImage from 'react-native-fast-image';
 
 const DoctorsList = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.AuthReducer.user);
+  const loader = useSelector(state => state.LoaderReducer.loading);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -50,13 +52,14 @@ const DoctorsList = props => {
         <View style={styles.detailComp}>
           <View style={{flexDirection: 'row'}}>
             {item?.profilePicture ? (
-              <Image
-                source={{uri: Img_url + item?.profilePicture}}
+              <FastImage
+                source={{uri: Img_url + item?.profilePicture, priority: FastImage.priority.high,}}
                 style={{
                   borderRadius: 10,
                   height: Metrix.VerticalSize(60),
                   width: Metrix.HorizontalSize(60),
                 }}
+                resizeMode={FastImage.resizeMode.cover}
               />
             ) : (
               <Image
@@ -154,10 +157,12 @@ const DoctorsList = props => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{color: Colors.black}}>
-                Sorry! No Doctors Found In Your Area. Press to See The List Of
-                All Doctors
-              </Text>
+              {!loader ? (
+                <Text style={{color: Colors.black}}>
+                  Sorry! No Doctors Found In Your Area. Press to See The List Of
+                  All Doctors
+                </Text>
+              ) : null}
             </View>
           )}
         />

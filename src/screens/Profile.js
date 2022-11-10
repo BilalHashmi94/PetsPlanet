@@ -10,10 +10,17 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 // import {Button, Header, TextInputComp} from '../components';
-import {Colors, Images, Metrix, NavigationService} from '../config';
+import {
+  Colors,
+  CommonStyles,
+  Images,
+  Metrix,
+  NavigationService,
+} from '../config';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Img_url} from '../config/ApiCaller';
 import {AuthAction} from '../redux/Actions';
+import Button from '../components/Button';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -21,217 +28,264 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.secondView}>
-          <Text style={styles.welcomeText}>Profile</Text>
-        </View>
-        <View style={{marginVertical: 10, ...styles.profileView}}>
-          <View style={styles.imageStyle}>
-            {user?.profilePicture ? (
-              <Image
-                source={{uri: Img_url + user.profilePicture}}
+      {user ? (
+        <ScrollView>
+          <View style={styles.secondView}>
+            <Text style={styles.welcomeText}>Profile</Text>
+          </View>
+          <View style={{marginVertical: 10, ...styles.profileView}}>
+            <View style={styles.imageStyle}>
+              {user?.profilePicture ? (
+                <Image
+                  source={{uri: Img_url + user.profilePicture}}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              ) : (
+                // : profilePic ? (
+                //   <Image
+                //     source={{uri: profilePic.uri}}
+                //     style={{
+                //       resizeMode: 'stretch',
+                //       ...styles.imageStyle,
+                //     }}
+                //   />
+                // )
+                <Image
+                  source={Images.avatar}
+                  style={{
+                    resizeMode: 'stretch',
+                    ...styles.imageStyle,
+                  }}
+                />
+              )}
+            </View>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginLeft: Metrix.HorizontalSize(10),
+              }}>
+              <Text
                 style={{
-                  resizeMode: 'stretch',
-                  ...styles.imageStyle,
-                }}
-              />
-            ) 
-            // : profilePic ? (
-            //   <Image
-            //     source={{uri: profilePic.uri}}
-            //     style={{
-            //       resizeMode: 'stretch',
-            //       ...styles.imageStyle,
-            //     }}
-            //   />
-            // ) 
-            : (
-              <Image
-                source={Images.avatar}
+                  fontSize: Metrix.customFontSize(18),
+                  // fontFamily: 'Poppins-SemiBold',
+                  fontWeight: 'bold',
+                  color: Colors.black,
+                }}>
+                {user?.firstName} {user?.lastName}
+              </Text>
+            </View>
+          </View>
+          <View style={{marginTop: Metrix.VerticalSize(30)}}>
+            <View>
+              <View style={styles.line} />
+              <TouchableOpacity
+                onPress={() => NavigationService.navigate('EditProfile')}
                 style={{
-                  resizeMode: 'stretch',
-                  ...styles.imageStyle,
-                }}
-              />
-            )}
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Edit Profile
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                onPress={() => NavigationService.navigate('SellersList')}
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Seller's List
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                onPress={() =>
+                  NavigationService.navigate('WhatDoYouWantToSell')
+                }
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Become a Seller
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                onPress={() =>
+                  NavigationService.navigate('RegisterAsDoctor')
+                }
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Register Your Clinic
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  onPress={() =>
+                    NavigationService.navigate('TermsAndConditions')
+                  }
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Terms And Conditions
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                onPress={() => NavigationService.navigate('PrivacyPolicy')}
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Privacy Policy
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
+                onPress={() => NavigationService.navigate('ContactUs')}
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Contact Us
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
           </View>
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginLeft: Metrix.HorizontalSize(10),
+              marginVertical: Metrix.VerticalSize(20),
             }}>
-            <Text
-              style={{
-                fontSize: Metrix.customFontSize(18),
-                // fontFamily: 'Poppins-SemiBold',
-                fontWeight: 'bold',
-                color: Colors.black,
-              }}>
-              {user?.firstName} {user?.lastName}
-            </Text>
-          </View>
-        </View>
-        <View style={{marginTop: Metrix.VerticalSize(30)}}>
-          <View>
-            <View style={styles.line} />
             <TouchableOpacity
-              onPress={() => NavigationService.navigate('EditProfile')}
+              onPress={() => {
+                NavigationService.navigate('SignIn');
+                dispatch(AuthAction.Signout());
+              }}
               style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
+                backgroundColor: Colors.logoGreen,
+                ...styles.detailComp,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
               <Text
                 style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
+                  color: Colors.white,
                   fontWeight: 'bold',
-                  color: Colors.black,
+                  fontSize: Metrix.customFontSize(20),
                 }}>
-                Edit Profile
+                Log Out
               </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
             </TouchableOpacity>
-            <View style={styles.line} />
           </View>
-          <View>
-            {/* <View style={styles.line} /> */}
-            <TouchableOpacity
-              onPress={() => NavigationService.navigate('SellersList')}
-              style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
-                  fontWeight: 'bold',
-                  color: Colors.black,
-                }}>
-                Seller's List
-              </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
-            </TouchableOpacity>
-            <View style={styles.line} />
-          </View>
-          <View>
-            {/* <View style={styles.line} /> */}
-            <TouchableOpacity
-              onPress={() => NavigationService.navigate('WhatDoYouWantToSell')}
-              style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
-                  fontWeight: 'bold',
-                  color: Colors.black,
-                }}>
-                Become a Seller
-              </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
-            </TouchableOpacity>
-            <View style={styles.line} />
-          </View>
-          <View>
-            {/* <View style={styles.line} /> */}
-            <TouchableOpacity
-              style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                onPress={() => NavigationService.navigate('TermsAndConditions')}
-                style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
-                  fontWeight: 'bold',
-                  color: Colors.black,
-                }}>
-                Terms And Conditions
-              </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
-            </TouchableOpacity>
-            <View style={styles.line} />
-          </View>
-          <View>
-            {/* <View style={styles.line} /> */}
-            <TouchableOpacity
-              onPress={() => NavigationService.navigate('PrivacyPolicy')}
-              style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
-                  fontWeight: 'bold',
-                  color: Colors.black,
-                }}>
-                Privacy Policy
-              </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
-            </TouchableOpacity>
-            <View style={styles.line} />
-          </View>
-          <View>
-            {/* <View style={styles.line} /> */}
-            <TouchableOpacity
-              onPress={() => NavigationService.navigate('ContactUs')}
-              style={{
-                ...styles.profileView,
-                marginVertical: Metrix.VerticalSize(20),
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: Metrix.customFontSize(18),
-                  // fontFamily: 'Poppins-SemiBold',
-                  fontWeight: 'bold',
-                  color: Colors.black,
-                }}>
-                Contact Us
-              </Text>
-              {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
-            </TouchableOpacity>
-            <View style={styles.line} />
-          </View>
-        </View>
-        <View
-          style={{
-            marginVertical: Metrix.VerticalSize(35),
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              NavigationService.navigate('SignIn');
-              dispatch(AuthAction.Signout());
-            }}
+        </ScrollView>
+      ) : (
+        <View style={{marginTop: 180}}>
+          <Text style={CommonStyles.textStyles.heading}>Login</Text>
+          <Text
             style={{
-              backgroundColor: Colors.logoGreen,
-              ...styles.detailComp,
-              alignItems: 'center',
-              justifyContent: 'center',
+              ...CommonStyles.textStyles.intro,
+              color: Colors.placeholderGray,
+              fontWeight: 'bold',
+              marginVertical: 10,
             }}>
-            <Text
-              style={{
-                color: Colors.white,
-                fontWeight: 'bold',
-                fontSize: Metrix.customFontSize(20),
-              }}>
-              Log Out
-            </Text>
-          </TouchableOpacity>
+            Login to create your profile and have access to many other features
+          </Text>
+          <Button
+            title={'Login'}
+            propStyle={{marginTop: 30}}
+            onPress={() => NavigationService.resetStack('SignIn')}
+          />
         </View>
-      </ScrollView>
+      )}
     </View>
   );
 };
