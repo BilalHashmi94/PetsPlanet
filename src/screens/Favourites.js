@@ -26,13 +26,14 @@ const Favourites = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const getAllPets = () => {
+  const getFav = () => {
     dispatch(
-      DataBaseMiddleware.GetAllPets({
+      DataBaseMiddleware.GetFavorites({
+        id: user.id,
         callback: res => {
           if (res) {
-            const data = res.filter(val => val.isLiked.includes(user.id));
-            setFavPets(data);
+            // const data = res.filter(val => val.isLiked.includes(user.id));
+            setFavPets(res);
           } else {
             Toast.show({
               type: 'success',
@@ -47,12 +48,12 @@ const Favourites = ({navigation}) => {
   };
 
   useEffect(() => {
-    getAllPets();
+    getFav();
   }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getAllPets();
+      getFav();
     });
     return unsubscribe;
   }, [navigation]);

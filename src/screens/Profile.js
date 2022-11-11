@@ -21,6 +21,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Img_url} from '../config/ApiCaller';
 import {AuthAction} from '../redux/Actions';
 import Button from '../components/Button';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -36,12 +37,16 @@ const Profile = () => {
           <View style={{marginVertical: 10, ...styles.profileView}}>
             <View style={styles.imageStyle}>
               {user?.profilePicture ? (
-                <Image
-                  source={{uri: Img_url + user.profilePicture}}
+                <FastImage
+                  source={{
+                    uri: Img_url + user.profilePicture,
+                    priority: FastImage.priority.high,
+                  }}
                   style={{
                     resizeMode: 'stretch',
                     ...styles.imageStyle,
                   }}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
               ) : (
                 // : profilePic ? (
@@ -151,9 +156,7 @@ const Profile = () => {
             <View>
               {/* <View style={styles.line} /> */}
               <TouchableOpacity
-                onPress={() =>
-                  NavigationService.navigate('RegisterAsDoctor')
-                }
+                onPress={() => NavigationService.navigate('RegisterAsDoctor')}
                 style={{
                   ...styles.profileView,
                   marginVertical: Metrix.VerticalSize(20),
