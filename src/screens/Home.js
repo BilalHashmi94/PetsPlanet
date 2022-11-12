@@ -153,7 +153,7 @@ const Home = ({navigation}) => {
               size={Metrix.customFontSize(28)}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity style={{marginLeft: 20}}>
+          <TouchableOpacity style={{marginLeft: 20}} onPress={() => NavigationService.navigate('Cart')}>
             <AntDesign
               name="shoppingcart"
               color={Colors.logoDarkGreen}
