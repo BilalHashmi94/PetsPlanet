@@ -14,7 +14,7 @@ import CardComp from '../components/CardComp';
 import {ScrollView} from 'react-native-gesture-handler';
 import DoctorCard from '../components/DoctorCard';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Home = ({navigation}) => {
   const categoryData = [
@@ -65,6 +65,9 @@ const Home = ({navigation}) => {
       }),
     );
   };
+  const cartData = useSelector(state => state.AuthReducer.cartData);
+
+  // console.warn('cart', cartData?.length);
 
   useEffect(() => {
     getTopPets();
@@ -76,7 +79,6 @@ const Home = ({navigation}) => {
     });
     return unsubscribe;
   }, [navigation]);
-
 
   const renderItem = ({item}) => {
     return (
@@ -153,12 +155,30 @@ const Home = ({navigation}) => {
               size={Metrix.customFontSize(28)}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity style={{marginLeft: 20}} onPress={() => NavigationService.navigate('Cart')}>
+          <TouchableOpacity
+            style={{marginLeft: 20, paddingTop: 5, paddingRight: 5}}
+            onPress={() => NavigationService.navigate('Cart')}>
             <AntDesign
               name="shoppingcart"
               color={Colors.logoDarkGreen}
               size={Metrix.customFontSize(38)}
             />
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                backgroundColor: Colors.red,
+                borderRadius: 20 / 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'absolute',
+                right: 0,
+                top: 0,
+              }}>
+              <Text style={{color: Colors.white}}>
+                {cartData?.length > 0 ? `${cartData?.length}` : '0'}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>

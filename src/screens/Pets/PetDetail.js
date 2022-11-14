@@ -14,6 +14,7 @@ import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
 import ReactNativeModal from 'react-native-modal';
 import Button from '../../components/Button';
+import FastImage from 'react-native-fast-image';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
@@ -308,9 +309,10 @@ const PetDetail = props => {
             <AntDesign name="close" color={Colors.white} size={25} />
           </TouchableOpacity>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image
+            <FastImage
               source={{uri: imagesArray[selectedImage]}}
               style={{resizeMode: 'contain', width: '100%', height: '100%'}}
+              resizeMode={FastImage.resizeMode.contain}
             />
           </View>
         </View>

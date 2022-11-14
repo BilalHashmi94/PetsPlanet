@@ -21,6 +21,8 @@ import Toast from 'react-native-toast-message';
 import ReactNativeModal from 'react-native-modal';
 import Button from '../../components/Button';
 import ImageSlider from 'react-native-image-slider';
+import FastImage from 'react-native-fast-image';
+import {AuthAction} from '../../redux/Actions';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
@@ -28,9 +30,13 @@ const PetDetail = props => {
   const [selectedImage, setSelectedImage] = useState(propdata);
   const [mediaModal, setMediaModal] = useState(false);
   const user = useSelector(state => state.AuthReducer.user);
-  const [petLiked, setPetLiked] = useState(false);
+  const [petLiked, setPetLiked] = useState(
+    user ? (data?.isLiked?.includes(user.id) ? true : false) : false,
+  );
   const [width, setWidth] = useState();
   const [imagesArray, setImagesArray] = useState([]);
+  const [cartCount, setCartCount] = useState(1);
+  const cartData = useSelector(state => state.AuthReducer.cartData);
 
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
@@ -43,53 +49,54 @@ const PetDetail = props => {
   const dispatch = useDispatch();
 
   const likeAd = () => {
-    // if (petLiked) {
-    //   const body = data.isLiked.filter(val => !val.includes(user.id));
-    //   const newData = {...data, isLiked: [...body]};
-    //   console.log('body false', newData);
-    //   dispatch(
-    //     DataBaseMiddleware.PostPetAdLike({
-    //       body: newData,
-    //       callback: res => {
-    //         if (petLiked && !res.isLiked.includes(user.id)) {
-    //           setData({...data, ...res});
-    //           setPetLiked(false);
-    //         } else {
-    //           Toast.show({
-    //             type: 'success',
-    //             text1: 'Alert',
-    //             text2: 'Something went wrong',
-    //             position: 'bottom',
-    //           });
-    //         }
-    //       },
-    //     }),
-    //   );
-    // } else {
-    //   const body = {...data, isLiked: [...data.isLiked, user.id]};
-    //   console.log('body', body);
-    //   dispatch(
-    //     DataBaseMiddleware.PostPetAdLike({
-    //       body: body,
-    //       callback: res => {
-    //         if (!petLiked && res.isLiked.includes(user.id)) {
-    //           setData({...data, ...res});
-    //           setPetLiked(true);
-    //         } else {
-    //           Toast.show({
-    //             type: 'success',
-    //             text1: 'Alert',
-    //             text2: 'Something went wrong',
-    //             position: 'bottom',
-    //           });
-    //         }
-    //       },
-    //     }),
-    //   );
-    // }
+    if (petLiked) {
+      const body = data.isLiked.filter(val => !val.includes(user.id));
+      const newData = {...data, isLiked: [...body]};
+      console.log('body false', newData);
+      dispatch(
+        DataBaseMiddleware.PostProdAdLike({
+          body: newData,
+          callback: res => {
+            if (petLiked && !res.isLiked.includes(user.id)) {
+              setData({...data, ...res});
+              setPetLiked(false);
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Something went wrong',
+                position: 'bottom',
+              });
+            }
+          },
+        }),
+      );
+    } else {
+      const body = {...data, isLiked: [...data.isLiked, user.id]};
+      console.log('body', body);
+      dispatch(
+        DataBaseMiddleware.PostProdAdLike({
+          body: body,
+          callback: res => {
+            if (!petLiked && res.isLiked.includes(user.id)) {
+              setData({...data, ...res});
+              setPetLiked(true);
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Something went wrong',
+                position: 'bottom',
+              });
+            }
+          },
+        }),
+      );
+    }
   };
 
-  // console.warn('data', data);
+  // console.warn('data', imagesArray[selectedImage]);
+  // console.warn('dat====a', data);
 
   return (
     <>
@@ -104,7 +111,7 @@ const PetDetail = props => {
               size={Metrix.customFontSize(25)}
             />
           </TouchableOpacity>
-          {data?.product_pictures ? (
+          {imagesArray.length ? (
             <SliderBox
               images={imagesArray}
               sliderBoxHeight={300}
@@ -121,6 +128,9 @@ const PetDetail = props => {
               circleLoop
             />
           ) : (
+            // <View style={{width: '100%', height: Metrix.VerticalSize(300),}}>
+            // <FastImage source={{uri: Img_url + data?.product_pictures[0], priority: FastImage.priority.high}} resizeMode={FastImage.resizeMode.cover} />
+            // </View>
             <Image source={Images.avatar} style={styles.imageStyle} />
           )}
         </View>
@@ -320,9 +330,10 @@ const PetDetail = props => {
               <AntDesign name="close" color={Colors.white} size={25} />
             </TouchableOpacity>
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image
+              <FastImage
                 source={{uri: imagesArray[selectedImage]}}
                 style={{resizeMode: 'contain', width: '100%', height: '100%'}}
+                resizeMode={FastImage.resizeMode.contain}
               />
             </View>
           </View>
@@ -344,7 +355,7 @@ const PetDetail = props => {
             alignItems: 'center',
             paddingHorizontal: Metrix.HorizontalSize(20),
             borderTopWidth: 0.5,
-            borderColor: Colors.placeholderGray
+            borderColor: Colors.placeholderGray,
           }}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <AntDesign name="isv" size={25} color={Colors.primary} />
@@ -353,20 +364,48 @@ const PetDetail = props => {
               Shop
             </Text>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '30%',  alignItems: 'center'}}>
-            <TouchableOpacity>
-              <FontAwesome name="minus" size={20} color={Colors.primary}/>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '30%',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                if (cartCount === 0) {
+                  return;
+                } else {
+                  setCartCount(cartCount - 1);
+                }
+              }}>
+              <FontAwesome name="minus" size={20} color={Colors.primary} />
             </TouchableOpacity>
             <Text
               style={{...CommonStyles.textStyles.intro, color: Colors.primary}}>
-              1
+              {cartCount}
             </Text>
-            <TouchableOpacity>
-              <FontAwesome name="plus" size={20} color={Colors.primary}/>
+            <TouchableOpacity
+              onPress={() => {
+                setCartCount(cartCount + 1);
+              }}>
+              <FontAwesome name="plus" size={20} color={Colors.primary} />
             </TouchableOpacity>
           </View>
           {/* <Button title={'Buy Now'} propStyle={{width: 70, borderRadius: 10, height: 35,}} textStyle={{fontSize: 14}}/> */}
-          <Button title={'Add To Cart'} propStyle={{width: 150, borderRadius: 10, height: 35,}} textStyle={{fontSize: 14}}/>
+          <Button
+            title={'Add To Cart'}
+            propStyle={{width: 150, borderRadius: 10, height: 35}}
+            textStyle={{fontSize: 14}}
+            onPress={() => {
+              let data = {
+                data: propdata,
+                quantity: cartCount,
+              };
+              console.warn('data', data);
+              dispatch(AuthAction.Cart([...cartData, data]));
+            }}
+          />
         </View>
       ) : null}
     </>

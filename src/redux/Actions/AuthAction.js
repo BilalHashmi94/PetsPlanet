@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SIGNUP, SIGNOUT, SIGNIN, EDIT_PROFILE} from '../Constants';
+import {SIGNUP, SIGNOUT, SIGNIN, EDIT_PROFILE, CART} from '../Constants';
 
 export class AuthAction extends Component {
   static Signin(data) {
@@ -16,6 +16,9 @@ export class AuthAction extends Component {
   }
   static ClearRedux() {
     return {type: SIGNOUT};
+  }
+  static Cart(data) {
+    return {type: CART, payload: data};
   }
 }
 

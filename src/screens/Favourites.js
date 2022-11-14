@@ -14,6 +14,7 @@ import CardComp from '../components/CardComp';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
+import ProductComp from '../components/ProductComp';
 
 const Favourites = ({navigation}) => {
   const runSearch = text => {
@@ -53,22 +54,27 @@ const Favourites = ({navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
+      setFavPets([]);
       getFav();
     });
     return unsubscribe;
   }, [navigation]);
 
   const renderContent = ({item}) => {
-    return <CardComp item={item} />;
+    if (item?.product_pictures) {
+      return <ProductComp item={item} />;
+    } else {
+      return <CardComp item={item} />;
+    }
   };
 
   return (
     <View style={styles.container}>
-      <SearchHeader getSearch={text => runSearch(text)} />
+      {/* <SearchHeader getSearch={text => runSearch(text)} /> */}
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),
-          marginTop: Metrix.VerticalSize(20),
+          marginTop: Metrix.VerticalSize(40),
         }}>
         <Text
           style={{

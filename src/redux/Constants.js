@@ -7,3 +7,4 @@ export const SIGNUP = 'SIGNUP';
 export const SIGNOUT = 'SIGNOUT';
 export const SIGNIN = 'SIGNIN';
 export const EDIT_PROFILE = 'EDIT_PROFILE';
+export const CART = 'CART';

@@ -7,58 +7,102 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Colors, Metrix, Images, NavigationService} from '../config';
+import {
+  Colors,
+  Metrix,
+  Images,
+  NavigationService,
+  CommonStyles,
+} from '../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Header from '../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import {Img_url} from '../config/ApiCaller';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+const QuantityComp = ({quantity}) => {
+  const [cartCount, setCartCount] = useState(quantity);
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '30%',
+        alignItems: 'center',
+        paddingHorizontal: Metrix.HorizontalSize(10),
+      }}>
+      <TouchableOpacity
+        onPress={() => {
+          if (cartCount === 0) {
+            return;
+          } else {
+            setCartCount(cartCount - 1);
+          }
+        }}>
+        <FontAwesome name="minus" size={15} color={Colors.primary} />
+      </TouchableOpacity>
+      <Text style={{...CommonStyles.textStyles.intro, color: Colors.primary}}>
+        {cartCount}
+      </Text>
+      <TouchableOpacity
+        onPress={() => {
+          setCartCount(cartCount + 1);
+        }}>
+        <FontAwesome name="plus" size={15} color={Colors.primary} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const Cart = props => {
   const [favPets, setFavPets] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(state => state.AuthReducer.user);
+  const cartData = useSelector(state => state.AuthReducer.cartData);
+  const [cartCount, setCartCount] = useState();
 
-  console.warn(user);
+  // const GetAds = () => {
+  //   dispatch(
+  //     DataBaseMiddleware.GetSellersAds({
+  //       seller_id: user.id,
+  //       callback: res => {
+  //         console.warn('res', res);
+  //         setFavPets(res);
+  //       },
+  //     }),
+  //   );
+  // };
 
-  const GetAds = () => {
-    dispatch(
-      DataBaseMiddleware.GetSellersAds({
-        seller_id: user.id,
-        callback: res => {
-          console.warn('res', res);
-          setFavPets(res);
-        },
-      }),
-    );
-  };
-
-  useEffect(() => {
-    GetAds();
-  }, []);
+  // useEffect(() => {
+  //   GetAds();
+  // }, []);
 
   const renderContent = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          if (item?.pet_pictures) {
-            NavigationService.navigate('SellDetail', {data: item});
-          } else {
-            NavigationService.navigate('PorductDetail', {data: item});
-          }
-        }}
+      <View
         style={{
-          marginVertical: Metrix.VerticalSize(10),
           alignItems: 'center',
           justifyContent: 'center',
+          width: '100%',
+          height: 80,
+          marginVertical: 10
         }}>
         <View style={styles.detailComp}>
-          <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => {
+              if (item?.data?.pet_pictures) {
+                NavigationService.navigate('SellDetail', {data: item.data});
+              } else {
+                NavigationService.navigate('PorductDetail', {data: item.data});
+              }
+            }}
+            style={{flexDirection: 'row', width: '50%'}}>
             <Image
               source={{
-                uri: item?.pet_pictures
-                  ? Img_url + item?.pet_pictures[0]
-                  : Img_url + item?.product_pictures[0],
+                uri: item?.data?.pet_pictures
+                  ? Img_url + item?.data?.pet_pictures[0]
+                  : Img_url + item?.data?.product_pictures[0],
               }}
               style={{
                 borderRadius: 10,
@@ -72,39 +116,16 @@ const Cart = props => {
                   fontWeight: 'bold',
                   fontSize: Metrix.customFontSize(16),
                 }}>
-                {item.name}
+                {item.data.name}
               </Text>
-              {item.mallItem ? (
-                <View style={{flexDirection: 'row', marginVertical: 3}}>
-                  <Entypo name={'back-in-time'} color={Colors.red} size={15} />
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: Metrix.customFontSize(14),
-                      marginLeft: 5,
-                    }}>
-                    Delivery Time:
-                  </Text>
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: Metrix.customFontSize(14),
-                      marginLeft: 5,
-                      color: Colors.blue,
-                    }}>
-                    {item.deliveryTime}
-                  </Text>
-                </View>
-              ) : (
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: Metrix.customFontSize(16),
-                    color: Colors.darkGray,
-                  }}>
-                  {item.category}
-                </Text>
-              )}
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: Metrix.customFontSize(16),
+                  color: Colors.darkGray,
+                }}>
+                {item.data.category}
+              </Text>
               <View style={{flexDirection: 'row'}}>
                 {/* <Entypo name={'location-pin'} color={Colors.green} size={15} /> */}
                 <Text
@@ -112,59 +133,60 @@ const Cart = props => {
                     fontWeight: 'bold',
                     fontSize: Metrix.customFontSize(14),
                     color: Colors.blue,
-                    marginLeft: 5,
+                    // marginLeft: 5,
                   }}>
-                  Rs. {item.price}
+                  Rs. {item.data.price}
                 </Text>
               </View>
             </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+              height: '100%',
+              alignItems: 'center',
+            }}>
+            <QuantityComp quantity={item.quantity} />
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '20%',
+                height: '100%',
+              }}>
+              <TouchableOpacity>
+                <FontAwesome name="trash-o" size={25} color={Colors.red} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <Header />
-      <View
-        style={{
-          marginBottom: Metrix.VerticalSize(10),
-          flexDirection: 'row',
-        }}>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            fontSize: Metrix.customFontSize(25),
-            color: Colors.black,
-          }}>
-          My List
-        </Text>
-      </View>
-      <View
-        style={{
-          marginTop: Metrix.VerticalSize(5),
-          flex: 1,
-        }}>
-        <FlatList
-          data={favPets}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={index => index.toString()}
-          renderItem={item => renderContent(item)}
-          ListEmptyComponent={() => (
-            <View
-              style={{
-                marginVertical: Metrix.VerticalSize(10),
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text style={{color: Colors.black}}>
-                You Don't Have Any Products To Sell.
-              </Text>
-            </View>
-          )}
-        />
-      </View>
+      <Header title={'Cart'} />
+      <FlatList
+        style={{flex: 1}}
+        data={cartData}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={index => index.toString()}
+        renderItem={(item, index) => renderContent(item, index)}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(10),
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text style={{color: Colors.black}}>
+              You Don't Have Any Products To Sell.
+            </Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -187,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: Metrix.HorizontalSize(10),
     paddingVertical: Metrix.HorizontalSize(10),
-    marginVertical: 5,
+    // marginVertical: 5,
     alignItems: 'center',
     // justifyContent: 'center',
     shadowColor: '#000',

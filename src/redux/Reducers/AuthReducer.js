@@ -1,7 +1,8 @@
-import {EDIT_PROFILE, SIGNIN, SIGNOUT, SIGNUP} from '../Constants';
+import {EDIT_PROFILE, SIGNIN, SIGNOUT, SIGNUP, CART} from '../Constants';
 
 const initialState = {
   user: null,
+  cartData: [],
 };
 
 export default function AuthReducer(state = initialState, action) {
@@ -28,6 +29,13 @@ export default function AuthReducer(state = initialState, action) {
       state = {
         ...state,
         user: null,
+        cartData: [],
+      };
+      break;
+    case CART:
+      state = {
+        ...state,
+        cartData: action.payload,
       };
       break;
 
