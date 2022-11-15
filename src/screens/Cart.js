@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import {
   Colors,
@@ -20,6 +21,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import {Img_url} from '../config/ApiCaller';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {AuthAction} from '../redux/Actions';
+import FastImage from 'react-native-fast-image';
 
 const QuantityComp = ({quantity}) => {
   const [cartCount, setCartCount] = useState(quantity);
@@ -61,24 +64,14 @@ const Cart = props => {
   const user = useSelector(state => state.AuthReducer.user);
   const cartData = useSelector(state => state.AuthReducer.cartData);
   const [cartCount, setCartCount] = useState();
+  const [newCartData, setNewCartData] = useState(cartData);
+  const [totalPrice, setTotalPrice] = useState('');
 
-  // const GetAds = () => {
-  //   dispatch(
-  //     DataBaseMiddleware.GetSellersAds({
-  //       seller_id: user.id,
-  //       callback: res => {
-  //         console.warn('res', res);
-  //         setFavPets(res);
-  //       },
-  //     }),
-  //   );
-  // };
+  useEffect(() => {
+    calculateCart();
+  }, [cartData]);
 
-  // useEffect(() => {
-  //   GetAds();
-  // }, []);
-
-  const renderContent = ({item}) => {
+  const renderContent = ({item, index}) => {
     return (
       <View
         style={{
@@ -86,7 +79,7 @@ const Cart = props => {
           justifyContent: 'center',
           width: '100%',
           height: 80,
-          marginVertical: 10
+          marginVertical: 10,
         }}>
         <View style={styles.detailComp}>
           <TouchableOpacity
@@ -98,11 +91,12 @@ const Cart = props => {
               }
             }}
             style={{flexDirection: 'row', width: '50%'}}>
-            <Image
+            <FastImage
               source={{
                 uri: item?.data?.pet_pictures
                   ? Img_url + item?.data?.pet_pictures[0]
                   : Img_url + item?.data?.product_pictures[0],
+                  priority: FastImage.priority.high
               }}
               style={{
                 borderRadius: 10,
@@ -147,7 +141,7 @@ const Cart = props => {
               height: '100%',
               alignItems: 'center',
             }}>
-            <QuantityComp quantity={item.quantity} />
+            <QuantityComp quantity={item.quantity} cartData={cartData}/>
             <View
               style={{
                 alignItems: 'center',
@@ -155,7 +149,11 @@ const Cart = props => {
                 width: '20%',
                 height: '100%',
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  newCartData.splice(index, 1);
+                  dispatch(AuthAction.Cart([...newCartData]));
+                }}>
                 <FontAwesome name="trash-o" size={25} color={Colors.red} />
               </TouchableOpacity>
             </View>
@@ -163,6 +161,19 @@ const Cart = props => {
         </View>
       </View>
     );
+  };
+
+  const calculateCart = () => {
+    var priceArr = [];
+    cartData.map(val => {
+      let price = val?.data?.price * val?.quantity;
+      priceArr.push(price);
+    });
+    const sum = priceArr.reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0);
+    console.log('sum', sum);
+    setTotalPrice(sum);
   };
 
   return (
@@ -182,11 +193,12 @@ const Cart = props => {
               justifyContent: 'center',
             }}>
             <Text style={{color: Colors.black}}>
-              You Don't Have Any Products To Sell.
+              You Don't Have Any Products In Cart.
             </Text>
           </View>
         )}
       />
+        <Text style={{...CommonStyles.textStyles.heading, marginBottom: 100}}>{totalPrice}</Text>
     </View>
   );
 };

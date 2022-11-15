@@ -155,7 +155,7 @@ const Home = ({navigation}) => {
               size={Metrix.customFontSize(28)}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{marginLeft: 20, paddingTop: 5, paddingRight: 5}}
             onPress={() => NavigationService.navigate('Cart')}>
             <AntDesign
@@ -179,7 +179,7 @@ const Home = ({navigation}) => {
                 {cartData?.length > 0 ? `${cartData?.length}` : '0'}
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <OwnerCard />

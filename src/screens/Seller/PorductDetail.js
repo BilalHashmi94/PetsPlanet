@@ -217,13 +217,14 @@ const PetDetail = props => {
             </Text>
           </View>
           {/* Contact ==================>>>>>>>>>>>> */}
-          {/* {user ? (
+
+          {user ? (
             <View style={{marginVertical: Metrix.VerticalSize(10)}}>
               <View style={styles.detailComp}>
                 <View style={{flexDirection: 'row'}}>
                   {data.seller_picture ? (
-                    <Image
-                      source={{uri: Img_url + data.seller_picture}}
+                    <FastImage
+                      source={{uri: Img_url + data.seller_picture, priority: FastImage.priority.high}}
                       style={{
                         borderRadius: 10,
                         height: Metrix.VerticalSize(60),
@@ -254,7 +255,7 @@ const PetDetail = props => {
                         fontSize: Metrix.customFontSize(14),
                         marginVertical: 2,
                       }}>
-                      {data.seller_number}
+                      {data.shopName}
                     </Text>
                     <Text
                       style={{
@@ -262,12 +263,12 @@ const PetDetail = props => {
                         fontSize: Metrix.customFontSize(14),
                         color: Colors.placeholderGray,
                       }}>
-                      Pet Owner
+                      Product Owner
                     </Text>
                   </View>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={{
                       width: 40,
                       height: 40,
@@ -279,7 +280,7 @@ const PetDetail = props => {
                       color={Colors.placeholderGray}
                       size={25}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <TouchableOpacity
                     style={{
                       marginLeft: 10,
@@ -298,9 +299,8 @@ const PetDetail = props => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View> */}
-          {/* ) : ( */}
-          {user ? null : (
+            </View>
+          ) : (
             <Button
               title={'Login to view phone number'}
               onPress={() => NavigationService.resetStack('SignIn')}
@@ -339,7 +339,7 @@ const PetDetail = props => {
           </View>
         </ReactNativeModal>
       </ScrollView>
-      {user ? (
+      {/* {user ? (
         <View
           style={{
             width: '100%',
@@ -392,7 +392,6 @@ const PetDetail = props => {
               <FontAwesome name="plus" size={20} color={Colors.primary} />
             </TouchableOpacity>
           </View>
-          {/* <Button title={'Buy Now'} propStyle={{width: 70, borderRadius: 10, height: 35,}} textStyle={{fontSize: 14}}/> */}
           <Button
             title={'Add To Cart'}
             propStyle={{width: 150, borderRadius: 10, height: 35}}
@@ -407,7 +406,7 @@ const PetDetail = props => {
             }}
           />
         </View>
-      ) : null}
+      ) : null} */}
     </>
   );
 };

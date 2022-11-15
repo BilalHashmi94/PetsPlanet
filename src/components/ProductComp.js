@@ -5,7 +5,7 @@ import {Img_url} from '../config/ApiCaller';
 import FastImage from 'react-native-fast-image';
 
 const ProductComp = ({item}) => {
-  console.warn('Img_url + item?.product_pictures[0]', Img_url + item?.product_pictures[0]);
+  // console.warn('Img_url + item?.product_pictures[0]', Img_url + item?.product_pictures[0]);
   return (
     <TouchableOpacity
       onPress={() => NavigationService.navigate('PorductDetail', {data: item})}
