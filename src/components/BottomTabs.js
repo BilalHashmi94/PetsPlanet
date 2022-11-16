@@ -171,7 +171,7 @@ const BottomTabs = () => {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: 'black',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 10,

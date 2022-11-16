@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     height: Metrix.VerticalSize(180),
     width: '100%',
     backgroundColor: Colors.red,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,

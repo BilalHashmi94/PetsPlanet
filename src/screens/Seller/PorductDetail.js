@@ -224,7 +224,10 @@ const PetDetail = props => {
                 <View style={{flexDirection: 'row'}}>
                   {data.seller_picture ? (
                     <FastImage
-                      source={{uri: Img_url + data.seller_picture, priority: FastImage.priority.high}}
+                      source={{
+                        uri: Img_url + data.seller_picture,
+                        priority: FastImage.priority.high,
+                      }}
                       style={{
                         borderRadius: 10,
                         height: Metrix.VerticalSize(60),
@@ -282,6 +285,9 @@ const PetDetail = props => {
                     />
                   </TouchableOpacity> */}
                   <TouchableOpacity
+                    onPress={() =>
+                      NavigationService.navigate('Chat', {item: data})
+                    }
                     style={{
                       marginLeft: 10,
                       width: 40,
@@ -452,7 +458,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     alignItems: 'center',
     // justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,

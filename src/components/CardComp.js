@@ -16,7 +16,7 @@ const CardComp = ({item}) => {
         backgroundColor: Colors.white,
         marginHorizontal: 10,
         marginVertical: 8,
-        shadowColor: '#000',
+        shadowColor: Colors.black,
         shadowOffset: {
           width: 0,
           height: 2,

@@ -100,7 +100,7 @@ const Shop = props => {
             padding: 12,
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: '#000',
+            shadowColor: Colors.black,
             shadowOffset: {
               width: 0,
               height: 2,

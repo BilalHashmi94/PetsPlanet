@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     padding: 35,
     // alignItems: 'center',
     // justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     alignItems: 'center',
     // justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
