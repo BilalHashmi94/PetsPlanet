@@ -8,104 +8,113 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import gStyle from './../styles';
 import Header from '../../components/Header';
 import {Colors, Metrix} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TextInputComp from '../../components/TextInputComp';
+import IO from 'socket.io-client';
+import {baseUrl} from '../../config/ApiCaller';
 
 export default function Chat({route}) {
   const userData = route?.params?.item;
   const [message, setMessage] = useState('');
   const messageList = useRef();
-  const [messagesData, setMessageData] = useState([
-    {
-      id: '1',
-      message: 'Hi!',
-      messageTime: '3 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '2',
-      message: 'Hey Sam! Good to see you!',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-    {
-      id: '3',
-      message: "How's it going?",
-      messageTime: '5 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '4',
-      message: 'Yeah, good. Working a lot. And you?',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-    {
-      id: '5',
-      message: 'Hi!',
-      messageTime: '3 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '6',
-      message: 'Hey Sam! Good to see you!',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-    {
-      id: '7',
-      message: "How's it going?",
-      messageTime: '5 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '8',
-      message: 'Yeah, good. Working a lot. And you?',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-    {
-      id: '9',
-      message: 'Hi!',
-      messageTime: '3 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '10',
-      message: 'Hey Sam! Good to see you!',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-    {
-      id: '11',
-      message: "How's it going?",
-      messageTime: '5 mins ago',
-      myMessage: false,
-      avatar: userData?.avatar,
-    },
-    {
-      id: '12',
-      message: 'Yeah, good. Working a lot. And you?',
-      messageTime: '5 mins ago',
-      myMessage: true,
-      avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingText, isTypingText] = useState(null);
+  const [loading, setLoading] = useState(false);
+  console.log('userdsta', userData);
+  const [messagesData, setMessageData] = useState([]);
+
+  // [
+  //   {
+  //     id: '1',
+  //     message: 'Hi!',
+  //     messageTime: '3 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '2',
+  //     message: 'Hey Sam! Good to see you!',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  //   {
+  //     id: '3',
+  //     message: "How's it going?",
+  //     messageTime: '5 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '4',
+  //     message: 'Yeah, good. Working a lot. And you?',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  //   {
+  //     id: '5',
+  //     message: 'Hi!',
+  //     messageTime: '3 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '6',
+  //     message: 'Hey Sam! Good to see you!',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  //   {
+  //     id: '7',
+  //     message: "How's it going?",
+  //     messageTime: '5 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '8',
+  //     message: 'Yeah, good. Working a lot. And you?',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  //   {
+  //     id: '9',
+  //     message: 'Hi!',
+  //     messageTime: '3 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '10',
+  //     message: 'Hey Sam! Good to see you!',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  //   {
+  //     id: '11',
+  //     message: "How's it going?",
+  //     messageTime: '5 mins ago',
+  //     myMessage: false,
+  //     avatar: userData?.avatar,
+  //   },
+  //   {
+  //     id: '12',
+  //     message: 'Yeah, good. Working a lot. And you?',
+  //     messageTime: '5 mins ago',
+  //     myMessage: true,
+  //     avatar: 'https://xsgames.co/randomusers/assets/avatars/male/66.jpg',
+  //   },
+  // ]
 
   const sendMesage = () => {
     if (message) {
@@ -134,9 +143,9 @@ export default function Chat({route}) {
         <Text
           style={{
             ...styles.messageText,
-            color: item?.myMessage ? Colors.white : Colors.black,
+            color: item?.myMessage ? Colors.white : Colors.white,
           }}>
-          {item?.message}
+          {item?.text}
         </Text>
       </View>
       <Text
@@ -150,7 +159,7 @@ export default function Chat({route}) {
             ? Metrix.HorizontalSize(40)
             : Metrix.HorizontalSize(0),
         }}>
-        {item?.myMessage && '...'} {item?.messageTime}{' '}
+        {item?.myMessage && '...'} {item?.createdAt}{' '}
         {!item?.myMessage && '...'}
       </Text>
       <View
@@ -171,14 +180,103 @@ export default function Chat({route}) {
   );
 
   useEffect(() => {
-    setTimeout(() => {
-      messageList.current.scrollToIndex({
-        animated: true,
-        index: messagesData?.length - 1,
-        viewPosition: 0,
-      });
-    }, 500);
+    if (messagesData?.length > 0) {
+      setTimeout(() => {
+        messageList.current.scrollToIndex({
+          animated: true,
+          index: messagesData?.length - 1,
+          viewPosition: 0,
+        });
+      }, 500);
+    }
   }, [messagesData?.length]);
+
+  // Socket IO
+
+  const socket = IO(baseUrl, {
+    forceNew: false,
+  });
+
+  console.log('messages=====>>>>>', message);
+  console.log('messageData=====>>>>>', messagesData);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('socket.id', socket.id);
+      console.log('socket.disconnected', socket.disconnected);
+    });
+
+    socket.on('message', message => {
+      setMessageData([...messagesData, message]);
+    });
+
+    socket.on('typing', callback => {
+      console.log('text', callback);
+      if (callback.id != userData.seller_id) {
+        if (callback.istyping) {
+          isTypingText('typing...');
+        } else {
+          isTypingText(null);
+        }
+      } else {
+        isTypingText(null);
+      }
+    });
+
+    joinRoom();
+    console.log(userData.seller_name, isTyping);
+    return () => {
+      console.log('componentWillUnmount');
+      // const {route} = props;
+      // const data = route.params;
+      let data = {
+        id: userData.seller_id,
+        name: userData.seller_name,
+      };
+      socket.emit('leaveroom', data, callback => {});
+    };
+  }, []);
+
+  const joinRoom = async () => {
+    setLoading(true);
+    // const {route} = props;
+    // const data = route.params;
+    let data = {
+      id: userData.seller_id,
+      name: userData.seller_name,
+    };
+    await socket.emit('join', data, error => {});
+    setTimeout(() => {
+      setLoading(false);
+      loadMessages();
+    }, 300);
+  };
+
+  const loadMessages = () => {
+    // const { route } = props
+    // const data = route.params
+    let data = {
+      id: userData.seller_id,
+      name: userData.seller_name,
+    };
+    setLoading(true);
+    socket.emit('loadmessages', data, callback => {
+      if (callback.status) {
+        setMessageData([...messagesData, callback.message]);
+      }
+      setLoading(false);
+    });
+  };
+
+  const onSend = useCallback((message = []) => {
+    var data = messagesData.shift();
+    data.room = props.route.params.id;
+
+    socket.emit('send', data, callback => {
+      // console.log('messages on send', callback)
+      setMessageData([...messagesData, callback.message]);
+    });
+  }, []);
 
   return (
     <View style={gStyle.container}>
@@ -217,7 +315,26 @@ export default function Chat({route}) {
             keyExtractor={item => item?.id}
             showsVerticalScrollIndicator={false}
             renderItem={renderMessages}
-            initialScrollIndex={messagesData?.length - 1}
+            initialScrollIndex={
+              messagesData?.length > 0 ? messagesData?.length - 1 : null
+            }
+            // onScrollToIndexFailed={info => {
+            //   const wait = new Promise(resolve => setTimeout(resolve, 500));
+            //   wait.then(() => {
+            //     messageList.current?.scrollToIndex({
+            //       index: info.index,
+            //       animated: true,
+            //     });
+            //   });
+            // }}
+            onScrollToIndexFailed={({index, averageItemLength}) => {
+              // Layout doesn't know the exact location of the requested element.
+              // Falling back to calculating the destination manually
+              messageList.current?.scrollToOffset({
+                offset: index * averageItemLength,
+                animated: true,
+              });
+            }}
           />
         </View>
       </ScrollView>
@@ -259,7 +376,7 @@ const styles = StyleSheet.create({
     paddingVertical: Metrix.VerticalSize(15),
   },
   messageText: {
-    fontSize: Metrix.customFontSize(12),
+    fontSize: Metrix.customFontSize(16),
     // fontFamily: fonts.Regular
   },
   messageTime: {
