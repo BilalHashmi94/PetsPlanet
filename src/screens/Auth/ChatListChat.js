@@ -1,6 +1,7 @@
 import {
   FlatList,
   Image,
+  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,7 +21,7 @@ import {baseUrl} from '../../config/ApiCaller';
 import {useSelector} from 'react-redux';
 import {log} from 'react-native-reanimated';
 
-export default function Chat({route}) {
+export default function ChatListChat({route}) {
   const userData = route?.params?.item;
   const user = useSelector(state => state.AuthReducer.user);
   const [message, setMessage] = useState('');
@@ -31,7 +32,7 @@ export default function Chat({route}) {
   const [loading, setLoading] = useState(false);
   const [textM, setTextM] = useState('');
   console.log('userdsta', userData);
-  const [messagesData, setMessageData] = useState([]);
+  const [messagesData, setMessageData] = useState(userData?.messages);
   console.log('user', user);
 
   const sendMesage = () => {
@@ -147,14 +148,14 @@ export default function Chat({route}) {
     // });
 
     joinRoom();
-    console.log(userData.seller_name, isTyping);
+    // console.log(userData.seller_name, isTyping);
     return () => {
       console.log('componentWillUnmount');
       // const {route} = props;
       // const data = route.params;
       let data = {
-        id: userData.seller_id,
-        name: userData.seller_name,
+        id: userData.roomId,
+        name: user.firstName,
       };
       socket.emit('leaveroom', data, callback => {});
     };
@@ -165,23 +166,12 @@ export default function Chat({route}) {
     // const {route} = props;
     // const data = route.params;
     let data = {
-      id: userData.seller_id + user.id,
+      id: userData.roomId,
       name: user.firstName,
-      user1Id: user.id,
-      user2Id: userData.seller_id,
-      userData: [
-        {
-          id: userData?.seller_id,
-          name: userData?.seller_name,
-          profilePicture: userData?.seller_picture,
-          shopName: userData?.shopName,
-        },
-        {
-          id: user.id,
-          name: user?.firstName + ' ' + user.lastName,
-          profilePicture: user?.profilePicture,
-        },
-      ],
+      user1Id:
+        userData.users[0] === user.id ? userData.users[0] : userData.users[1],
+      user2Id:
+        userData.users[0] != user.id ? userData.users[0] : userData.users[1],
     };
     await socket.emit('join', data, error => {});
     setTimeout(() => {
@@ -209,7 +199,7 @@ export default function Chat({route}) {
   const onSend = message => {
     var data = {
       text: message,
-      room: userData.seller_id + user.id,
+      room: userData.roomId,
       userID: user.id,
     };
     // data.room = userData.seller_id;
@@ -218,6 +208,8 @@ export default function Chat({route}) {
       console.log('messages on send', data, callback);
       // setMessageData([...messagesData, callback.message]);
     });
+    setTextM('');
+    Keyboard.dismiss();
   };
 
   return (
@@ -229,7 +221,7 @@ export default function Chat({route}) {
           paddingHorizontal: Metrix.HorizontalSize(20),
         }}>
         <Text style={{...gStyle.title, marginVertical: Metrix.VerticalSize(0)}}>
-          {userData?.seller_name}
+          userData?.seller_name
         </Text>
         <Text
           style={{
@@ -237,7 +229,7 @@ export default function Chat({route}) {
             marginVertical: Metrix.VerticalSize(0),
             fontSize: Metrix.customFontSize(14),
           }}>
-          {userData?.shopName}
+          userData?.shopName
         </Text>
       </View>
       <View style={{height: 0.5, backgroundColor: Colors.placeholderGray}} />

@@ -33,6 +33,8 @@ import AllShops from './src/screens/Seller/AllShops';
 import AddProduct from './src/screens/Seller/AddProduct';
 import Cart from './src/screens/Cart';
 import Chat from './src/screens/Auth/Chat';
+import ChatList from './src/screens/Auth/ChatList';
+import ChatListChat from './src/screens/Auth/ChatListChat';
 
 const Stack = createStackNavigator();
 
@@ -116,6 +118,8 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="AddProduct" component={AddProduct} />
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="ChatList" component={ChatList} />
+            <Stack.Screen name="ChatListChat" component={ChatListChat} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
