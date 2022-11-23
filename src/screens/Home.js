@@ -186,7 +186,11 @@ const Home = ({navigation}) => {
       <View style={{marginVertical: Metrix.VerticalSize(10)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
-            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+            style={{
+              fontWeight: 'bold',
+              fontSize: Metrix.customFontSize(18),
+              color: Colors.black,
+            }}>
             Categories
           </Text>
           <TouchableOpacity
@@ -212,7 +216,11 @@ const Home = ({navigation}) => {
       <View style={{marginVertical: Metrix.VerticalSize(5)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
-            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+            style={{
+              fontWeight: 'bold',
+              fontSize: Metrix.customFontSize(18),
+              color: Colors.black,
+            }}>
             Everyone is talking about
           </Text>
           <TouchableOpacity

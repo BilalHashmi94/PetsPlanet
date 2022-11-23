@@ -100,7 +100,10 @@ const PetDetail = props => {
 
   return (
     <>
-      <ScrollView style={styles.container} onLayout={e => onLayout(e)}>
+      <ScrollView
+        style={styles.container}
+        onLayout={e => onLayout(e)}
+        nestedScrollEnabled={true}>
         <View style={styles.imageView}>
           <TouchableOpacity
             onPress={() => NavigationService.goBack()}

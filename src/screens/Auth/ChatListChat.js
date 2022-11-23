@@ -12,14 +12,16 @@ import {
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import gStyle from './../styles';
 import Header from '../../components/Header';
-import {Colors, Metrix} from '../../config';
+import {Colors, Images, Metrix} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TextInputComp from '../../components/TextInputComp';
 import IO from 'socket.io-client';
-import {baseUrl} from '../../config/ApiCaller';
+import {baseUrl, Img_url} from '../../config/ApiCaller';
 import {useSelector} from 'react-redux';
 import {log} from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 
 export default function ChatListChat({route}) {
   const userData = route?.params?.item;
@@ -81,7 +83,7 @@ export default function ChatListChat({route}) {
               ? Metrix.HorizontalSize(40)
               : Metrix.HorizontalSize(0),
         }}>
-        {item?.userID === user?.id && '...'} {item?.createdAt}{' '}
+        {item?.userID === user?.id && '...'} {moment(item?.createdAt).format('hh:mm')}{' '}
         {!item?.userID === user?.id && '...'}
       </Text>
       <View
@@ -220,17 +222,42 @@ export default function ChatListChat({route}) {
           paddingVertical: Metrix.VerticalSize(20),
           paddingHorizontal: Metrix.HorizontalSize(20),
         }}>
-        <Text style={{...gStyle.title, marginVertical: Metrix.VerticalSize(0)}}>
-          userData?.seller_name
-        </Text>
-        <Text
-          style={{
-            ...gStyle.title,
-            marginVertical: Metrix.VerticalSize(0),
-            fontSize: Metrix.customFontSize(14),
-          }}>
-          userData?.shopName
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {userData?.userData[0]?.profilePicture ? (
+            <FastImage
+              source={{
+                uri: Img_url + userData?.userData[0]?.profilePicture,
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+                backgroundColor: Colors.black,
+              }}
+            />
+          ) : (
+            <FastImage
+              source={Images.avatar}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+              }}
+            />
+          )}
+          <Text
+            style={{
+              ...gStyle.title,
+              marginVertical: Metrix.VerticalSize(0),
+              color: Colors.black,
+              marginLeft: 10
+            }}>
+            {userData.userData[0].name}
+          </Text>
+        </View>
       </View>
       <View style={{height: 0.5, backgroundColor: Colors.placeholderGray}} />
       <ScrollView
