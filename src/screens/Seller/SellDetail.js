@@ -10,6 +10,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import TextInputComp from '../../components/TextInputComp';
 import {SliderBox} from 'react-native-image-slider-box';
 import {Img_url} from '../../config/ApiCaller';
+import {useEffect} from 'react';
 
 const SellDetail = props => {
   const data = props.route.params.data;
@@ -17,17 +18,19 @@ const SellDetail = props => {
   const [imagesArray, setImagesArray] = useState([]);
   const [width, setWidth] = useState();
 
-  data.pet_pictures.map(val => {
-    imagesArray.push(Img_url + val);
-  });
-
+  useEffect(() => {
+    data.pet_pictures.map(val => {
+      imagesArray.push(Img_url + val);
+    });
+  }, []);
+  
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
   };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.imageView} onLayout={(e) => onLayout(e)}>
+      <View style={styles.imageView} onLayout={e => onLayout(e)}>
         <TouchableOpacity
           onPress={() => NavigationService.goBack()}
           style={styles.backButton}>

@@ -50,6 +50,7 @@ const Home = ({navigation}) => {
     },
   ];
   const [favPets, setFavPets] = useState();
+  const [chats, setChats] = useState();
   const dispatch = useDispatch();
 
   const getTopPets = () => {
@@ -66,16 +67,35 @@ const Home = ({navigation}) => {
     );
   };
   const cartData = useSelector(state => state.AuthReducer.cartData);
+  const user = useSelector(state => state.AuthReducer.user);
 
   // console.warn('cart', cartData?.length);
 
   useEffect(() => {
     getTopPets();
+    if (user) {
+      GetMyChats();
+    }
   }, []);
+
+  const GetMyChats = () => {
+    dispatch(
+      DataBaseMiddleware.GetMyChats({
+        id: user?.id,
+        callback: res => {
+          setChats(res);
+          console.log('res', res);
+        },
+      }),
+    );
+  };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getTopPets();
+      if (user) {
+        GetMyChats();
+      }
     });
     return unsubscribe;
   }, [navigation]);
@@ -159,7 +179,7 @@ const Home = ({navigation}) => {
             style={{marginLeft: 20, paddingTop: 5, paddingRight: 5}}
             onPress={() => NavigationService.navigate('ChatList')}>
             <AntDesign
-              name="shoppingcart"
+              name="wechat"
               color={Colors.logoDarkGreen}
               size={Metrix.customFontSize(38)}
             />
@@ -176,7 +196,7 @@ const Home = ({navigation}) => {
                 top: 0,
               }}>
               <Text style={{color: Colors.white}}>
-                {cartData?.length > 0 ? `${cartData?.length}` : '0'}
+                {chats?.length > 0 ? `${chats?.length}` : '0'}
               </Text>
             </View>
           </TouchableOpacity>

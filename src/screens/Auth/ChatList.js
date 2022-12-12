@@ -6,6 +6,7 @@ import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
 import Header from '../../components/Header';
 import FastImage from 'react-native-fast-image';
 import {Img_url} from '../../config/ApiCaller';
+import moment from 'moment';
 
 const ChatList = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,10 @@ const ChatList = () => {
         data={data}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => {
+          console.log(
+            'item.messages[item.messages.length - 1]?.createdAt',
+            item.messages[item.messages.length - 1]?.createdAt,
+          );
           return (
             <TouchableOpacity
               onPress={() =>
@@ -42,7 +47,7 @@ const ChatList = () => {
               }
               style={{
                 marginVertical: 20,
-                backgroundColor: 'pink',
+                // backgroundColor: 'pink',
                 height: Metrix.VerticalSize(80),
                 // alignItems: 'center',
                 justifyContent: 'center',
@@ -91,6 +96,17 @@ const ChatList = () => {
                       : {item.messages[item.messages.length - 1].text}
                     </Text>
                   </View>
+                </View>
+                <View style={{justifyContent: 'center'}}>
+                  <Text
+                    style={{
+                      ...CommonStyles.textStyles.intro,
+                      fontSize: Metrix.customFontSize(15),
+                    }}>
+                    {moment(
+                      item.messages[item.messages.length - 1]?.createdAt,
+                    ).fromNow()}
+                  </Text>
                 </View>
               </View>
             </TouchableOpacity>

@@ -23,6 +23,7 @@ import Button from '../../components/Button';
 import ImageSlider from 'react-native-image-slider';
 import FastImage from 'react-native-fast-image';
 import {AuthAction} from '../../redux/Actions';
+import {useEffect} from 'react';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
@@ -42,9 +43,13 @@ const PetDetail = props => {
     setWidth(e.nativeEvent.layout.width);
   };
 
-  propdata?.product_pictures.map(val => {
-    imagesArray.push(Img_url + val);
-  });
+  useEffect(() => {
+    propdata?.product_pictures.map(val => {
+      imagesArray.push(Img_url + val);
+    });
+  }, []);
+
+  console.warn('im', imagesArray.length);
 
   const dispatch = useDispatch();
 

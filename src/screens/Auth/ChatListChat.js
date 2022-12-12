@@ -74,17 +74,16 @@ export default function ChatListChat({route}) {
         style={{
           ...styles.messageTime,
           alignSelf: item?.userID === user?.id ? 'flex-end' : 'flex-start',
-          marginLeft:
-            item?.userID === user?.id
-              ? Metrix.HorizontalSize(40)
-              : Metrix.HorizontalSize(0),
-          marginRight:
-            item?.userID === user?.id
-              ? Metrix.HorizontalSize(40)
-              : Metrix.HorizontalSize(0),
+          // marginLeft:
+          //   item?.userID === user?.id
+          //     ? Metrix.HorizontalSize(40)
+          //     : Metrix.HorizontalSize(0),
+          // marginRight:
+          //   item?.userID === user?.id
+          //     ? Metrix.HorizontalSize(40)
+          //     : Metrix.HorizontalSize(0),
         }}>
-        {item?.userID === user?.id && '...'} {moment(item?.createdAt).format('hh:mm')}{' '}
-        {!item?.userID === user?.id && '...'}
+        {moment(item?.createdAt).fromNow()}
       </Text>
       <View
         style={{
@@ -203,6 +202,7 @@ export default function ChatListChat({route}) {
       text: message,
       room: userData.roomId,
       userID: user.id,
+      createdAt: new Date(),
     };
     // data.room = userData.seller_id;
 
@@ -253,7 +253,7 @@ export default function ChatListChat({route}) {
               ...gStyle.title,
               marginVertical: Metrix.VerticalSize(0),
               color: Colors.black,
-              marginLeft: 10
+              marginLeft: 10,
             }}>
             {userData.userData[0].name}
           </Text>

@@ -7,7 +7,13 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Colors, Images, Metrix, NavigationService} from '../config';
+import {
+  Colors,
+  CommonStyles,
+  Images,
+  Metrix,
+  NavigationService,
+} from '../config';
 import SearchHeader from '../components/SearchHeader';
 import {ScrollView} from 'react-native-gesture-handler';
 import CardComp from '../components/CardComp';
@@ -15,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import Toast from 'react-native-toast-message';
 import ProductComp from '../components/ProductComp';
+import Button from '../components/Button';
 
 const Favourites = ({navigation}) => {
   const runSearch = text => {
@@ -49,13 +56,17 @@ const Favourites = ({navigation}) => {
   };
 
   useEffect(() => {
-    getFav();
+    if (user) {
+      getFav();
+    }
   }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setFavPets([]);
-      getFav();
+      if (user) {
+        getFav();
+      }
     });
     return unsubscribe;
   }, [navigation]);
@@ -71,47 +82,69 @@ const Favourites = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* <SearchHeader getSearch={text => runSearch(text)} /> */}
-      <View
-        style={{
-          marginBottom: Metrix.VerticalSize(10),
-          marginTop: Metrix.VerticalSize(40),
-        }}>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            fontSize: Metrix.customFontSize(25),
-            color: Colors.black,
-          }}>
-          Your Favourites
-        </Text>
-      </View>
-      <View
-        style={{
-          marginTop: Metrix.VerticalSize(5),
-          marginBottom: Metrix.VerticalSize(230),
-        }}>
-        <FlatList
-          data={favPets}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          keyExtractor={index => index.toString()}
-          renderItem={item => renderContent(item)}
-          ListEmptyComponent={() => (
-            <View
+      {user ? (
+        <>
+          <View
+            style={{
+              marginBottom: Metrix.VerticalSize(10),
+              marginTop: Metrix.VerticalSize(40),
+            }}>
+            <Text
               style={{
-                marginVertical: Metrix.VerticalSize(10),
-                alignItems: 'center',
-                justifyContent: 'center',
+                fontWeight: 'bold',
+                fontSize: Metrix.customFontSize(25),
+                color: Colors.black,
               }}>
-              {!loader ? (
-                <Text style={{color: Colors.black}}>
-                  You Don't Have Any Favourites
-                </Text>
-              ) : null}
-            </View>
-          )}
-        />
-      </View>
+              Your Favourites
+            </Text>
+          </View>
+          <View
+            style={{
+              marginTop: Metrix.VerticalSize(5),
+              marginBottom: Metrix.VerticalSize(230),
+            }}>
+            <FlatList
+              data={favPets}
+              showsVerticalScrollIndicator={false}
+              numColumns={2}
+              keyExtractor={index => index.toString()}
+              renderItem={item => renderContent(item)}
+              ListEmptyComponent={() => (
+                <View
+                  style={{
+                    marginVertical: Metrix.VerticalSize(10),
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {!loader ? (
+                    <Text style={{color: Colors.black}}>
+                      You Don't Have Any Favourites
+                    </Text>
+                  ) : null}
+                </View>
+              )}
+            />
+          </View>
+        </>
+      ) : (
+        <View style={{marginTop: 180}}>
+          <Text style={CommonStyles.textStyles.heading}>Login</Text>
+          <Text
+            style={{
+              ...CommonStyles.textStyles.intro,
+              color: Colors.placeholderGray,
+              fontWeight: 'bold',
+              marginVertical: 10,
+            }}>
+            Login to add you favourites and have access to many other features
+          </Text>
+          <Button
+            title={'Login'}
+            propStyle={{marginTop: 30}}
+            onPress={() => NavigationService.resetStack('SignIn')}
+          />
+        </View>
+      )}
     </View>
   );
 };

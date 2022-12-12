@@ -328,10 +328,6 @@ const SignUp = () => {
             'Content-Type': 'multipart/form-data',
           },
         })
-          .then(res => {
-            console.log('respoccc', res);
-            res.json();
-          })
           .then(response => {
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());

@@ -15,6 +15,7 @@ import Toast from 'react-native-toast-message';
 import ReactNativeModal from 'react-native-modal';
 import Button from '../../components/Button';
 import FastImage from 'react-native-fast-image';
+import {useEffect} from 'react';
 
 const PetDetail = props => {
   const propdata = props.route.params.data;
@@ -32,9 +33,11 @@ const PetDetail = props => {
     setWidth(e.nativeEvent.layout.width);
   };
 
-  data.pet_pictures.map(val => {
-    imagesArray.push(Img_url + val);
-  });
+  useEffect(() => {
+    data.pet_pictures.map(val => {
+      imagesArray.push(Img_url + val);
+    });
+  }, []);
 
   const dispatch = useDispatch();
 

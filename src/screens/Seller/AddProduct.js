@@ -162,7 +162,7 @@ const AddProduct = props => {
         description: description,
         lat: lat,
         lng: long,
-        isLiked: user.id,
+        isLiked: null,
         price: price,
         product_pictures: pictures,
         seller_id: seller_id,
@@ -313,12 +313,13 @@ const AddProduct = props => {
               onChange={text => setDescription(text)}
               placeholder={'Enter Here'}
               type={'email-address'}
-              // multi={true}
+              multiline={true}
+              propStyles={{height: 80}}
             />
           </View>
         </View>
 
-        <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+        <View style={{marginVertical: Metrix.VerticalSize(40)}}>
           <View
             style={{
               flexDirection: 'row',

@@ -420,7 +420,7 @@ const RegisterAsDoctor = () => {
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
-              NavigationService.navigate('DoctorsList');
+              NavigationService.resetStack('DoctorsList');
               dispatch(LoaderAction.LoaderFalse());
               Toast.show({
                 type: 'success',

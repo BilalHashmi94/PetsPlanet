@@ -18,4 +18,5 @@ export default Images = {
   sell1: require('../assets/sell1.png'),
   sell2: require('../assets/sell2.png'),
   sell3: require('../assets/sell3.png'),
+  imagePlaceholder: require('../assets/image-placeholder.jpeg'),
 };

@@ -53,7 +53,6 @@
 
 // export default TextInputComp;
 
-
 import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {Colors, CommonStyles, Metrix} from '../config';
@@ -108,8 +107,9 @@ const TextInputComp = ({
       keyboardType={type}
       maxLength={verification ? 1 : time ? 5 : 10000}
       multiline={multiline ? true : false}
-      textAlignVertical={multiline ? 'top' : null}
+      textAlignVertical={multiline ? 'top' : 'center'}
       editable={editableProp ? false : true}
+      numberOfLines={multiline ? 5 : 1}
     />
   );
 };

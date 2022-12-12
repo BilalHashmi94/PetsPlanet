@@ -10,7 +10,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Colors, Metrix, NavigationService} from '../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SearchHeader = ({getSearch = text => {}, back = false, containerStyle}) => {
+const SearchHeader = ({
+  getSearch = text => {},
+  back = false,
+  containerStyle,
+  name,
+}) => {
   const [sendButton, setSendButton] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -25,7 +30,13 @@ const SearchHeader = ({getSearch = text => {}, back = false, containerStyle}) =>
       }}>
       {back ? (
         <TouchableOpacity
-          onPress={() => NavigationService.goBack()}
+          onPress={() => {
+            if (name === 'drList') {
+              NavigationService.navigate('BottomTabs');
+            } else {
+              NavigationService.goBack();
+            }
+          }}
           style={styles.backButton}>
           <Ionicons
             name={'md-chevron-back-outline'}

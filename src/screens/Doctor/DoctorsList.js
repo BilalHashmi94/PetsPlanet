@@ -113,7 +113,7 @@ const DoctorsList = props => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader back={true} />
+      <SearchHeader back={true} name={'drList'}/>
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),

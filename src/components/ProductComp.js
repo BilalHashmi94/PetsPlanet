@@ -5,7 +5,7 @@ import {Img_url} from '../config/ApiCaller';
 import FastImage from 'react-native-fast-image';
 
 const ProductComp = ({item}) => {
-  // console.warn('Img_url + item?.product_pictures[0]', Img_url + item?.product_pictures[0]);
+  // console.warn('Img_url + item?.product_pictures[0]', Img_url + item?.product_pictures);
   return (
     <TouchableOpacity
       onPress={() => NavigationService.navigate('PorductDetail', {data: item})}
@@ -26,18 +26,30 @@ const ProductComp = ({item}) => {
         shadowRadius: 4,
         elevation: 5,
       }}>
-      <FastImage
-        source={{
-          uri: Img_url + item?.product_pictures[0],
-          priority: FastImage.priority.high,
-        }}
-        style={{
-          borderRadius: 15,
-          height: Metrix.VerticalSize(130),
-          width: Metrix.HorizontalSize(140),
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
+      {item?.product_pictures ? (
+        <FastImage
+          source={{
+            uri: Img_url + item?.product_pictures[0],
+            priority: FastImage.priority.high,
+          }}
+          style={{
+            borderRadius: 15,
+            height: Metrix.VerticalSize(130),
+            width: Metrix.HorizontalSize(140),
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+      ) : (
+        <FastImage
+          source={Images.imagePlaceholder}
+          style={{
+            borderRadius: 15,
+            height: Metrix.VerticalSize(130),
+            width: Metrix.HorizontalSize(140),
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+      )}
       <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
         <Text
           numberOfLines={1}
