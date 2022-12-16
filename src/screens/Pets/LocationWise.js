@@ -14,7 +14,7 @@ const LocationWise = props => {
   const getData = () => {
     dispatch(
       DataBaseMiddleware.GetPetByCity({
-        city: user.city,
+        city: user ? user?.city : 'Karachi',
         callback: res => {
           setFavPets(res);
         },
@@ -55,7 +55,7 @@ const LocationWise = props => {
             color: Colors.primary,
             marginLeft: 10,
           }}>
-          {user.city}
+          {user ? user.city : 'Karachi'}
         </Text>
       </View>
       <View

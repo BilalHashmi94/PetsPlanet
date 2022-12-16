@@ -175,31 +175,33 @@ const Home = ({navigation}) => {
               size={Metrix.customFontSize(28)}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity
-            style={{marginLeft: 20, paddingTop: 5, paddingRight: 5}}
-            onPress={() => NavigationService.navigate('ChatList')}>
-            <AntDesign
-              name="wechat"
-              color={Colors.logoDarkGreen}
-              size={Metrix.customFontSize(38)}
-            />
-            <View
-              style={{
-                width: 20,
-                height: 20,
-                backgroundColor: Colors.red,
-                borderRadius: 20 / 2,
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'absolute',
-                right: 0,
-                top: 0,
-              }}>
-              <Text style={{color: Colors.white}}>
-                {chats?.length > 0 ? `${chats?.length}` : '0'}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {user ? (
+            <TouchableOpacity
+              style={{marginLeft: 20, paddingTop: 5, paddingRight: 5}}
+              onPress={() => NavigationService.navigate('ChatList')}>
+              <AntDesign
+                name="wechat"
+                color={Colors.logoDarkGreen}
+                size={Metrix.customFontSize(38)}
+              />
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  backgroundColor: Colors.red,
+                  borderRadius: 20 / 2,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                }}>
+                <Text style={{color: Colors.white}}>
+                  {chats?.length > 0 ? `${chats?.length}` : '0'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
       <OwnerCard />
