@@ -8,7 +8,13 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import {Colors, Images, Metrix, NavigationService} from '../../config';
+import {
+  Colors,
+  CommonStyles,
+  Images,
+  Metrix,
+  NavigationService,
+} from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,17 +22,23 @@ import {useState} from 'react';
 import ProductComp from '../../components/ProductComp';
 import {Img_url} from '../../config/ApiCaller';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import ProgressCircle from 'react-native-progress-circle';
 
 const ShopStore = props => {
-  const data = props.route.params.data;
+  const [data, setData] = useState(props.route.params.data);
+  const user = useSelector(state => state.AuthReducer.user);
   const [width, setWidth] = useState();
   const [numProducts, setNumProducts] = useState('100');
   const [followers, setFollowers] = useState('100');
-  const [likes, setLikes] = useState(data.likes);
-  const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState(data?.likes?.length);
+  const [like, setLike] = useState(
+    data?.likes?.includes(user.id) ? true : false,
+  );
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  let percentage = 0;
+  let likesPercent = 0;
 
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
@@ -35,8 +47,10 @@ const ShopStore = props => {
   const renderContent = ({item}) => {
     return <ProductComp item={item} />;
   };
-  // console.log('data', data);
+  console.log('data', data);
 
+  percentage = (data.numberOfProducts / 100) * 100;
+  likesPercent = (likes / 100) * 100;
   useEffect(() => {
     GetProducts();
   }, []);
@@ -51,6 +65,24 @@ const ShopStore = props => {
       }),
     );
   };
+  const likeShop = () => {
+    setLike(!like);
+    dispatch(
+      DataBaseMiddleware.likeShop({
+        shopId: data.id,
+        userId: user.id,
+        callback: res => {
+          // setData(res);
+          if (like === false) {
+            setLikes(likes + 1);
+          } else {
+            setLikes(likes - 1);
+          }
+        },
+      }),
+    );
+  };
+  // console.warn(user);
 
   const LikeStore = () => {
     setLike(!like);
@@ -96,12 +128,19 @@ const ShopStore = props => {
             justifyContent: 'space-between',
           }}>
           <Text style={styles.textStyle}>{data.shopName}</Text>
-          <TouchableOpacity onPress={() => LikeStore()}>
-            <AntDesign
-              name={like ? 'like1' : 'like2'}
-              size={Metrix.customFontSize(25)}
-            />
-          </TouchableOpacity>
+          {user ? (
+            <TouchableOpacity
+              onPress={() => likeShop()}
+              style={{alignItems: 'center'}}>
+              <AntDesign
+                name={like ? 'like1' : 'like2'}
+                size={Metrix.customFontSize(25)}
+              />
+              <Text style={{textAlign: 'center'}}>
+                {likes} {likes === 1 ? 'like' : 'likes'}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
         <View
           style={{
@@ -115,8 +154,24 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text>{data.numberOfProducts}</Text>
-            <Text>Products</Text>
+            {/* <Text>{data.numberOfProducts}</Text>
+            <Text>Products</Text> */}
+            <ProgressCircle
+              percent={percentage}
+              radius={40}
+              borderWidth={8}
+              color={Colors.green}
+              shadowColor="#999"
+              bgColor="#fff">
+              <Text style={{fontSize: 18}}>{percentage + '%'}</Text>
+            </ProgressCircle>
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                marginTop: Metrix.VerticalSize(10),
+              }}>
+              Products
+            </Text>
           </View>
           <View
             style={{
@@ -132,8 +187,23 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text>{likes}</Text>
-            <Text>Likes</Text>
+            <ProgressCircle
+              percent={likesPercent}
+              radius={40}
+              borderWidth={8}
+              color={Colors.green}
+              shadowColor="#999"
+              bgColor="#fff">
+              <Text style={{fontSize: 18}}>{likesPercent + '%'}</Text>
+            </ProgressCircle>
+
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                marginTop: Metrix.VerticalSize(10),
+              }}>
+              Likes
+            </Text>
           </View>
         </View>
 

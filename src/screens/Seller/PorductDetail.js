@@ -49,7 +49,7 @@ const PetDetail = props => {
     });
   }, []);
 
-  console.warn('im', imagesArray.length);
+  // console.warn('im', data);
 
   const dispatch = useDispatch();
 
@@ -227,59 +227,60 @@ const PetDetail = props => {
           {/* Contact ==================>>>>>>>>>>>> */}
 
           {user ? (
-            <View style={{marginVertical: Metrix.VerticalSize(10)}}>
-              <View style={styles.detailComp}>
-                <View style={{flexDirection: 'row'}}>
-                  {data.seller_picture ? (
-                    <FastImage
-                      source={{
-                        uri: Img_url + data.seller_picture,
-                        priority: FastImage.priority.high,
-                      }}
-                      style={{
-                        borderRadius: 10,
-                        height: Metrix.VerticalSize(60),
-                        width: Metrix.HorizontalSize(60),
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      source={Images.avatar}
-                      style={{
-                        borderRadius: 10,
-                        height: Metrix.VerticalSize(60),
-                        width: Metrix.HorizontalSize(60),
-                      }}
-                    />
-                  )}
-                  <View style={{marginLeft: 10}}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: Metrix.customFontSize(16),
-                      }}>
-                      {data.seller_name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: Metrix.customFontSize(14),
-                        marginVertical: 2,
-                      }}>
-                      {data.shopName}
-                    </Text>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: Metrix.customFontSize(14),
-                        color: Colors.placeholderGray,
-                      }}>
-                      Product Owner
-                    </Text>
+            user.id === data.seller_id ? null : (
+              <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+                <View style={styles.detailComp}>
+                  <View style={{flexDirection: 'row'}}>
+                    {data.seller_picture ? (
+                      <FastImage
+                        source={{
+                          uri: Img_url + data.seller_picture,
+                          priority: FastImage.priority.high,
+                        }}
+                        style={{
+                          borderRadius: 10,
+                          height: Metrix.VerticalSize(60),
+                          width: Metrix.HorizontalSize(60),
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        source={Images.avatar}
+                        style={{
+                          borderRadius: 10,
+                          height: Metrix.VerticalSize(60),
+                          width: Metrix.HorizontalSize(60),
+                        }}
+                      />
+                    )}
+                    <View style={{marginLeft: 10}}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: Metrix.customFontSize(16),
+                        }}>
+                        {data.seller_name}
+                      </Text>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: Metrix.customFontSize(14),
+                          marginVertical: 2,
+                        }}>
+                        {data.shopName}
+                      </Text>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: Metrix.customFontSize(14),
+                          color: Colors.placeholderGray,
+                        }}>
+                        Product Owner
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  {/* <TouchableOpacity
+                  <View style={{flexDirection: 'row'}}>
+                    {/* <TouchableOpacity
                     style={{
                       width: 40,
                       height: 40,
@@ -292,28 +293,29 @@ const PetDetail = props => {
                       size={25}
                     />
                   </TouchableOpacity> */}
-                  <TouchableOpacity
-                    onPress={() =>
-                      NavigationService.navigate('Chat', {item: data})
-                    }
-                    style={{
-                      marginLeft: 10,
-                      width: 40,
-                      height: 40,
-                      borderRadius: 40 / 2,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: Colors.primary,
-                    }}>
-                    <AntDesign
-                      name={'message1'}
-                      color={Colors.white}
-                      size={20}
-                    />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        NavigationService.navigate('Chat', {item: data})
+                      }
+                      style={{
+                        marginLeft: 10,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 40 / 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: Colors.primary,
+                      }}>
+                      <AntDesign
+                        name={'message1'}
+                        color={Colors.white}
+                        size={20}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
+            )
           ) : (
             <Button
               title={'Login to view phone number'}

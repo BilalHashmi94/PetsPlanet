@@ -19,6 +19,7 @@ const SellDetail = props => {
   const [width, setWidth] = useState();
 
   useEffect(() => {
+    // setImagesArray([]);
     data.pet_pictures.map(val => {
       imagesArray.push(Img_url + val);
     });
@@ -27,6 +28,7 @@ const SellDetail = props => {
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
   };
+  console.log(data);
 
   return (
     <ScrollView style={styles.container}>

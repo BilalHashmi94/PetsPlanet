@@ -32,6 +32,7 @@
     "react-native-image-slider-box": "^2.0.7",
     "react-native-maps": "^0.31.1",
     "react-native-modal": "^13.0.1",
+    "react-native-progress-circle": "^2.1.0",
     "react-native-reanimated": "^2.4.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",

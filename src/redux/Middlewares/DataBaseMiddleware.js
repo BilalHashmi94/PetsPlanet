@@ -695,6 +695,37 @@ export class DataBaseMiddleware extends Component {
       });
     };
   }
+  static likeShop({shopId, callback, userId}) {
+    return async dispatch => {
+      const payload = {
+        id: shopId,
+        like: userId,
+      };
+      console.warn('like shop api');
+      dispatch(LoaderAction.LoaderTrue());
+      try {
+        dispatch(LoaderAction.LoaderTrue());
+        let response = await ApiCaller.Post(`shop/likeShop`, payload);
+        console.log('likeShop', response);
+        if (response?.status == 200) {
+          if (response?.data?.isSuccess) {
+            Keyboard.dismiss();
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          } else {
+            dispatch(LoaderAction.LoaderFalse());
+            callback(response?.data);
+          }
+        } else {
+          dispatch(LoaderAction.LoaderFalse());
+          callback(response?.data);
+        }
+      } catch (e) {
+        dispatch(LoaderAction.LoaderFalse());
+        console.log('Error', e);
+      }
+    };
+  }
 }
 
 export default DataBaseMiddleware;

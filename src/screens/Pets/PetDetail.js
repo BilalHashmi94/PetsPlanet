@@ -212,76 +212,82 @@ const PetDetail = props => {
         </View>
         {/* Contact ==================>>>>>>>>>>>> */}
         {user ? (
-          <View style={{marginVertical: Metrix.VerticalSize(10)}}>
-            <View style={styles.detailComp}>
-              <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={{
-                    uri: data.seller_picture
-                      ? Img_url + data.seller_picture
-                      : Images.avatar,
-                  }}
-                  style={{
-                    borderRadius: 10,
-                    height: Metrix.VerticalSize(60),
-                    width: Metrix.HorizontalSize(60),
-                  }}
-                />
-                <View style={{marginLeft: 10}}>
-                  <Text
+          user?.id === data.seller_id ? null : (
+            <View style={{marginVertical: Metrix.VerticalSize(10)}}>
+              <View style={styles.detailComp}>
+                <View style={{flexDirection: 'row'}}>
+                  <Image
+                    source={{
+                      uri: data.seller_picture
+                        ? Img_url + data.seller_picture
+                        : Images.avatar,
+                    }}
                     style={{
-                      fontWeight: 'bold',
-                      fontSize: Metrix.customFontSize(16),
-                    }}>
-                    {data.seller_name}
-                  </Text>
-                  <Text
+                      borderRadius: 10,
+                      height: Metrix.VerticalSize(60),
+                      width: Metrix.HorizontalSize(60),
+                    }}
+                  />
+                  <View style={{marginLeft: 10}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: Metrix.customFontSize(16),
+                      }}>
+                      {data.seller_name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: Metrix.customFontSize(14),
+                        marginVertical: 2,
+                      }}>
+                      {data.seller_number}
+                    </Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: Metrix.customFontSize(14),
+                        color: Colors.placeholderGray,
+                      }}>
+                      Pet Owner
+                    </Text>
+                  </View>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
                     style={{
-                      fontWeight: 'bold',
-                      fontSize: Metrix.customFontSize(14),
-                      marginVertical: 2,
+                      width: 40,
+                      height: 40,
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}>
-                    {data.seller_number}
-                  </Text>
-                  <Text
+                    <Feather
+                      name={'phone-call'}
+                      color={Colors.placeholderGray}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
-                      fontWeight: 'bold',
-                      fontSize: Metrix.customFontSize(14),
-                      color: Colors.placeholderGray,
+                      marginLeft: 10,
+                      width: 40,
+                      height: 40,
+                      borderRadius: 40 / 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: Colors.primary,
                     }}>
-                    Pet Owner
-                  </Text>
+                    <AntDesign
+                      name={'message1'}
+                      color={Colors.white}
+                      size={20}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  style={{
-                    width: 40,
-                    height: 40,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Feather
-                    name={'phone-call'}
-                    color={Colors.placeholderGray}
-                    size={25}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    marginLeft: 10,
-                    width: 40,
-                    height: 40,
-                    borderRadius: 40 / 2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.primary,
-                  }}>
-                  <AntDesign name={'message1'} color={Colors.white} size={20} />
-                </TouchableOpacity>
-              </View>
             </View>
-          </View>
+          )
         ) : (
           <Button
             title={'Login to view phone number'}

@@ -42,7 +42,7 @@ const SellersList = props => {
       <TouchableOpacity
         onPress={() => {
           if (item?.pet_pictures) {
-            NavigationService.navigate('SellDetail', {data: item});
+            NavigationService.navigate('PetDetail', {data: item});
           } else {
             NavigationService.navigate('PorductDetail', {data: item});
           }

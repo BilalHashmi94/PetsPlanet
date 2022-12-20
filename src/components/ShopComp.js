@@ -62,7 +62,7 @@ const ShopComp = ({item}) => {
             // fontSize: Metrix.customFontSize(17),
             fontWeight: 'bold',
           }}>
-          Likes: {item.likes}
+          Likes: {item.likes?.length}
         </Text>
       </View>
     </TouchableOpacity>
