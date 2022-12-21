@@ -17,6 +17,7 @@ import ShopComp from '../components/ShopComp';
 import {useDispatch} from 'react-redux';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import {useEffect} from 'react';
+import {BannerAd, BannerAdSize, TestIds} from '@react-native-admob/admob';
 
 const Shop = props => {
   const [width, setWidth] = useState();
@@ -51,12 +52,6 @@ const Shop = props => {
       color: 'pink',
     },
     {
-      id: 2,
-      name: 'Accesories',
-      image: Images.dog,
-      color: 'lightblue',
-    },
-    {
       id: 3,
       name: 'Houses',
       image: Images.rabbit,
@@ -80,6 +75,18 @@ const Shop = props => {
       image: Images.turtle,
       color: 'tomato',
     },
+    {
+      id: 2,
+      name: 'Accesories',
+      image: Images.dog,
+      color: 'lightblue',
+    },
+    {
+      id: 2,
+      name: 'Medicine',
+      image: Images.dog,
+      color: 'lightblue',
+    },
   ];
 
   const onLayout = e => {
@@ -90,9 +97,16 @@ const Shop = props => {
     return (
       <TouchableOpacity
         onPress={() =>
-          NavigationService.navigate('CategorySearch', {data: item, comingFrom: 'products'})
+          NavigationService.navigate('CategorySearch', {
+            data: item,
+            comingFrom: 'products',
+          })
         }
-        style={{marginHorizontal: 10}}>
+        style={{
+          marginHorizontal: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <View
           style={{
             borderRadius: 20,
@@ -101,6 +115,8 @@ const Shop = props => {
             alignItems: 'center',
             justifyContent: 'center',
             shadowColor: Colors.black,
+            width: Metrix.HorizontalSize(50),
+            height: Metrix.VerticalSize(50),
             shadowOffset: {
               width: 0,
               height: 2,
@@ -113,8 +129,8 @@ const Shop = props => {
             source={item.image}
             style={{
               resizeMode: 'contain',
-              width: Metrix.HorizontalSize(50),
-              height: Metrix.VerticalSize(50),
+              width: Metrix.HorizontalSize(40),
+              height: Metrix.VerticalSize(40),
             }}
           />
         </View>
@@ -124,7 +140,12 @@ const Shop = props => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{color: Colors.primary, fontWeight: 'bold'}}>
+          <Text
+            style={{
+              color: Colors.primary,
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}>
             {item.name}
           </Text>
         </View>
@@ -205,6 +226,10 @@ const Shop = props => {
       <View style={styles.horizontal}>
         <SearchHeader containerStyle={{marginTop: 0}} />
       </View>
+      <View
+        style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+        <BannerAd size={BannerAdSize.LARGE_BANNER} unitId={TestIds.BANNER} />
+      </View>
       <View style={styles.bannerContainer}>
         <View style={styles.bannerView} onLayout={e => onLayout(e)}>
           <SliderBox
@@ -224,8 +249,12 @@ const Shop = props => {
         </View>
       </View>
       <View
+        style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+        <BannerAd size={BannerAdSize.MEDIUM_RECTANGLE} unitId={TestIds.BANNER} />
+      </View>
+      <View
         style={{
-          paddingHorizontal: Metrix.HorizontalSize(20),
+          paddingHorizontal: Metrix.HorizontalSize(5),
           marginBottom: Metrix.VerticalSize(80),
         }}>
         {/* Categories */}
@@ -253,8 +282,9 @@ const Shop = props => {
           </View>
           <FlatList
             data={categoryData}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
+            // showsHorizontalScrollIndicator={false}
+            // horizontal={true}
+            numColumns={4}
             keyExtractor={index => index.toString()}
             renderItem={item => renderItem(item)}
           />
@@ -266,7 +296,7 @@ const Shop = props => {
           <View style={{marginBottom: 15, ...styles.topView}}>
             <Text
               style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
-              Top Selling Products
+              Trending Now
             </Text>
             <TouchableOpacity
               onPress={() => NavigationService.navigate('TopPets')}>
@@ -325,14 +355,16 @@ const Shop = props => {
             style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
             Products
           </Text>
-          <FlatList
-            data={allProducts}
-            showsVerticalScrollIndicator={false}
-            // horizontal={true}
-            numColumns={2}
-            keyExtractor={index => index.toString()}
-            renderItem={item => renderContent(item)}
-          />
+          <View style={{alignItems: 'center'}}>
+            <FlatList
+              data={allProducts}
+              showsVerticalScrollIndicator={false}
+              // horizontal={true}
+              numColumns={2}
+              keyExtractor={index => index.toString()}
+              renderItem={item => renderContent(item)}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -345,7 +377,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   horizontal: {
-    paddingHorizontal: Metrix.HorizontalSize(20),
+    paddingHorizontal: Metrix.HorizontalSize(10),
   },
   bannerView: {
     width: '90%',

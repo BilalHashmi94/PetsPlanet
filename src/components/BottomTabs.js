@@ -9,6 +9,7 @@ import Profile from '../screens/Profile';
 import {Colors, Metrix} from '../config';
 import Favourites from '../screens/Favourites';
 import {useSelector} from 'react-redux';
+import {BannerAd, BannerAdSize, TestIds} from '@react-native-admob/admob';
 
 const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -148,21 +149,21 @@ const BottomTabs = () => {
           }}
         />
         {/* {user ? ( */}
-          <Tab.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              tabBarIcon: ({focused}) => (
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                  <FontAwesome
-                    name={'user'}
-                    size={25}
-                    color={focused ? '#CCCCFF' : Colors.logoGreen}
-                  />
-                </View>
-              ),
-            }}
-          />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <FontAwesome
+                  name={'user'}
+                  size={25}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
+                />
+              </View>
+            ),
+          }}
+        />
         {/* ) : null} */}
       </Tab.Navigator>
     </>

@@ -15,6 +15,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import DoctorCard from '../components/DoctorCard';
 import DataBaseMiddleware from '../redux/Middlewares/DataBaseMiddleware';
 import {useDispatch, useSelector} from 'react-redux';
+import {BannerAd, BannerAdSize, TestIds} from '@react-native-admob/admob';
 
 const Home = ({navigation}) => {
   const categoryData = [
@@ -204,6 +205,9 @@ const Home = ({navigation}) => {
           ) : null}
         </View>
       </View>
+      <View>
+        <BannerAd size={BannerAdSize.BANNER} unitId={TestIds.BANNER} />
+      </View>
       <OwnerCard />
       <View style={{marginVertical: Metrix.VerticalSize(10)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
@@ -234,6 +238,9 @@ const Home = ({navigation}) => {
           keyExtractor={index => index.toString()}
           renderItem={item => renderItem(item)}
         />
+      </View>
+      <View>
+        <BannerAd size={BannerAdSize.BANNER} unitId={TestIds.BANNER} />
       </View>
       <View style={{marginVertical: Metrix.VerticalSize(5)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
