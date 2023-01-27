@@ -1,6 +1,12 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Images, Metrix, NavigationService} from '../../config';
+import {
+  Colors,
+  CommonStyles,
+  Images,
+  Metrix,
+  NavigationService,
+} from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -22,6 +28,7 @@ const PetDetail = props => {
   const [data, setData] = useState(propdata);
   const [selectedImage, setSelectedImage] = useState(propdata);
   const [mediaModal, setMediaModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const user = useSelector(state => state.AuthReducer.user);
   const [petLiked, setPetLiked] = useState(
     user ? (data?.isLiked?.includes(user.id) ? true : false) : false,
@@ -86,6 +93,29 @@ const PetDetail = props => {
         }),
       );
     }
+  };
+
+  const DeleteAdFunc = () => {
+    let payload = {
+      _id: data._id,
+    };
+    dispatch(
+      DataBaseMiddleware.DeleteAd({
+        body: payload,
+        callback: res => {
+          console.warn('resss', res);
+          if (res === 'success') {
+            setDeleteModal(false);
+            NavigationService.resetStack('BottomTabs');
+            Toast.show({
+              text1: 'Ad Deleted Successfully',
+              type: 'success',
+              position: 'bottom',
+            });
+          }
+        },
+      }),
+    );
   };
 
   return (
@@ -212,7 +242,15 @@ const PetDetail = props => {
         </View>
         {/* Contact ==================>>>>>>>>>>>> */}
         {user ? (
-          user?.id === data.seller_id ? null : (
+          user?.id === data.seller_id ? (
+            <View>
+              <Button
+                title={'Delete Ad'}
+                backColor={Colors.red}
+                onPress={() => setDeleteModal(true)}
+              />
+            </View>
+          ) : (
             <View style={{marginVertical: Metrix.VerticalSize(10)}}>
               <View style={styles.detailComp}>
                 <View style={{flexDirection: 'row'}}>
@@ -322,6 +360,68 @@ const PetDetail = props => {
               source={{uri: imagesArray[selectedImage]}}
               style={{resizeMode: 'contain', width: '100%', height: '100%'}}
               resizeMode={FastImage.resizeMode.contain}
+            />
+          </View>
+        </View>
+      </ReactNativeModal>
+      <ReactNativeModal
+        isVisible={deleteModal}
+        style={{margin: 0, alignItems: 'center'}}>
+        <View
+          style={{
+            width: '70%',
+            // height: '100%',
+            backgroundColor: Colors.white,
+            padding: 10,
+            // alignItems: 'center',
+            borderRadius: 20,
+          }}>
+          <TouchableOpacity
+            onPress={() => setDeleteModal(false)}
+            style={{
+              // position: 'absolute',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+              right: 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 99999,
+            }}>
+            <View></View>
+            <View></View>
+            <AntDesign name="close" color={Colors.black} size={25} />
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: Metrix.VerticalSize(10),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text style={CommonStyles.textStyles.heading}>Warning</Text>
+          </View>
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(20),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                color: Colors.darkGray,
+                textAlign: 'center',
+              }}>
+              Are you sure you want to delete this ad
+            </Text>
+          </View>
+          <View style={{marginVertical: 10}}>
+            <Button
+              title={'Delete '}
+              backColor={Colors.red}
+              onPress={() => {
+                DeleteAdFunc();
+              }}
+              propStyle={{borderRadius: 10}}
             />
           </View>
         </View>

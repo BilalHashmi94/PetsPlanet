@@ -38,6 +38,7 @@ const PetDetail = props => {
   const [imagesArray, setImagesArray] = useState([]);
   const [cartCount, setCartCount] = useState(1);
   const cartData = useSelector(state => state.AuthReducer.cartData);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const onLayout = e => {
     setWidth(e.nativeEvent.layout.width);
@@ -98,6 +99,29 @@ const PetDetail = props => {
         }),
       );
     }
+  };
+
+  const DeleteAdFunc = () => {
+    let payload = {
+      _id: data._id,
+    };
+    dispatch(
+      DataBaseMiddleware.DeleteAd({
+        body: payload,
+        callback: res => {
+          console.warn('resss', res);
+          if (res === 'success') {
+            setDeleteModal(false);
+            NavigationService.resetStack('BottomTabs');
+            Toast.show({
+              text1: 'Ad Deleted Successfully',
+              type: 'success',
+              position: 'bottom',
+            });
+          }
+        },
+      }),
+    );
   };
 
   // console.warn('data', imagesArray[selectedImage]);
@@ -227,7 +251,15 @@ const PetDetail = props => {
           {/* Contact ==================>>>>>>>>>>>> */}
 
           {user ? (
-            user.id === data.seller_id ? null : (
+            user.id === data.seller_id ? (
+              <View>
+                <Button
+                  title={'Delete Ad'}
+                  backColor={Colors.red}
+                  onPress={() => setDeleteModal(true)}
+                />
+              </View>
+            ) : (
               <View style={{marginVertical: Metrix.VerticalSize(10)}}>
                 <View style={styles.detailComp}>
                   <View style={{flexDirection: 'row'}}>
@@ -423,6 +455,68 @@ const PetDetail = props => {
           />
         </View>
       ) : null} */}
+      <ReactNativeModal
+        isVisible={deleteModal}
+        style={{margin: 0, alignItems: 'center'}}>
+        <View
+          style={{
+            width: '70%',
+            // height: '100%',
+            backgroundColor: Colors.white,
+            padding: 10,
+            // alignItems: 'center',
+            borderRadius: 20,
+          }}>
+          <TouchableOpacity
+            onPress={() => setDeleteModal(false)}
+            style={{
+              // position: 'absolute',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+              right: 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 99999,
+            }}>
+            <View></View>
+            <View></View>
+            <AntDesign name="close" color={Colors.black} size={25} />
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: Metrix.VerticalSize(10),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text style={CommonStyles.textStyles.heading}>Warning</Text>
+          </View>
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(20),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                color: Colors.darkGray,
+                textAlign: 'center',
+              }}>
+              Are you sure you want to delete this ad
+            </Text>
+          </View>
+          <View style={{marginVertical: 10}}>
+            <Button
+              title={'Delete '}
+              backColor={Colors.red}
+              onPress={() => {
+                DeleteAdFunc();
+              }}
+              propStyle={{borderRadius: 10}}
+            />
+          </View>
+        </View>
+      </ReactNativeModal>
     </>
   );
 };
