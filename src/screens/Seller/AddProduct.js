@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState, createRef} from 'react';
-import {Colors, Metrix, NavigationService} from '../../config';
+import {Colors, CommonStyles, Metrix, NavigationService} from '../../config';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
@@ -22,6 +22,9 @@ import GetLocation from 'react-native-get-location';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import ReactNativeModal from 'react-native-modal';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Button from '../../components/Button';
 
 const actionSheetRef = createRef();
 const actionSheetRefRemove = createRef();
@@ -35,6 +38,7 @@ const AddProduct = props => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [isTopEnabled, setIsTopEnabled] = useState(false);
+  const [limitModal, setLimitModal] = useState(false);
   const [lat, setLat] = useState();
   const [long, setLong] = useState();
   const toggleSwitch = () => setIsTopEnabled(previousState => !previousState);
@@ -75,7 +79,7 @@ const AddProduct = props => {
           // this.setState({profilePicture: file});
           // setProfilePic(file)
           // pictures.push(file);
-          setPictures([...pictures, file])
+          setPictures([...pictures, file]);
         })
         .catch(err => {
           console.warn('Error', err);
@@ -171,6 +175,12 @@ const AddProduct = props => {
         seller_picture: seller_picture,
         shopIdentifier: shopIdentifier,
         topPet: isTopEnabled,
+        callback: res => {
+          console.log('callback res', res);
+          if (res.status === 280) {
+            setLimitModal(true);
+          }
+        },
       }),
     );
   };
@@ -397,6 +407,69 @@ const AddProduct = props => {
           }
         }}
       />
+      <ReactNativeModal
+        isVisible={limitModal}
+        style={{margin: 0, alignItems: 'center'}}>
+        <View
+          style={{
+            width: '70%',
+            // height: '100%',
+            backgroundColor: Colors.white,
+            padding: 10,
+            // alignItems: 'center',
+            borderRadius: 20,
+          }}>
+          <TouchableOpacity
+            onPress={() => setLimitModal(false)}
+            style={{
+              // position: 'absolute',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+              right: 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 99999,
+            }}>
+            <View></View>
+            <View></View>
+            <AntDesign name="close" color={Colors.black} size={25} />
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: Metrix.VerticalSize(10),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text style={CommonStyles.textStyles.heading}>Hey!</Text>
+          </View>
+          <View
+            style={{
+              marginVertical: Metrix.VerticalSize(20),
+              alignItems: 'center',
+              paddingHorizontal: Metrix.HorizontalSize(20),
+            }}>
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                color: Colors.darkGray,
+                textAlign: 'center',
+              }}>
+              Don't worry! Your ad reached its limit. You can extend you limit
+              to 5 more ads just for Rs.1000.
+            </Text>
+          </View>
+          <View style={{marginVertical: 10}}>
+            <Button
+              title={'Buy Now'}
+              onPress={() => {
+                // DeleteAdFunc();
+                setLimitModal(false);
+              }}
+              propStyle={{borderRadius: 10}}
+            />
+          </View>
+        </View>
+      </ReactNativeModal>
     </ScrollView>
   );
 };

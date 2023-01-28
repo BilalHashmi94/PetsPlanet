@@ -640,16 +640,29 @@ export class DataBaseMiddleware extends Component {
             if (response?.status == 200) {
               NavigationService.resetStack('BottomTabs');
               dispatch(LoaderAction.LoaderFalse());
+            } else if (response?.status == 280) {
+              Toast.show({
+                type: 'error',
+                text1: 'Alert',
+                text2: 'Your ad available limits have been reached.',
+                position: 'bottom',
+              });
+              dispatch(LoaderAction.LoaderFalse());
             } else {
               Toast.show({
-                type: 'success',
+                type: 'error',
                 text1: 'Alert',
-                text2: 'Somthing went wrong! Please try again later',
+                text2: 'Something went wrong!',
                 position: 'bottom',
               });
               dispatch(LoaderAction.LoaderFalse());
             }
+            callback(response);
             resolve();
+            return response.json();
+          })
+          .then(res => {
+            console.log('then resposnsms ======>>>>>', res);
           })
           .catch(e => {
             dispatch(LoaderAction.LoaderFalse());

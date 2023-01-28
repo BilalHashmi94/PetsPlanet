@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Keyboard} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {ApiCaller, NavigationService} from '../../config';
+import {baseUrl} from '../../config/ApiCaller';
 import {ToastError, ToastSuccess} from '../../config/Constants';
 import {AuthAction, LoaderAction} from '../Actions';
 
@@ -195,8 +196,10 @@ export class AuthMiddleware extends Component {
       formData.append('email', email);
       formData.append('password', password);
       formData.append('phoneNumber', phone);
+      formData.append('availableAds', 5);
+      formData.append('currentAds', 0);
       dispatch(LoaderAction.LoaderTrue());
-      fetch('http://localhost:8000/users/register', {
+      fetch(`${baseUrl}/users/register`, {
         method: 'POST',
         body: formData,
       })
@@ -401,7 +404,9 @@ export class AuthMiddleware extends Component {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get(`allPets/getDocByCity/?city=${city}`);
+        let response = await ApiCaller.Get(
+          `allPets/getDocByCity/?city=${city}`,
+        );
         console.log('Verify Register Response', response);
         if (response?.status == 200) {
           dispatch(LoaderAction.LoaderFalse());

@@ -316,6 +316,8 @@ const SignUp = () => {
       formData.append('lng', null);
       formData.append('shopIdentifier', null);
       formData.append('userType', 'user');
+      formData.append('availableAds', 5);
+      formData.append('currentAds', 0);
 
       console.log('formm', formData);
       dispatch(LoaderAction.LoaderTrue());

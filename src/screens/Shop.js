@@ -103,9 +103,11 @@ const Shop = props => {
           })
         }
         style={{
-          marginHorizontal: 10,
+          marginHorizontal: Metrix.HorizontalSize(5),
+          marginVertical: Metrix.VerticalSize(5),
           alignItems: 'center',
           justifyContent: 'center',
+          width: '21%',
         }}>
         <View
           style={{
@@ -250,7 +252,10 @@ const Shop = props => {
       </View>
       <View
         style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-        <BannerAd size={BannerAdSize.MEDIUM_RECTANGLE} unitId={TestIds.BANNER} />
+        <BannerAd
+          size={BannerAdSize.MEDIUM_RECTANGLE}
+          unitId={TestIds.BANNER}
+        />
       </View>
       <View
         style={{
