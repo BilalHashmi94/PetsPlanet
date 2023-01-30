@@ -25,6 +25,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ReactNativeModal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../../components/Button';
+import {AuthAction} from '../../redux/Actions';
+import {ToastError, ToastSuccess} from '../../config/Constants';
 
 const actionSheetRef = createRef();
 const actionSheetRefRemove = createRef();
@@ -188,6 +190,27 @@ const AddProduct = props => {
   const RemovePic = () => {
     pictures.splice(selectedPicIdex, 1);
     setPictures([...pictures]);
+  };
+
+  const BuyExtension = () => {
+    let payload = {
+      _id: user.id,
+      limit: 5,
+    };
+    dispatch(
+      DataBaseMiddleware.BuyExtension({
+        body: payload,
+        callback: res => {
+          if (res) {
+            console.log('res', res);
+            dispatch(AuthAction.Signin(res));
+            setLimitModal(false);
+          } else {
+            Toast.show(ToastError('Please Contact Our Support Team'));
+          }
+        },
+      }),
+    );
   };
 
   const renderItem = ({item, index}) => {
@@ -463,7 +486,8 @@ const AddProduct = props => {
               title={'Buy Now'}
               onPress={() => {
                 // DeleteAdFunc();
-                setLimitModal(false);
+                BuyExtension();
+                // setLimitModal(false);
               }}
               propStyle={{borderRadius: 10}}
             />

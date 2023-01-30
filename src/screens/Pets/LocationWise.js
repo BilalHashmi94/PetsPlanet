@@ -32,7 +32,25 @@ const LocationWise = props => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader back={true} />
+      <SearchHeader
+        back={true}
+        getSearch={text => {
+          if (text === '') {
+            getData();
+          } else {
+            setFavPets([]);
+            let searchItem = text.toLowerCase();
+            const filterData = favPets.filter(
+              val =>
+                val.name.toLowerCase().includes(searchItem) ||
+                val.category.toLowerCase().includes(searchItem) ||
+                val.city.toLowerCase().includes(searchItem) ||
+                val.breed.toLowerCase().includes(searchItem),
+            );
+            setFavPets(filterData);
+          }
+        }}
+      />
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),

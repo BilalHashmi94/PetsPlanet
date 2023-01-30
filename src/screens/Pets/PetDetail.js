@@ -47,6 +47,7 @@ const PetDetail = props => {
   }, []);
 
   const dispatch = useDispatch();
+  console.warn('data', data);
 
   const likeAd = () => {
     if (petLiked) {
@@ -307,6 +308,9 @@ const PetDetail = props => {
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
+                    onPress={() =>
+                      NavigationService.navigate('Chat', {item: data})
+                    }
                     style={{
                       marginLeft: 10,
                       width: 40,

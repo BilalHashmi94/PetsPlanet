@@ -1,8 +1,16 @@
-import {View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import {Colors, Images, Metrix, NavigationService} from '../config';
 import {Img_url} from '../config/ApiCaller';
 import FastImage from 'react-native-fast-image';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const ShopComp = ({item}) => {
   return (
@@ -10,10 +18,10 @@ const ShopComp = ({item}) => {
       onPress={() => NavigationService.navigate('ShopStore', {data: item})}
       style={{
         borderRadius: 20,
-        height: Metrix.VerticalSize(220),
-        width: Metrix.HorizontalSize(150),
-        padding: 5,
-        backgroundColor: Colors.white,
+        height: Metrix.VerticalSize(150),
+        width: Metrix.HorizontalSize(250),
+        // padding: 5,
+        backgroundColor: Colors.black,
         marginHorizontal: 10,
         marginVertical: 8,
         shadowColor: Colors.black,
@@ -32,16 +40,22 @@ const ShopComp = ({item}) => {
         }}
         style={{
           borderRadius: 15,
-          height: Metrix.VerticalSize(130),
-          width: Metrix.HorizontalSize(140),
+          height: '100%',
+          width: '100%',
         }}
         resizeMode={FastImage.resizeMode.cover}
       />
-      <View style={{paddingHorizontal: 5, paddingVertical: 10}}>
+      <View
+        style={{
+          paddingHorizontal: 10,
+          paddingVertical: 10,
+          position: 'absolute',
+          bottom: 0,
+        }}>
         <Text
           numberOfLines={1}
           style={{
-            color: Colors.black,
+            color: Colors.white,
             fontSize: Metrix.customFontSize(17),
             fontWeight: 'bold',
           }}>
@@ -49,20 +63,43 @@ const ShopComp = ({item}) => {
         </Text>
         <Text
           style={{
-            color: Colors.placeholderGray,
+            color: Colors.white,
             // fontSize: Metrix.customFontSize(17),
             marginVertical: 3,
             fontWeight: 'bold',
           }}>
           Products: {item.numberOfProducts}
         </Text>
-        <Text
+        {/* <Text
           style={{
             color: Colors.primary,
             // fontSize: Metrix.customFontSize(17),
             fontWeight: 'bold',
           }}>
           Likes: {item.likes?.length}
+        </Text> */}
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 8,
+          paddingVertical: 3,
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          backgroundColor: Colors.white,
+          margin: 10,
+          borderRadius: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <FontAwesome name={'heart'} color={Colors.red} size={20} />
+        <Text
+          style={{
+            color: Colors.primary,
+            fontSize: Metrix.customFontSize(10),
+            fontWeight: 'bold',
+          }}>
+          {item.likes?.length}
         </Text>
       </View>
     </TouchableOpacity>

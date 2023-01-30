@@ -55,11 +55,11 @@ const Favourites = ({navigation}) => {
     );
   };
 
-  useEffect(() => {
-    if (user) {
-      getFav();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     getFav();
+  //   }
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -101,7 +101,7 @@ const Favourites = ({navigation}) => {
           <View
             style={{
               marginTop: Metrix.VerticalSize(5),
-              marginBottom: Metrix.VerticalSize(230),
+              marginBottom: Metrix.VerticalSize(160),
             }}>
             <FlatList
               data={favPets}

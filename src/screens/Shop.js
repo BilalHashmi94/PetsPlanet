@@ -226,7 +226,20 @@ const Shop = props => {
         />
       </View>
       <View style={styles.horizontal}>
-        <SearchHeader containerStyle={{marginTop: 0}} />
+        <SearchHeader
+          containerStyle={{marginTop: 0}}
+          getSearch={text => {
+            let searchItem = text.toLowerCase();
+            const data = allProducts.filter(
+              val =>
+                val.name.toLowerCase().includes(searchItem) ||
+                val.category.toLowerCase().includes(searchItem) ||
+                val.city.toLowerCase().includes(searchItem) ||
+                val.shopName.toLowerCase().includes(searchItem),
+            );
+            NavigationService.navigate('SearchResults', {data: data});
+          }}
+        />
       </View>
       <View
         style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>

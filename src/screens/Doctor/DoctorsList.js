@@ -26,9 +26,9 @@ const DoctorsList = props => {
   useEffect(() => {
     getDoc();
   }, []);
-  console.warn('user', user);
 
   const getDoc = () => {
+    setData([]);
     dispatch(
       AuthMiddleware.GetDoctors({
         city: user?.city,
@@ -53,7 +53,10 @@ const DoctorsList = props => {
           <View style={{flexDirection: 'row'}}>
             {item?.profilePicture ? (
               <FastImage
-                source={{uri: Img_url + item?.profilePicture, priority: FastImage.priority.high,}}
+                source={{
+                  uri: Img_url + item?.profilePicture,
+                  priority: FastImage.priority.high,
+                }}
                 style={{
                   borderRadius: 10,
                   height: Metrix.VerticalSize(60),
@@ -113,7 +116,29 @@ const DoctorsList = props => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader back={true} name={'drList'}/>
+      <SearchHeader
+        back={true}
+        name={'drList'}
+        getSearch={text => {
+          if (text === '') {
+            getDoc();
+          } else {
+            setData([]);
+            let searchItem = text.toLowerCase();
+            const filterData = data.filter(
+              val =>
+                val.firstName.toLowerCase().includes(searchItem) ||
+                val.clinicName.toLowerCase().includes(searchItem) ||
+                val.lastName.toLowerCase().includes(searchItem) ||
+                val.city.toLowerCase().includes(searchItem) ||
+                val.addressLineOne.toLowerCase().includes(searchItem) ||
+                val.addressLineTwo.toLowerCase().includes(searchItem) ||
+                val.town.toLowerCase().includes(searchItem),
+            );
+            setData(filterData);
+          }
+        }}
+      />
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),

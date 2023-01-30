@@ -27,8 +27,9 @@ const SearchHeader = ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         ...containerStyle,
+        alignItems: 'center',
       }}>
-      {back ? (
+      {/* {back ? (
         <TouchableOpacity
           onPress={() => {
             if (name === 'drList') {
@@ -44,7 +45,7 @@ const SearchHeader = ({
             size={Metrix.customFontSize(25)}
           />
         </TouchableOpacity>
-      ) : null}
+      ) : null} */}
       <View
         style={{
           paddingRight: Metrix.HorizontalSize(20),
@@ -52,7 +53,7 @@ const SearchHeader = ({
           ...styles.searchBar,
           borderColor: sendButton ? Colors.logoGreen : Colors.placeholderGray,
           borderWidth: sendButton ? 2 : 1,
-          width: back ? '85%' : '100%',
+          width: back ? '85%' : '85%',
         }}>
         <TextInput
           value={search}
@@ -63,13 +64,15 @@ const SearchHeader = ({
           onFocus={() => setSendButton(true)}
           onBlur={() => setSendButton(false)}
         />
+      </View>
+      <View style={{ flex: 1, alignItems: 'center'}}>
         <TouchableOpacity onPress={() => getSearch(search)}>
           <AntDesign
             name={'search1'}
             color={
               sendButton || search ? Colors.logoGreen : Colors.placeholderGray
             }
-            size={sendButton ? 25 : 20}
+            size={sendButton ? 40 : 40}
           />
         </TouchableOpacity>
       </View>

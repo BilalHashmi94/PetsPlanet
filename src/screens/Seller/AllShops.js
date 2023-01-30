@@ -43,7 +43,7 @@ const AllShops = props => {
             fontSize: Metrix.customFontSize(25),
             color: Colors.black,
           }}>
-          Our Top Pets
+          Our Shops
         </Text>
       </View>
       <View
@@ -54,7 +54,7 @@ const AllShops = props => {
         <FlatList
           data={allShops}
           showsVerticalScrollIndicator={false}
-          numColumns={2}
+          // numColumns={2}
           keyExtractor={index => index.toString()}
           renderItem={item => renderContent(item)}
           ListEmptyComponent={() => (

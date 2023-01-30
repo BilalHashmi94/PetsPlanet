@@ -33,7 +33,7 @@ const ShopStore = props => {
   const [followers, setFollowers] = useState('100');
   const [likes, setLikes] = useState(data?.likes?.length);
   const [like, setLike] = useState(
-    data?.likes?.includes(user.id) ? true : false,
+    user ? data?.likes?.includes(user?.id) ? true : false : false,
   );
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -69,8 +69,8 @@ const ShopStore = props => {
     setLike(!like);
     dispatch(
       DataBaseMiddleware.likeShop({
-        shopId: data.id,
-        userId: user.id,
+        shopId: data?.id,
+        userId: user?.id,
         callback: res => {
           // setData(res);
           if (like === false) {
