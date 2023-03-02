@@ -9,7 +9,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../components/Button';
 import TextInputComp from '../../components/TextInputComp';
 import {
@@ -63,6 +63,7 @@ const RegisterAsDoctor = () => {
   const [town, setTown] = useState('');
   const [openAt, setOpenAt] = useState(new Date());
   const [closeAt, setCloseAt] = useState(new Date());
+  const user = useSelector(state => state.AuthReducer.user);
 
   // const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
   // const latLng = `${lat},${long}`;
@@ -325,14 +326,16 @@ const RegisterAsDoctor = () => {
   };
 
   const Register = async () => {
-    if (!email) {
-      Toast.show({
-        type: 'success',
-        text1: 'Alert',
-        text2: 'Email is required',
-        position: 'bottom',
-      });
-    } else if (!firstName) {
+    // if (!email) {
+    //   Toast.show({
+    //     type: 'success',
+    //     text1: 'Alert',
+    //     text2: 'Email is required',
+    //     position: 'bottom',
+    //   });
+    // }
+    // else
+    if (!firstName) {
       Toast.show({
         type: 'success',
         text1: 'Alert',
@@ -386,7 +389,7 @@ const RegisterAsDoctor = () => {
       formData.append('file', profilePic);
       formData.append('firstName', firstName);
       formData.append('lastName', lastName);
-      formData.append('email', email);
+      formData.append('email', user?.email + '/doctor');
       formData.append('password', 'password');
       formData.append('phoneNumber', phone);
       formData.append('city', city);
@@ -403,6 +406,8 @@ const RegisterAsDoctor = () => {
       formData.append('shopIdentifier', null);
       formData.append('openAt', moment(openAt).format('hh:mm a'));
       formData.append('closeAt', moment(closeAt).format('hh:mm a'));
+      formData.append('availableAds', 0);
+      formData.append('currentAds', 0);
       console.log('formm', formData);
       dispatch(LoaderAction.LoaderTrue());
       return new Promise((resolve, reject) => {
@@ -415,12 +420,35 @@ const RegisterAsDoctor = () => {
           },
         })
           .then(response => {
-            console.log('respoccc', response);
-            response.json();
-            console.log('res', response);
+            // console.log('respoccc', response);
+            // response.json();
+            // console.log('res', response);
+            // dispatch(LoaderAction.LoaderFalse());
+            // if (response?.status == 200) {
+            //   NavigationService.resetStack('DoctorsList');
+            //   dispatch(LoaderAction.LoaderFalse());
+            //   Toast.show({
+            //     type: 'success',
+            //     text1: 'Alert',
+            //     text2: 'Registeration Successful',
+            //     position: 'bottom',
+            //   });
+            // } else {
+            //   Toast.show({
+            //     type: 'success',
+            //     text1: 'Alert',
+            //     text2: 'Somthing went wrong! Please try again later',
+            //     position: 'bottom',
+            //   });
+            //   dispatch(LoaderAction.LoaderFalse());
+            // }
+            return response.json();
+          })
+          .then(res => {
+            console.warn('doct reg res', res);
             dispatch(LoaderAction.LoaderFalse());
-            if (response?.status == 200) {
-              NavigationService.resetStack('DoctorsList');
+            if (res?.userType) {
+              NavigationService.navigate('DoctorsList');
               dispatch(LoaderAction.LoaderFalse());
               Toast.show({
                 type: 'success',
@@ -430,9 +458,9 @@ const RegisterAsDoctor = () => {
               });
             } else {
               Toast.show({
-                type: 'success',
+                type: 'error',
                 text1: 'Alert',
-                text2: 'Somthing went wrong! Please try again later',
+                text2: res?.message,
                 position: 'bottom',
               });
               dispatch(LoaderAction.LoaderFalse());
@@ -547,14 +575,14 @@ const RegisterAsDoctor = () => {
               names={true}
             />
           </View>
-          <View style={styles.textInputView}>
+          {/* <View style={styles.textInputView}>
             <TextInputComp
               value={email}
               onChange={text => setEmail(text)}
               placeholder={'Email Address'}
               type={'email-address'}
             />
-          </View>
+          </View> */}
           <View style={styles.textInputView}>
             <TextInputComp
               value={phone}
@@ -897,7 +925,7 @@ const RegisterAsDoctor = () => {
             title={'Submit'}
           />
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -909,7 +937,7 @@ const RegisterAsDoctor = () => {
             onPress={() => NavigationService.navigate('SignIn')}>
             <Text style={styles.resetText}>Login</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <ActionSheet
           ref={actionSheetRef}
           title={'Select Profile Picture'}

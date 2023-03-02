@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState, createRef} from 'react';
-import {Colors, Metrix, NavigationService} from '../../config';
+import {Colors, CommonStyles, Metrix, NavigationService} from '../../config';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import DataBaseMiddleware from '../../redux/Middlewares/DataBaseMiddleware';
@@ -22,6 +22,7 @@ import GetLocation from 'react-native-get-location';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const actionSheetRef = createRef();
 const actionSheetRefRemove = createRef();
@@ -176,6 +177,17 @@ const SellPet = props => {
         city: user.city,
         callback: res => {
           if (res.status == 200) {
+            Alert.alert(
+              'Congratulations!',
+              'We have successfully received your request. Our team will review it shortly.',
+              [
+                {
+                  onPress: () => NavigationService.resetStack('BottomTabs'),
+                  text: 'Okay',
+                },
+              ],
+            );
+
             Toast.show({
               type: 'success',
               text1: 'Alert',
@@ -241,11 +253,18 @@ const SellPet = props => {
         }}>
         Sell Your Pet
       </Text>
+      <Text
+        style={{
+          ...CommonStyles.textStyles.intro,
+          marginVertical: Metrix.VerticalSize(10),
+        }}>
+        Post the ad and allow the buyer to contact you directly on your phone or
+        via chat. We won't take any cut from your money, but we will review your
+        ad before posting it live.
+      </Text>
       <View style={styles.view}>
         <View style={{marginBottom: Metrix.VerticalSize(20)}}>
-          <Text style={{...styles.textInputText, fontWeight: 'bold'}}>
-            Add Pictures
-          </Text>
+          <Text style={{...styles.textInputText}}>Add Pictures</Text>
           {/* {pictures.map(val => {
             return (
               <TouchableOpacity
@@ -285,11 +304,7 @@ const SellPet = props => {
                       onPress={() => {
                         actionSheetRef.current?.show();
                       }}>
-                      <FontAwesome5
-                        name="plus"
-                        color={Colors.white}
-                        size={40}
-                      />
+                      <Entypo name="camera" color={Colors.white} size={40} />
                     </TouchableOpacity>
                   );
                 }}
@@ -300,7 +315,7 @@ const SellPet = props => {
                 onPress={() => {
                   actionSheetRef.current?.show();
                 }}>
-                <FontAwesome5 name="plus" color={Colors.white} size={40} />
+                <Entypo name="camera" color={Colors.white} size={40} />
               </TouchableOpacity>
             )}
           </View>
@@ -318,59 +333,63 @@ const SellPet = props => {
           <View
             style={{
               height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              marginVertical: Metrix.VerticalSize(30),
             }}>
             <Text style={styles.textInputText}>Pet Name</Text>
             <TextInputComp
               value={petName}
               onChange={text => setPetName(text)}
               placeholder={'Enter Here'}
-              type={'email-address'}
+              // type={'email-address'}
             />
           </View>
           <View
             style={{
               height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              marginVertical: Metrix.VerticalSize(30),
             }}>
             <Text style={styles.textInputText}>Breed</Text>
             <TextInputComp
               value={breed}
               onChange={text => setBreed(text)}
               placeholder={'Enter Here'}
-              type={'email-address'}
+              // type={'email-address'}
             />
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View
+              style={{
+                height: Metrix.VerticalSize(50),
+                marginVertical: Metrix.VerticalSize(30),
+                width: '48%',
+              }}>
+              <Text style={styles.textInputText}>Pet Age</Text>
+              <TextInputComp
+                value={age}
+                onChange={text => setAge(text)}
+                placeholder={'Enter Here'}
+                // type={'email-address'}
+              />
+            </View>
+            <View
+              style={{
+                height: Metrix.VerticalSize(50),
+                marginVertical: Metrix.VerticalSize(30),
+                width: '48%',
+              }}>
+              <Text style={styles.textInputText}>Pet Weight</Text>
+              <TextInputComp
+                value={weight}
+                onChange={text => setWeight(text)}
+                placeholder={'Enter Here'}
+                // type={'email-address'}
+              />
+            </View>
           </View>
           <View
             style={{
               height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
-            }}>
-            <Text style={styles.textInputText}>Pet Age</Text>
-            <TextInputComp
-              value={age}
-              onChange={text => setAge(text)}
-              placeholder={'Enter Here'}
-              type={'email-address'}
-            />
-          </View>
-          <View
-            style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
-            }}>
-            <Text style={styles.textInputText}>Pet Weight</Text>
-            <TextInputComp
-              value={weight}
-              onChange={text => setWeight(text)}
-              placeholder={'Enter Here'}
-              type={'email-address'}
-            />
-          </View>
-          <View
-            style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              marginVertical: Metrix.VerticalSize(30),
             }}>
             <Text style={styles.textInputText}>Price</Text>
             <TextInputComp
@@ -382,16 +401,20 @@ const SellPet = props => {
           </View>
           <View
             style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              // height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(30),
             }}>
             <Text style={styles.textInputText}>Description</Text>
             <TextInputComp
               value={description}
               onChange={text => setDescription(text)}
               placeholder={'Enter Here'}
-              type={'email-address'}
-              // multi={true}
+              // type={'email-address'}
+              multiline={true}
+              propStyles={{
+                height: Metrix.VerticalSize(150),
+                paddingVertical: 10,
+              }}
             />
           </View>
         </View>
@@ -403,7 +426,9 @@ const SellPet = props => {
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
             }}>
-            <Text style={{color: Colors.black}}>Add you ad in Top Pets</Text>
+            <Text style={{color: Colors.black, ...styles.textInputText}}>
+              Add you ad in Top Pets
+            </Text>
             <Switch
               trackColor={{false: '#767577', true: Colors.logoGreen}}
               ios_backgroundColor="#3e3e3e"
@@ -417,7 +442,9 @@ const SellPet = props => {
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
             }}>
-            <Text style={{color: Colors.black}}>Add you ad in Top 10 Pets</Text>
+            <Text style={{color: Colors.black, ...styles.textInputText}}>
+              Add you ad in Top 10 Pets
+            </Text>
             <Switch
               trackColor={{false: '#767577', true: Colors.logoGreen}}
               ios_backgroundColor="#3e3e3e"
@@ -431,7 +458,9 @@ const SellPet = props => {
               width: '100%',
             }}>
             <TouchableOpacity
-              onPress={() => postAd()}
+              onPress={() => {
+                postAd();
+              }}
               style={{
                 backgroundColor: Colors.backgroundBlue,
                 ...styles.detailComp,
@@ -502,6 +531,8 @@ const styles = StyleSheet.create({
   textInputText: {
     color: Colors.black,
     fontSize: Metrix.customFontSize(14),
+    fontWeight: 'bold',
+    marginBottom: Metrix.VerticalSize(5),
     // fontFamily: 'Poppins-Regular',
   },
   detailComp: {

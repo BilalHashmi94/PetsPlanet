@@ -57,6 +57,7 @@ const Home = ({navigation}) => {
   const getTopPets = () => {
     dispatch(
       DataBaseMiddleware.GetAllTopPets({
+        city: user?.city,
         callback: res => {
           let arr = [];
           arr.push(...res);
@@ -242,7 +243,10 @@ const Home = ({navigation}) => {
       <View>
         <BannerAd size={BannerAdSize.BANNER} unitId={TestIds.BANNER} />
       </View>
-      <View style={{marginVertical: Metrix.VerticalSize(5)}}>
+      <View style={{marginBottom: Metrix.VerticalSize(10)}}>
+        <DoctorCard />
+      </View>
+      <View style={{marginBottom: Metrix.VerticalSize(90)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
             style={{
@@ -252,7 +256,7 @@ const Home = ({navigation}) => {
             }}>
             Everyone is talking about
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => NavigationService.navigate('TopPets')}>
             <Text
               style={{
@@ -262,18 +266,16 @@ const Home = ({navigation}) => {
               }}>
               View All
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <FlatList
           data={favPets}
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
+          numColumns={2}
+          // showsHorizontalScrollIndicator={false}
+          horizontal={false}
           keyExtractor={index => index.toString()}
           renderItem={item => renderContent(item)}
         />
-      </View>
-      <View style={{marginBottom: Metrix.VerticalSize(90)}}>
-        <DoctorCard />
       </View>
     </ScrollView>
   );

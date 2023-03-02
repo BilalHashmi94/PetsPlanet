@@ -22,6 +22,7 @@ import GetLocation from 'react-native-get-location';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {AuthAction} from '../../redux/Actions';
 
 const actionSheetRef = createRef();
@@ -166,7 +167,7 @@ const CreateShopTwo = props => {
                 onPress={() => {
                   actionSheetRef.current?.show();
                 }}>
-                <FontAwesome5 name="plus" color={Colors.white} size={40} />
+                <Entypo name="camera" color={Colors.white} size={40} />
               </TouchableOpacity>
             )}
           </View>
@@ -174,7 +175,7 @@ const CreateShopTwo = props => {
         <View style={{marginVertical: Metrix.VerticalSize(0)}}>
           <View
             style={{
-              height: Metrix.VerticalSize(50),
+              // height: Metrix.VerticalSize(50),
               marginVertical: Metrix.VerticalSize(20),
             }}>
             <Text style={styles.textInputText}>Shop Name</Text>
@@ -182,7 +183,7 @@ const CreateShopTwo = props => {
               value={shopName}
               onChange={text => setShopName(text)}
               placeholder={'Enter Here'}
-              type={'email-address'}
+              // type={'email-address'}
             />
           </View>
         </View>
@@ -256,6 +257,8 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: Metrix.customFontSize(14),
     // fontFamily: 'Poppins-Regular',
+    fontWeight: 'bold',
+    marginBottom: Metrix.VerticalSize(10)
   },
   detailComp: {
     // backgroundColor: Colors.white,

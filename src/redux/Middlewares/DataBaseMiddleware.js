@@ -69,11 +69,11 @@ export class DataBaseMiddleware extends Component {
     };
   }
 
-  static GetAllTopPets({callback}) {
+  static GetAllTopPets({callback, city}) {
     return async dispatch => {
       try {
         dispatch(LoaderAction.LoaderTrue());
-        let response = await ApiCaller.Get('allPets/getAllTopPets');
+        let response = await ApiCaller.Get(`allPets/getAllTopPets`);
         console.log('Top Pets Response', response);
         if (response?.status == 200) {
           Keyboard.dismiss();
@@ -580,7 +580,7 @@ export class DataBaseMiddleware extends Component {
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
-              NavigationService.resetStack('BottomTabs');
+              callback({status: 200});
               dispatch(LoaderAction.LoaderFalse());
             } else {
               Toast.show({

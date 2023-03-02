@@ -30,7 +30,11 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       {user ? (
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          // style={{flex: 1}}
+          // contentContainerStyle={{flex: 1}}
+          >
           <View style={styles.secondView}>
             <Text style={styles.welcomeText}>Profile</Text>
           </View>
@@ -246,7 +250,8 @@ const Profile = () => {
           </View>
           <View
             style={{
-              marginVertical: Metrix.VerticalSize(20),
+              marginTop: Metrix.VerticalSize(20),
+              marginBottom: Metrix.VerticalSize(90),
             }}>
             <TouchableOpacity
               onPress={() => {

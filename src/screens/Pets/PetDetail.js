@@ -168,6 +168,15 @@ const PetDetail = props => {
               style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(25)}}>
               {data.name}
             </Text>
+            {data.approved === false ? (
+              <Text
+                style={{
+                  fontSize: Metrix.customFontSize(12),
+                  color: 'green',
+                }}>
+                Your ad is under review it'll be live once reviewed
+              </Text>
+            ) : null}
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <Entypo name={'location'} size={25} color={Colors.primary} />
               <Text

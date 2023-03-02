@@ -15,6 +15,7 @@ const SearchHeader = ({
   back = false,
   containerStyle,
   name,
+  top,
 }) => {
   const [sendButton, setSendButton] = useState(false);
   const [search, setSearch] = useState('');
@@ -22,7 +23,7 @@ const SearchHeader = ({
   return (
     <View
       style={{
-        marginTop: Metrix.VerticalSize(30),
+        marginTop: top ? 0 : Metrix.VerticalSize(30),
         marginBottom: Metrix.VerticalSize(10),
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -65,7 +66,7 @@ const SearchHeader = ({
           onBlur={() => setSendButton(false)}
         />
       </View>
-      <View style={{ flex: 1, alignItems: 'center'}}>
+      <View style={{flex: 1, alignItems: 'center'}}>
         <TouchableOpacity onPress={() => getSearch(search)}>
           <AntDesign
             name={'search1'}

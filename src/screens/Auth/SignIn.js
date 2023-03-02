@@ -23,7 +23,7 @@ import Toast from 'react-native-toast-message';
 
 const SignIn = props => {
   const [email, setEmail] = useState('Nick@pp.com');
-  const [password, setPassword] = useState('qwerty');
+  const [password, setPassword] = useState('123456');
   const [secure, setSecure] = useState(true);
   const dispatch = useDispatch();
 

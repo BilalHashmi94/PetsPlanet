@@ -16,6 +16,7 @@ import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import {useDispatch, useSelector} from 'react-redux';
 import {Img_url} from '../../config/ApiCaller';
 import FastImage from 'react-native-fast-image';
+import Header from '../../components/Header';
 
 const DoctorsList = props => {
   const dispatch = useDispatch();
@@ -116,7 +117,9 @@ const DoctorsList = props => {
 
   return (
     <View style={styles.container}>
-      <SearchHeader
+      <Header />
+      {/* <SearchHeader
+        top={1}
         back={true}
         name={'drList'}
         getSearch={text => {
@@ -138,7 +141,7 @@ const DoctorsList = props => {
             setData(filterData);
           }
         }}
-      />
+      /> */}
       <View
         style={{
           marginBottom: Metrix.VerticalSize(10),
@@ -152,7 +155,7 @@ const DoctorsList = props => {
             fontSize: Metrix.customFontSize(25),
             color: Colors.black,
           }}>
-          All vets in
+          Vets in
         </Text>
         <Text
           style={{
@@ -184,8 +187,7 @@ const DoctorsList = props => {
               }}>
               {!loader ? (
                 <Text style={{color: Colors.black}}>
-                  Sorry! No Doctors Found In Your Area. Press to See The List Of
-                  All Doctors
+                  Sorry! No doctors are registered in your city.
                 </Text>
               ) : null}
             </View>

@@ -22,6 +22,7 @@ import GetLocation from 'react-native-get-location';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 import ReactNativeModal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../../components/Button';
@@ -280,8 +281,8 @@ const AddProduct = props => {
                       onPress={() => {
                         actionSheetRef.current?.show();
                       }}>
-                      <FontAwesome5
-                        name="plus"
+                      <Entypo
+                        name="camera"
                         color={Colors.white}
                         size={40}
                       />
@@ -295,12 +296,12 @@ const AddProduct = props => {
                 onPress={() => {
                   actionSheetRef.current?.show();
                 }}>
-                <FontAwesome5 name="plus" color={Colors.white} size={40} />
+                <Entypo name="camera" color={Colors.white} size={40} />
               </TouchableOpacity>
             )}
           </View>
         </View>
-        <View style={{height: 50}}>
+        <View style={{height: Metrix.VerticalSize(50), marginBottom: Metrix.VerticalSize(20)}}>
           <PickerButton
             onPress={() => setModal(true)}
             value={
@@ -312,8 +313,8 @@ const AddProduct = props => {
         <View style={{marginVertical: Metrix.VerticalSize(0)}}>
           <View
             style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              // height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(10),
             }}>
             <Text style={styles.textInputText}>Name</Text>
             <TextInputComp
@@ -324,8 +325,8 @@ const AddProduct = props => {
           </View>
           <View
             style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              // height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(10),
             }}>
             <Text style={styles.textInputText}>Price</Text>
             <TextInputComp
@@ -337,15 +338,15 @@ const AddProduct = props => {
           </View>
           <View
             style={{
-              height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(20),
+              // height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(10),
             }}>
             <Text style={styles.textInputText}>Description</Text>
             <TextInputComp
               value={description}
               onChange={text => setDescription(text)}
               placeholder={'Enter Here'}
-              type={'email-address'}
+              // type={'email-address'}
               multiline={true}
               propStyles={{height: 80}}
             />
@@ -359,7 +360,7 @@ const AddProduct = props => {
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
             }}>
-            <Text style={{color: Colors.black}}>
+            <Text style={{color: Colors.black, ...styles.textInputText}}>
               Add your product in Top Products
             </Text>
             <Switch
@@ -511,6 +512,8 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: Metrix.customFontSize(14),
     // fontFamily: 'Poppins-Regular',
+    fontWeight: 'bold',
+    marginBottom: Metrix.VerticalSize(10)
   },
   detailComp: {
     // backgroundColor: Colors.white,
