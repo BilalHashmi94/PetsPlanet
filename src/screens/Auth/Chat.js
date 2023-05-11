@@ -207,6 +207,7 @@ export default function Chat({route}) {
   };
 
   const onSend = message => {
+    setTextM('');
     var data = {
       text: message,
       room: userData.seller_id + user.id,

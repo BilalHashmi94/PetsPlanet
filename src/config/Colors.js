@@ -1,6 +1,7 @@
 export default Colors = {
   white: '#fff',
   primary: '#309AB1',
+  // primary: '#FC7E4C',
   secondary: '#A7C186',
   gray: '#FCFCFC',
   darkGray: 'rgba(0,0,0,0.7)',
@@ -30,4 +31,5 @@ export default Colors = {
   logoDarkGreen: '#1a4123',
   textInputBackColor: '#F2F3F7',
   introText: '#9B9B9B',
+  petOrange: '#FC7E4C'
 };

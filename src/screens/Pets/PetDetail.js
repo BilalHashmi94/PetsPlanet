@@ -132,6 +132,7 @@ const PetDetail = props => {
           />
         </TouchableOpacity>
         {data.pet_pictures ? (
+          // <View style={{width: width, height: 300, borderBottomRightRadius: 30, borderBottomLeftRadius: 30, backgroundColor: 'black'}}>
           <SliderBox
             images={imagesArray}
             sliderBoxHeight={300}
@@ -146,8 +147,17 @@ const PetDetail = props => {
             paginationBoxVerticalPadding={20}
             autoplay
             circleLoop
+            style={{
+              width: width,
+              height: 300,
+              borderBottomRightRadius: 30,
+              borderBottomLeftRadius: 30,
+              backgroundColor: 'black',
+            }}
           />
         ) : (
+          // </View>
+          // <Image source={{uri: Img_url + data.pet_pictures[0]}} style={{width: '100%', height:}}/>
           <Image
             source={{
               uri: Images.avatar,
@@ -177,10 +187,37 @@ const PetDetail = props => {
                 Your ad is under review it'll be live once reviewed
               </Text>
             ) : null}
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              <Entypo name={'location'} size={25} color={Colors.primary} />
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 0,
+                alignItems: 'center',
+              }}>
+              <FontAwesome name={'paw'} size={15} color={Colors.petOrange} />
               <Text
-                style={{marginLeft: 10, color: Colors.primary, marginTop: 5}}>
+                style={{
+                  marginLeft: 10,
+                  color: Colors.petOrange,
+                  marginTop: 5,
+                  fontFamily: 'Lato-Italic',
+                }}>
+                {data.breed}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignItems: 'center',
+              }}>
+              <Entypo name={'location'} size={15} color={Colors.primary} />
+              <Text
+                style={{
+                  marginLeft: 10,
+                  color: Colors.primary,
+                  marginTop: 5,
+                  fontFamily: 'Lato-Italic',
+                }}>
                 {data.city}
               </Text>
             </View>
@@ -209,28 +246,54 @@ const PetDetail = props => {
             </TouchableOpacity>
           ) : null}
         </View>
-        <View style={{marginVertical: Metrix.VerticalSize(10)}}>
-          <View style={styles.detailComp}>
-            <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
-              Breed:
+        <View
+          style={{
+            marginVertical: Metrix.VerticalSize(10),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={styles.detailComp1}>
+            <Text
+              style={{
+                ...styles.textStyle,
+                color: '#FFBC11',
+                fontWeight: 'bold',
+              }}>
+              Price:
             </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>
-              {data.breed}
+            <Text
+              style={{...styles.textStyle, color: Colors.black}}
+              numberOfLines={1}>
+              {data.price}
             </Text>
           </View>
-          <View style={styles.detailComp}>
-            <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
+          <View style={{...styles.detailComp1}}>
+            <Text
+              style={{
+                ...styles.textStyle,
+                color: '#FFBC11',
+                fontWeight: 'bold',
+              }}>
               Age:
             </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>
+            <Text
+              style={{...styles.textStyle, color: Colors.black}}
+              numberOfLines={1}>
               {data.age}
             </Text>
           </View>
-          <View style={styles.detailComp}>
-            <Text style={{...styles.textStyle, color: Colors.placeholderGray}}>
+          <View style={styles.detailComp1}>
+            <Text
+              style={{
+                ...styles.textStyle,
+                color: '#FFBC11',
+                fontWeight: 'bold',
+              }}>
               Weight:
             </Text>
-            <Text style={{...styles.textStyle, color: Colors.black}}>
+            <Text
+              style={{...styles.textStyle, color: Colors.black}}
+              numberOfLines={1}>
               {data.weight}
             </Text>
           </View>
@@ -474,13 +537,13 @@ const styles = StyleSheet.create({
   },
   detailComp: {
     backgroundColor: Colors.white,
-    // height: 70,
+    // height: Metrix.VerticalSize(100),
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 15,
     paddingHorizontal: Metrix.HorizontalSize(20),
-    paddingVertical: Metrix.HorizontalSize(10),
+    paddingVertical: Metrix.VerticalSize(10),
     marginVertical: 5,
     alignItems: 'center',
     // justifyContent: 'center',
@@ -493,8 +556,31 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  detailComp1: {
+    backgroundColor: 'rgba(255, 188, 17, 0.1)',
+    height: Metrix.VerticalSize(100),
+    width: '30%',
+    justifyContent: 'center',
+    // width: Metrix.HorizontalSize(109),
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    borderRadius: 15,
+    paddingHorizontal: Metrix.HorizontalSize(10),
+    paddingVertical: Metrix.VerticalSize(10),
+    marginVertical: 5,
+    alignItems: 'center',
+    // justifyContent: 'center',
+    // shadowColor: Colors.black,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
+  },
   textStyle: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontSize: Metrix.customFontSize(20),
   },
 });

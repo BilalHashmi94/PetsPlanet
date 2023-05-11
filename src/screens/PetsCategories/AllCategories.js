@@ -22,7 +22,7 @@ const AllCategories = () => {
     dispatch(
       DataBaseMiddleware.GetCategories({
         callback: res => {
-          if(res.status == 200){
+          if (res.status == 200) {
             setCategoryData(res.data);
           } else {
             Toast.show({
@@ -50,7 +50,19 @@ const AllCategories = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={{backgroundColor: item.color, ...styles.view}}>
             <Image
-              source={item.name == 'Cat' ? Images.cat : item.name == 'Dog' ? Images.dog : item.name == 'Turtle' ? Images.turtle : item.name == 'Bird' ? Images.bird : item.name == 'Rabbit' ? Images.rabbit : item.image}
+              source={
+                item.name == 'Cat'
+                  ? Images.cat
+                  : item.name == 'Dog'
+                  ? Images.dog
+                  : item.name == 'Turtle'
+                  ? Images.turtle
+                  : item.name == 'Bird'
+                  ? Images.bird
+                  : item.name == 'Rabbit'
+                  ? Images.rabbit
+                  : item.image
+              }
               style={{
                 resizeMode: 'contain',
                 width: Metrix.HorizontalSize(30),

@@ -68,7 +68,7 @@ const AddProduct = props => {
     } else {
       ImageCropPicker.openPicker({
         mediaType: 'photo',
-        cropping: true,
+        cropping: false,
       })
         .then(photo => {
           console.log('success', photo.path);

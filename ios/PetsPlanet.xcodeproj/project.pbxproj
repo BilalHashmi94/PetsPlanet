@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* PetsPlanetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PetsPlanetTests.m */; };
-		0BC11A091F2A447ED9863D4E /* libPods-PetsPlanet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D0978B1E34D692546516179 /* libPods-PetsPlanet.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		72CDEEF305ECD221E5D9B729 /* libPods-PetsPlanet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E486DA32C2A43F8B344542B /* libPods-PetsPlanet.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8812A913291D006100CE8B78 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8812A901291D005B00CE8B78 /* Lato-LightItalic.ttf */; };
 		8812A914291D006100CE8B78 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8812A902291D005B00CE8B78 /* Lato-Semibold.ttf */; };
@@ -31,7 +31,7 @@
 		8812A922291D006100CE8B78 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8812A910291D005F00CE8B78 /* Lato-Bold.ttf */; };
 		8812A923291D006100CE8B78 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8812A911291D006000CE8B78 /* Lato-Light.ttf */; };
 		8812A924291D006100CE8B78 /* Lato-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8812A912291D006000CE8B78 /* Lato-MediumItalic.ttf */; };
-		889683A60814A74768653B5C /* libPods-PetsPlanet-PetsPlanetTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1533584B93FFA7CD904B946 /* libPods-PetsPlanet-PetsPlanetTests.a */; };
+		BAFF1FA9E0DD5EC014F75AC0 /* libPods-PetsPlanet-PetsPlanetTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BD6D279DDB3BF64E5278CF /* libPods-PetsPlanet-PetsPlanetTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +54,11 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PetsPlanet/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PetsPlanet/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PetsPlanet/main.m; sourceTree = "<group>"; };
-		4D0978B1E34D692546516179 /* libPods-PetsPlanet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PetsPlanet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E4393506F5BEB8DF630C705 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet-PetsPlanetTests.release.xcconfig"; path = "Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests.release.xcconfig"; sourceTree = "<group>"; };
+		1F5FB52F422AB7BDBF179A50 /* Pods-PetsPlanet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet.debug.xcconfig"; path = "Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet.debug.xcconfig"; sourceTree = "<group>"; };
+		547131CC295E6F8D84857CB5 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet-PetsPlanetTests.release.xcconfig"; path = "Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests.release.xcconfig"; sourceTree = "<group>"; };
+		67BD6D279DDB3BF64E5278CF /* libPods-PetsPlanet-PetsPlanetTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PetsPlanet-PetsPlanetTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E486DA32C2A43F8B344542B /* libPods-PetsPlanet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PetsPlanet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		75CC3E0B793A8C83601F5257 /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig"; path = "Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PetsPlanet/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8812A901291D005B00CE8B78 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../../src/assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		8812A902291D005B00CE8B78 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Semibold.ttf"; path = "../../src/assets/fonts/Lato-Semibold.ttf"; sourceTree = "<group>"; };
@@ -75,10 +78,7 @@
 		8812A910291D005F00CE8B78 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 		8812A911291D006000CE8B78 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "../../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		8812A912291D006000CE8B78 /* Lato-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-MediumItalic.ttf"; path = "../../src/assets/fonts/Lato-MediumItalic.ttf"; sourceTree = "<group>"; };
-		9D44DBBE5A594D50709DA10F /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig"; path = "Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B1533584B93FFA7CD904B946 /* libPods-PetsPlanet-PetsPlanetTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PetsPlanet-PetsPlanetTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7AA214BB0A9D5C3F6952FF1 /* Pods-PetsPlanet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet.release.xcconfig"; path = "Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet.release.xcconfig"; sourceTree = "<group>"; };
-		DB5ECDE2B122854F37080AB1 /* Pods-PetsPlanet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet.debug.xcconfig"; path = "Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet.debug.xcconfig"; sourceTree = "<group>"; };
+		B3CEBDE37933B5A9C153CEC2 /* Pods-PetsPlanet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetsPlanet.release.xcconfig"; path = "Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FA15CD8627B0212900121346 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		FA15CD8727B0212A00121346 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				889683A60814A74768653B5C /* libPods-PetsPlanet-PetsPlanetTests.a in Frameworks */,
+				BAFF1FA9E0DD5EC014F75AC0 /* libPods-PetsPlanet-PetsPlanetTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BC11A091F2A447ED9863D4E /* libPods-PetsPlanet.a in Frameworks */,
+				72CDEEF305ECD221E5D9B729 /* libPods-PetsPlanet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,8 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4D0978B1E34D692546516179 /* libPods-PetsPlanet.a */,
-				B1533584B93FFA7CD904B946 /* libPods-PetsPlanet-PetsPlanetTests.a */,
+				6E486DA32C2A43F8B344542B /* libPods-PetsPlanet.a */,
+				67BD6D279DDB3BF64E5278CF /* libPods-PetsPlanet-PetsPlanetTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,10 +162,10 @@
 		4DF9EC7AA21ED1009C90607D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DB5ECDE2B122854F37080AB1 /* Pods-PetsPlanet.debug.xcconfig */,
-				C7AA214BB0A9D5C3F6952FF1 /* Pods-PetsPlanet.release.xcconfig */,
-				9D44DBBE5A594D50709DA10F /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */,
-				4E4393506F5BEB8DF630C705 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */,
+				1F5FB52F422AB7BDBF179A50 /* Pods-PetsPlanet.debug.xcconfig */,
+				B3CEBDE37933B5A9C153CEC2 /* Pods-PetsPlanet.release.xcconfig */,
+				75CC3E0B793A8C83601F5257 /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */,
+				547131CC295E6F8D84857CB5 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -257,12 +257,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PetsPlanetTests" */;
 			buildPhases = (
-				74247CFC08488D56BEAA57AF /* [CP] Check Pods Manifest.lock */,
+				2A58450861576781FADE930A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				4D080A8C1F7ACACDCC9CFBD3 /* [CP] Embed Pods Frameworks */,
-				3D9DF9C5846D043CFD82AF27 /* [CP] Copy Pods Resources */,
+				AFA4216303EB6B6E19EC561F /* [CP] Embed Pods Frameworks */,
+				A5D97E029CB696BD18B333A0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -278,14 +278,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PetsPlanet" */;
 			buildPhases = (
-				E6B43E05B21A1EB4F6DCE64C /* [CP] Check Pods Manifest.lock */,
+				7D2A2A146D7A818EBEA02BC7 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				F940BBF33B9DF05860028BF4 /* [CP] Embed Pods Frameworks */,
-				F7DB8727C244B580190D4714 /* [CP] Copy Pods Resources */,
+				FF997ADBC53702EBA66AE787 /* [CP] Embed Pods Frameworks */,
+				10636300AC93EFA7DE56F6D8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -384,41 +384,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		3D9DF9C5846D043CFD82AF27 /* [CP] Copy Pods Resources */ = {
+		10636300AC93EFA7DE56F6D8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4D080A8C1F7ACACDCC9CFBD3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		74247CFC08488D56BEAA57AF /* [CP] Check Pods Manifest.lock */ = {
+		2A58450861576781FADE930A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,7 +423,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E6B43E05B21A1EB4F6DCE64C /* [CP] Check Pods Manifest.lock */ = {
+		7D2A2A146D7A818EBEA02BC7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -462,38 +445,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F7DB8727C244B580190D4714 /* [CP] Copy Pods Resources */ = {
+		A5D97E029CB696BD18B333A0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F940BBF33B9DF05860028BF4 /* [CP] Embed Pods Frameworks */ = {
+		AFA4216303EB6B6E19EC561F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet-PetsPlanetTests/Pods-PetsPlanet-PetsPlanetTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -513,6 +496,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FF997ADBC53702EBA66AE787 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PetsPlanet/Pods-PetsPlanet-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -548,7 +548,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D44DBBE5A594D50709DA10F /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */;
+			baseConfigurationReference = 75CC3E0B793A8C83601F5257 /* Pods-PetsPlanet-PetsPlanetTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -575,7 +575,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E4393506F5BEB8DF630C705 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */;
+			baseConfigurationReference = 547131CC295E6F8D84857CB5 /* Pods-PetsPlanet-PetsPlanetTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -599,7 +599,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB5ECDE2B122854F37080AB1 /* Pods-PetsPlanet.debug.xcconfig */;
+			baseConfigurationReference = 1F5FB52F422AB7BDBF179A50 /* Pods-PetsPlanet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -627,7 +627,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7AA214BB0A9D5C3F6952FF1 /* Pods-PetsPlanet.release.xcconfig */;
+			baseConfigurationReference = B3CEBDE37933B5A9C153CEC2 /* Pods-PetsPlanet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;

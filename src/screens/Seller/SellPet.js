@@ -62,7 +62,8 @@ const SellPet = props => {
     } else {
       ImageCropPicker.openPicker({
         mediaType: 'photo',
-        cropping: true,
+        cropping: false,
+        // compressImageQuality,
       })
         .then(photo => {
           console.log('success', photo.path);
