@@ -478,7 +478,7 @@ const AddProduct = props => {
                 color: Colors.darkGray,
                 textAlign: 'center',
               }}>
-              Don't worry! Your ad reached its limit. You can extend you limit
+              Your ad reached its limit. You can extend you limit
               to 5 more ads just for Rs.1000.
             </Text>
           </View>

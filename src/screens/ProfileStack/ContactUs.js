@@ -36,7 +36,7 @@ const ContactUs = () => {
                 justifyContent: 'center',
                 marginLeft: 10,
               }}>
-              <Text>info@black365.com</Text>
+              <Text>info@petsplanet.com</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={{flexDirection: 'row'}}>
@@ -49,7 +49,7 @@ const ContactUs = () => {
                 justifyContent: 'center',
                 marginLeft: 10,
               }}>
-              <Text>555 555 555</Text>
+              <Text>0331-2285347</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   button: {
     height: Metrix.VerticalSize(43),
     width: Metrix.HorizontalSize(43),
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

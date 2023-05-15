@@ -38,7 +38,7 @@ const ChatList = () => {
         renderItem={({item}) => {
           console.log(
             'item.messages[item.messages.length - 1]?.createdAt',
-            item.messages[item.messages.length - 1]?.createdAt,
+            item?.messages[item?.messages?.length - 1]?.createdAt,
           );
           return (
             <TouchableOpacity
@@ -89,11 +89,11 @@ const ChatList = () => {
                         ...CommonStyles.textStyles.intro,
                         fontStyle: 'italic',
                       }}>
-                      {item?.messages[item.messages.length - 1]?.userID ===
+                      {item?.messages[item?.messages?.length - 1]?.userID ===
                       user.id
                         ? 'You'
                         : item?.userData[0].name}
-                      : {item.messages[item.messages.length - 1].text}
+                      : {item?.messages[item?.messages?.length - 1]?.text}
                     </Text>
                   </View>
                 </View>
@@ -104,7 +104,7 @@ const ChatList = () => {
                       fontSize: Metrix.customFontSize(15),
                     }}>
                     {moment(
-                      item.messages[item.messages.length - 1]?.createdAt,
+                      item?.messages[item?.messages?.length - 1]?.createdAt,
                     ).fromNow()}
                   </Text>
                 </View>

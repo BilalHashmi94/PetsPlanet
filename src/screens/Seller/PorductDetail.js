@@ -312,7 +312,7 @@ const PetDetail = props => {
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
-                    {/* <TouchableOpacity
+                    <TouchableOpacity
                     style={{
                       width: 40,
                       height: 40,
@@ -324,7 +324,7 @@ const PetDetail = props => {
                       color={Colors.placeholderGray}
                       size={25}
                     />
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() =>
                         NavigationService.navigate('Chat', {item: data})
