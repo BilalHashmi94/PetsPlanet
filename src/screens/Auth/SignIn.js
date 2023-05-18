@@ -140,15 +140,15 @@ const SignIn = props => {
     // </ScrollView>
     <View style={CommonStyles.container}>
       <View style={styles.main}>
-        <Text style={CommonStyles.textStyles.heading}>Login Account</Text>
+        <Text style={CommonStyles.textStyles.heading}>Welcome Back</Text>
         <Text
           style={{
             ...CommonStyles.textStyles.intro,
             marginTop: Metrix.VerticalSize(10),
           }}>
-          Please enter your details
+          Fill in your details to begin
         </Text>
-        <View style={{width: '100%', marginVertical: Metrix.VerticalSize(30)}}>
+        <View style={{width: '100%', marginVertical: Metrix.VerticalSize(20)}}>
           <TextInputComp
             placeholder={'Email address'}
             onChange={text => setEmail(text)}
@@ -163,43 +163,39 @@ const SignIn = props => {
             secure={true}
           />
         </View>
-        <View style={{width: '100%', marginVertical: Metrix.VerticalSize(30)}}>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: Metrix.VerticalSize(10),
+          }}>
+          <View></View>
+          <TouchableOpacity
+            style={CommonStyles.center}
+            // onPress={() => NavigationService.navigate('ForgotPassword')}
+          >
+            <Text
+              style={{
+                color: '#535353',
+                fontFamily: 'Lato-Regular',
+                fontSize: Metrix.customFontSize(15),
+              }}>
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{width: '100%', marginTop: Metrix.VerticalSize(20)}}>
           <Button onPress={() => createLogin()} title={'Login'} />
         </View>
       </View>
-      <TouchableOpacity
-        style={CommonStyles.center}
-        // onPress={() => NavigationService.navigate('ForgotPassword')}
-      >
-        <Text
-          style={{
-            color: '#535353',
-            fontFamily: 'Lato-Regular',
-            fontSize: Metrix.customFontSize(15),
-          }}>
-          Forgot Password?
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{...CommonStyles.center, marginTop: Metrix.VerticalSize(10)}}
-        onPress={() => NavigationService.navigate('BottomTabs')}>
-        <Text
-          style={{
-            color: Colors.blue,
-            textDecorationLine: 'underline',
-            fontFamily: 'Lato-Regular',
-            fontSize: Metrix.customFontSize(15),
-          }}>
-          Enter As Guest
-        </Text>
-      </TouchableOpacity>
       <View
         style={{
           ...CommonStyles.center,
-          marginVertical: Metrix.VerticalSize(20),
+          marginVertical: Metrix.VerticalSize(10),
           flexDirection: 'row',
-          flex: 1,
-          alignItems: 'flex-end',
+          // flex: 1,
+          // alignItems: 'flex-end',
         }}>
         <Text style={CommonStyles.textStyles.intro}>
           Don’t have an account?{' '}
@@ -212,6 +208,20 @@ const SignIn = props => {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity
+        style={{...CommonStyles.center, marginTop: Metrix.VerticalSize(0)}}
+        onPress={() => NavigationService.navigate('BottomTabs')}>
+        <Text
+          style={{
+            color: Colors.blue,
+            textDecorationLine: 'underline',
+            fontFamily: 'Lato-Regular',
+            fontSize: Metrix.customFontSize(15),
+          }}>
+          Enter As Guest
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -223,9 +233,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrix.HorizontalSize(35),
   },
   main: {
-    marginTop: Metrix.VerticalSize(107),
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: Metrix.VerticalSize(50),
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   secondContainer: {
     alignItems: 'center',

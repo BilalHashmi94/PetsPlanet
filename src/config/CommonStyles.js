@@ -4,8 +4,8 @@ import Metrix from './Metrix';
 const CommonStyles = {
   textStyles: {
     heading: {
-      fontFamily: 'Lato-Semibold',
-      fontSize: Metrix.customFontSize(25),
+      fontFamily: 'Lato-Bold',
+      fontSize: Metrix.customFontSize(35),
       color: Colors.black,
     },
     intro: {

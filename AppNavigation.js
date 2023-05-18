@@ -134,15 +134,15 @@ class AppNavigation extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View
+            {/* <View
               style={{
                 paddingHorizontal: Metrix.VerticalSize(30),
                 paddingVertical: Metrix.VerticalSize(30),
                 borderRadius: Metrix.VerticalSize(10),
                 backgroundColor: Colors.primary,
-              }}>
-              <ActivityIndicator size="large" color={Colors.white} />
-            </View>
+              }}> */}
+              <ActivityIndicator size="large" color={Colors.logoGreen} />
+            {/* </View> */}
           </View>
         )}
       </>

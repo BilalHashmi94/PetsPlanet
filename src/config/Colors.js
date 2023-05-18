@@ -1,7 +1,7 @@
 export default Colors = {
   white: '#fff',
   primary: '#309AB1',
-  // primary: '#FC7E4C',
+  // primary: '#FB724C',
   secondary: '#A7C186',
   gray: '#FCFCFC',
   darkGray: 'rgba(0,0,0,0.7)',

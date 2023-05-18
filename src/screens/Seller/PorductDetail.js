@@ -350,7 +350,7 @@ const PetDetail = props => {
             )
           ) : (
             <Button
-              title={'Login to view phone number'}
+              title={'Contact Seller'}
               onPress={() => NavigationService.resetStack('SignIn')}
             />
           )}
