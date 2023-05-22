@@ -17,6 +17,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {baseUrl, Img_url} from '../../config/ApiCaller';
 import {AuthAction, LoaderAction} from '../../redux/Actions';
 import Toast from 'react-native-toast-message';
+import {emailValidityCheck} from '../../config/Constants';
 
 const actionSheetRef = createRef();
 
@@ -74,83 +75,120 @@ const EditProfile = () => {
   };
 
   const updateUser = () => {
-    const formData = new FormData();
-    if (profilePic) {
-      formData.append('file', profilePic);
+    if (!firstName) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'First Name is required',
+        position: 'bottom',
+      });
+    } else if (!lastName) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Last Name is required',
+        position: 'bottom',
+      });
+    } else if (!email) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Email is required',
+        position: 'bottom',
+      });
+    } else if (!phone) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Phone Number is required',
+        position: 'bottom',
+      });
+    } else if (!emailValidityCheck(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please enter a valid email',
+        position: 'bottom',
+      });
     } else {
-      formData.append('profilePicture', user.profilePicture);
-    }
-    formData.append('firstName', firstName);
-    formData.append('lastName', lastName);
-    formData.append('email', email);
-    formData.append('phoneNumber', phone);
-    formData.append('city', user.city);
+      const formData = new FormData();
+      if (profilePic) {
+        formData.append('file', profilePic);
+      } else {
+        formData.append('profilePicture', user.profilePicture);
+      }
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('phoneNumber', phone);
+      formData.append('city', user.city);
 
-    formData.append('clinicName', user.clinicName);
-    formData.append('addressLineOne', user.addressLineOne);
-    formData.append('addressLineTwo', null);
-    formData.append('town', user.town);
-    formData.append('lat', user.lat);
-    formData.append('lng', user.lng);
-    formData.append('shopIdentifier', user.shopIdentifier);
-    formData.append('userType', user.userType);
-    formData.append('id', user.id);
-    formData.append('token', user.token);
+      formData.append('clinicName', user.clinicName);
+      formData.append('addressLineOne', user.addressLineOne);
+      formData.append('addressLineTwo', null);
+      formData.append('town', user.town);
+      formData.append('lat', user.lat);
+      formData.append('lng', user.lng);
+      formData.append('shopIdentifier', user.shopIdentifier);
+      formData.append('userType', user.userType);
+      formData.append('id', user.id);
+      formData.append('token', user.token);
 
-    console.log('formm', formData);
-    dispatch(LoaderAction.LoaderTrue());
-    let token = user.token;
-    return new Promise((resolve, reject) => {
-      console.log('fetch');
-      fetch(`${baseUrl}users/update`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(response => {
-          console.log('respoccc', response);
-          return response.json();
+      console.log('formm', formData);
+      dispatch(LoaderAction.LoaderTrue());
+      let token = user.token;
+      return new Promise((resolve, reject) => {
+        console.log('fetch');
+        fetch(`${baseUrl}users/update`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .then(response => {
-          console.log('res', response);
-          dispatch(LoaderAction.LoaderFalse());
-          if (response) {
-            // NavigationService.navigate('SignIn');
-            let newUser = {...response, token: user.token};
-            dispatch(AuthAction.Signin(newUser));
+          .then(response => {
+            console.log('respoccc', response);
+            return response.json();
+          })
+          .then(response => {
+            console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
-            Toast.show({
-              type: 'success',
-              text1: 'Alert',
-              text2: 'Updated Successful',
-              position: 'bottom',
-            });
-            NavigationService.navigate('BottomTabs', {screen: 'Home'});
-          } else {
+            if (response) {
+              // NavigationService.navigate('SignIn');
+              let newUser = {...response, token: user.token};
+              dispatch(AuthAction.Signin(newUser));
+              dispatch(LoaderAction.LoaderFalse());
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Updated Successful',
+                position: 'bottom',
+              });
+              NavigationService.navigate('BottomTabs', {screen: 'Home'});
+            } else {
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Somthing went wrong! Please try again later',
+                position: 'bottom',
+              });
+              dispatch(LoaderAction.LoaderFalse());
+            }
+          })
+          .catch(e => {
+            dispatch(LoaderAction.LoaderFalse());
             Toast.show({
               type: 'success',
               text1: 'Alert',
               text2: 'Somthing went wrong! Please try again later',
               position: 'bottom',
             });
-            dispatch(LoaderAction.LoaderFalse());
-          }
-        })
-        .catch(e => {
-          dispatch(LoaderAction.LoaderFalse());
-          Toast.show({
-            type: 'success',
-            text1: 'Alert',
-            text2: 'Somthing went wrong! Please try again later',
-            position: 'bottom',
+            reject();
+            console.log('Error', e);
           });
-          reject();
-          console.log('Error', e);
-        });
-    });
+      });
+    }
   };
 
   return (

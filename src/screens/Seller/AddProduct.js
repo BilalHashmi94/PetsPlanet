@@ -42,8 +42,8 @@ const AddProduct = props => {
   const [price, setPrice] = useState('');
   const [isTopEnabled, setIsTopEnabled] = useState(false);
   const [limitModal, setLimitModal] = useState(false);
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
+  const [lat, setLat] = useState(null);
+  const [long, setLong] = useState(null);
   const toggleSwitch = () => setIsTopEnabled(previousState => !previousState);
   const [pictures, setPictures] = useState([]);
   const [selectedPicIdex, setSelectedPicIndex] = useState();
@@ -121,21 +121,21 @@ const AddProduct = props => {
     }
   };
 
-  useEffect(() => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        console.log(location);
-        setLat(location.latitude);
-        setLong(location.longitude);
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
-  }, []);
+  // useEffect(() => {
+  //   GetLocation.getCurrentPosition({
+  //     enableHighAccuracy: true,
+  //     timeout: 15000,
+  //   })
+  //     .then(location => {
+  //       console.log(location);
+  //       setLat(location.latitude);
+  //       setLong(location.longitude);
+  //     })
+  //     .catch(error => {
+  //       const {code, message} = error;
+  //       console.warn(code, message);
+  //     });
+  // }, []);
 
   const getAllCategories = () => {
     dispatch(
@@ -253,63 +253,6 @@ const AddProduct = props => {
         Add Product
       </Text>
       <View style={styles.view}>
-        <View style={{marginBottom: Metrix.VerticalSize(20)}}>
-          <Text style={{...styles.textInputText, fontWeight: 'bold'}}>
-            Add Pictures of your Product
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginVertical: Metrix.VerticalSize(5),
-            }}>
-            {pictures.length ? (
-              <FlatList
-                data={pictures}
-                // contentContainerStyle={{alignSelf: 'flex-start'}}
-                numColumns={4}
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                // extraData={refresh}
-                // horizontal={true}
-                scrollEnabled={false}
-                keyExtractor={index => index.toString()}
-                renderItem={renderItem}
-                ListFooterComponent={() => {
-                  return (
-                    <TouchableOpacity
-                      style={styles.picturesBox}
-                      onPress={() => {
-                        actionSheetRef.current?.show();
-                      }}>
-                      <Entypo
-                        name="camera"
-                        color={Colors.white}
-                        size={40}
-                      />
-                    </TouchableOpacity>
-                  );
-                }}
-              />
-            ) : (
-              <TouchableOpacity
-                style={styles.picturesBox}
-                onPress={() => {
-                  actionSheetRef.current?.show();
-                }}>
-                <Entypo name="camera" color={Colors.white} size={40} />
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-        <View style={{height: Metrix.VerticalSize(50), marginBottom: Metrix.VerticalSize(20)}}>
-          <PickerButton
-            onPress={() => setModal(true)}
-            value={
-              selectedCategory == '' ? 'Select Category' : selectedCategory
-            }
-            placeholder="Select Category"
-          />
-        </View>
         <View style={{marginVertical: Metrix.VerticalSize(0)}}>
           <View
             style={{
@@ -338,8 +281,21 @@ const AddProduct = props => {
           </View>
           <View
             style={{
+              height: Metrix.VerticalSize(50),
+              marginVertical: Metrix.VerticalSize(20),
+            }}>
+            <PickerButton
+              onPress={() => setModal(true)}
+              value={
+                selectedCategory == '' ? 'Select Category' : selectedCategory
+              }
+              placeholder="Select Category"
+            />
+          </View>
+          <View
+            style={{
               // height: Metrix.VerticalSize(50),
-              marginVertical: Metrix.VerticalSize(10),
+              marginBottom: Metrix.VerticalSize(10),
             }}>
             <Text style={styles.textInputText}>Description</Text>
             <TextInputComp
@@ -353,12 +309,65 @@ const AddProduct = props => {
           </View>
         </View>
 
-        <View style={{marginVertical: Metrix.VerticalSize(40)}}>
+        <View style={{marginVertical: Metrix.VerticalSize(20)}}>
+          <Text style={{...styles.textInputText, fontWeight: 'bold'}}>
+            Add Pictures of your Product {'\n'}
+            <Text style={{color: Colors.darkGray, fontWeight: 'normal'}}>
+              (You can add upto 5 photos)
+            </Text>
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: Metrix.VerticalSize(5),
+            }}>
+            {pictures.length ? (
+              <FlatList
+                data={pictures}
+                // contentContainerStyle={{alignSelf: 'flex-start'}}
+                numColumns={4}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                // extraData={refresh}
+                // horizontal={true}
+                scrollEnabled={false}
+                keyExtractor={index => index.toString()}
+                renderItem={renderItem}
+                ListFooterComponent={() => {
+                  return (
+                    <>
+                      {pictures.length < 5 ? (
+                        <TouchableOpacity
+                          style={styles.picturesBox}
+                          onPress={() => {
+                            actionSheetRef.current?.show();
+                          }}>
+                          <Entypo name="plus" color={Colors.white} size={40} />
+                        </TouchableOpacity>
+                      ) : null}
+                    </>
+                  );
+                }}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.picturesBox}
+                onPress={() => {
+                  actionSheetRef.current?.show();
+                }}>
+                <Entypo name="camera" color={Colors.white} size={40} />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+
+        <View style={{marginVertical: Metrix.VerticalSize(0)}}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
+              alignItems: 'center'
             }}>
             <Text style={{color: Colors.black, ...styles.textInputText}}>
               Add your product in Top Products
@@ -478,8 +487,8 @@ const AddProduct = props => {
                 color: Colors.darkGray,
                 textAlign: 'center',
               }}>
-              Your ad reached its limit. You can extend you limit
-              to 5 more ads just for Rs.1000.
+              Your ad reached its limit. You can extend you limit to 5 more ads
+              just for Rs.1000.
             </Text>
           </View>
           <View style={{marginVertical: 10}}>
@@ -513,7 +522,7 @@ const styles = StyleSheet.create({
     fontSize: Metrix.customFontSize(14),
     // fontFamily: 'Poppins-Regular',
     fontWeight: 'bold',
-    marginBottom: Metrix.VerticalSize(10)
+    marginBottom: Metrix.VerticalSize(10),
   },
   detailComp: {
     // backgroundColor: Colors.white,

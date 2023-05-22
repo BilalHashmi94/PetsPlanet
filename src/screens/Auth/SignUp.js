@@ -16,13 +16,14 @@ import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ActionSheet from 'react-native-actionsheet';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import {LoaderAction} from '../../redux/Actions';
+import {AuthAction, LoaderAction} from '../../redux/Actions';
 import {baseUrl} from '../../config/ApiCaller';
 import SearchableDropDown from 'react-native-searchable-dropdown';
+import {emailValidityCheck} from '../../config/Constants';
 
 const actionSheetRef = createRef();
 
-const SignUp = () => {
+const SignUp = props => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -35,6 +36,7 @@ const SignUp = () => {
   const [profilePic, setProfilePic] = useState();
   const [city, setCity] = useState('');
   const [marTop, setMarTop] = useState(false);
+  const type = props.route.params?.type ? props.route.params?.type : 'Buyer';
 
   const cityData = [
     {name: 'Karachi'},
@@ -196,7 +198,7 @@ const SignUp = () => {
     {name: 'Awaran'},
     {name: 'Dalbandin'},
   ];
-
+  console.warn('typr', type);
   const openPicker = () => {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -244,42 +246,49 @@ const SignUp = () => {
   const Register = async () => {
     if (!email) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'Email is required',
         position: 'bottom',
       });
+    } else if (!emailValidityCheck(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please enter a valid email',
+        position: 'bottom',
+      });
     } else if (!firstName) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'First Name is required',
         position: 'bottom',
       });
     } else if (!lastName) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'Last Name is required',
         position: 'bottom',
       });
     } else if (!password) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'Password is required',
         position: 'bottom',
       });
     } else if (password != confirmPassword) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'Password Mismatched',
         position: 'bottom',
       });
     } else if (!city) {
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Alert',
         text2: 'City Field is Reqired',
         position: 'bottom',
@@ -330,11 +339,21 @@ const SignUp = () => {
             'Content-Type': 'multipart/form-data',
           },
         })
+          .then(res => {
+            return res.json();
+          })
           .then(response => {
+            dispatch(AuthAction.Signin(response));
             console.log('res', response);
             dispatch(LoaderAction.LoaderFalse());
-            if (response?.status == 200) {
-              NavigationService.navigate('SignIn');
+            if (response) {
+              if (type === 'Buyer') {
+                dispatch(LoaderAction.LoaderFalse());
+                NavigationService.resetStack('BottomTabs');
+              } else {
+                NavigationService.resetStack('BottomTabs');
+                NavigationService.navigate('CreateShop');
+              }
               dispatch(LoaderAction.LoaderFalse());
               Toast.show({
                 type: 'success',

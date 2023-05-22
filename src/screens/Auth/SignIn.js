@@ -198,9 +198,9 @@ const SignIn = props => {
           // alignItems: 'flex-end',
         }}>
         <Text style={CommonStyles.textStyles.intro}>
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
         </Text>
-        <TouchableOpacity onPress={() => NavigationService.navigate('SignUp')}>
+        <TouchableOpacity onPress={() => NavigationService.navigate('SignupAsA')}>
           <Text
             style={{...CommonStyles.textStyles.intro, color: Colors.primary}}>
             {' '}
@@ -222,6 +222,19 @@ const SignIn = props => {
           Enter As Guest
         </Text>
       </TouchableOpacity>
+      {/* <View
+        style={{
+          flex: 1,
+          alignItems: 'flex-end',
+        }}>
+        <Image
+          source={Images.loginDog}
+          style={{
+            marginLeft: 100,
+            resizeMode: 'contain',
+          }}
+        />
+      </View> */}
     </View>
   );
 };

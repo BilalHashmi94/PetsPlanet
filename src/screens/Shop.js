@@ -369,10 +369,20 @@ const Shop = props => {
         {/* Products */}
 
         <View style={{marginTop: Metrix.VerticalSize(20)}}>
-          <Text
-            style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
-            Products
-          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text
+              style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
+              Products
+            </Text>
+            {/* <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity style={{marginRight: 10}}>
+                <Text>Grid</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text>List</Text>
+              </TouchableOpacity>
+            </View> */}
+          </View>
           <View style={{alignItems: 'center'}}>
             <FlatList
               data={allProducts}

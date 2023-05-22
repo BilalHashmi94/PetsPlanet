@@ -20,4 +20,5 @@ export default Images = {
   sell3: require('../assets/sell3.png'),
   imagePlaceholder: require('../assets/image-placeholder.jpeg'),
   loginDog: require('../assets/loginDog.png'),
+  sugnupback: require('../assets/sugnupback.jpeg'),
 };
