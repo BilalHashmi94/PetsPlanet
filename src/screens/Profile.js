@@ -114,6 +114,28 @@ const Profile = () => {
             <View>
               {/* <View style={styles.line} /> */}
               <TouchableOpacity
+                onPress={() => NavigationService.navigate('MyPetTube')}
+                style={{
+                  ...styles.profileView,
+                  marginVertical: Metrix.VerticalSize(20),
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Metrix.customFontSize(18),
+                    // fontFamily: 'Poppins-SemiBold',
+                    fontWeight: 'bold',
+                    color: Colors.black,
+                  }}>
+                  Pet Tube
+                </Text>
+                {/* <AntDesign name={'arrowright'} size={Metrix.customFontSize(19)} /> */}
+              </TouchableOpacity>
+              <View style={styles.line} />
+            </View>
+            <View>
+              {/* <View style={styles.line} /> */}
+              <TouchableOpacity
                 onPress={() => NavigationService.navigate('SellersList')}
                 style={{
                   ...styles.profileView,
