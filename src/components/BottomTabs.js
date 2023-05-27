@@ -10,11 +10,14 @@ import {Colors, Metrix} from '../config';
 import Favourites from '../screens/Favourites';
 import {useSelector} from 'react-redux';
 import {BannerAd, BannerAdSize, TestIds} from '@react-native-admob/admob';
+import PetTube from '../screens/PetTube';
 
 const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
   const user = useSelector(state => state.AuthReducer.user);
-  let icons = user ? ['home', 'hearto', 'isv', 'user'] : ['home', 'isv', 'user'];
+  let icons = user
+    ? ['home', 'hearto', 'youtube', 'isv', 'user']
+    : ['home', 'youtube', 'isv', 'user'];
 
   return (
     <>
@@ -63,7 +66,7 @@ const BottomTabs = () => {
                   }}>
                   <AntDesign
                     name={icons[index]}
-                    size={23}
+                    size={val.name === 'PetTube' ? 30 : 23}
                     color={
                       props.state.index == index
                         ? Colors.white
@@ -136,6 +139,21 @@ const BottomTabs = () => {
           />
         ) : null}
         <Tab.Screen
+          name="PetTube"
+          component={PetTube}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <FontAwesome
+                  name={'shopping-cart'}
+                  size={25}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
           name="Shop"
           component={Shop}
           options={{
@@ -151,21 +169,21 @@ const BottomTabs = () => {
           }}
         />
         {/* {user ? ( */}
-          <Tab.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              tabBarIcon: ({focused}) => (
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                  <FontAwesome
-                    name={'user'}
-                    size={25}
-                    color={focused ? '#CCCCFF' : Colors.logoGreen}
-                  />
-                </View>
-              ),
-            }}
-          />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <FontAwesome
+                  name={'user'}
+                  size={25}
+                  color={focused ? '#CCCCFF' : Colors.logoGreen}
+                />
+              </View>
+            ),
+          }}
+        />
         {/* ) : null} */}
       </Tab.Navigator>
     </>
