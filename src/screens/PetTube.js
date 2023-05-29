@@ -1,21 +1,104 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import React from 'react';
 import {Colors, CommonStyles, Images, Metrix} from '../config';
 import SearchHeader from '../components/SearchHeader';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 const PetTube = () => {
-  return (
-    <View style={{...CommonStyles.container}}>
-      <Text
-        style={{
-          ...CommonStyles.textStyles.heading,
-          marginTop: Metrix.VerticalSize(10),
-        }}>
-        Pet Tube
-      </Text>
-      <SearchHeader />
+  const data = [
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+    {
+      id: 12,
+      postId: 112,
+      channelId: 31412,
+      title: 'My Pet Video',
+      videoBy: 'Saleem Vlogs',
+      thumbnail: Images.petTube,
+      likes: 22,
+      comments: 11,
+    },
+  ];
 
+  const renderItem = ({item}) => {
+    return (
       <View
         style={{
           width: '100%',
@@ -37,9 +120,11 @@ const PetTube = () => {
               ...CommonStyles.textStyles.semiHeading,
               color: Colors.logoGreen,
             }}>
-            My First Pet Video
+            {item?.title}
           </Text>
-          <Text style={{...CommonStyles.textStyles.intro}}>Saleem Vlogs</Text>
+          <Text style={{...CommonStyles.textStyles.intro}}>
+            {item?.videoBy}
+          </Text>
         </View>
         {/* Video Section  */}
         <TouchableOpacity
@@ -77,16 +162,16 @@ const PetTube = () => {
           <View
             style={{
               position: 'absolute',
-            //   top: 0,
-            //   right: 0,
-            //   left: 0,
+              //   top: 0,
+              //   right: 0,
+              //   left: 0,
               bottom: 0,
               zIndex: 999999,
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
               height: 20,
-              backgroundColor: 'rgb(255, 255 255)'
+              backgroundColor: 'rgb(255, 255 255)',
             }}></View>
         </TouchableOpacity>
 
@@ -102,7 +187,28 @@ const PetTube = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <View
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              width: '33%',
+              borderRightWidth: 1,
+              borderColor: Colors.lighGray,
+              flexDirection: 'row',
+            }}>
+            <AntDesign name="like2" size={15} color={Colors.black} />
+            <Text
+              style={{
+                marginLeft: Metrix.HorizontalSize(5),
+                color: Colors.black,
+                fontSize: Metrix.customFontSize(15),
+                // fontWeight: 'bold',
+              }}>
+              Like
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -111,30 +217,59 @@ const PetTube = () => {
               borderRightWidth: 1,
               borderColor: Colors.lighGray,
             }}>
-            <Text>Like</Text>
-          </View>
-          <View
+            <Text
+              style={{
+                // marginLeft: Metrix.HorizontalSize(5),
+                color: Colors.black,
+                fontSize: Metrix.customFontSize(15),
+                // fontWeight: 'bold',
+              }}>
+              Comment
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               alignItems: 'center',
               justifyContent: 'center',
               height: '100%',
               width: '33%',
-              borderRightWidth: 1,
-              borderColor: Colors.lighGray,
+              flexDirection: 'row',
             }}>
-            <Text>Comment</Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              width: '33%',
-            }}>
-            <Text>Share</Text>
-          </View>
+            <SimpleLineIcons name="share-alt" size={15} color={Colors.black} />
+            <Text
+              style={{
+                marginLeft: Metrix.HorizontalSize(10),
+                color: Colors.black,
+                fontSize: Metrix.customFontSize(15),
+                // fontWeight: 'bold',
+              }}>
+              Share
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
+    );
+  };
+
+  return (
+    <View style={{...CommonStyles.container}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text
+          style={{
+            ...CommonStyles.textStyles.heading,
+            marginTop: Metrix.VerticalSize(10),
+          }}>
+          Pet Tube
+        </Text>
+        <SearchHeader />
+        <View style={{marginBottom: Metrix.VerticalSize(80)}}>
+          <FlatList
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={(item, index) => renderItem(item)}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };
