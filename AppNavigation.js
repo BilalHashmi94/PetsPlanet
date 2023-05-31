@@ -38,6 +38,7 @@ import ChatListChat from './src/screens/Auth/ChatListChat';
 import SearchResults from './src/screens/SearchResults';
 import SignupAsA from './src/screens/Auth/SignupAsA';
 import MyPetTube from './src/screens/PetTube/MyPetTube';
+import CreateChannel from './src/screens/PetTube/CreateChannel';
 
 const Stack = createStackNavigator();
 
@@ -126,6 +127,7 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="SearchResults" component={SearchResults} />
             <Stack.Screen name="SignupAsA" component={SignupAsA} />
             <Stack.Screen name="MyPetTube" component={MyPetTube} />
+            <Stack.Screen name="CreateChannel" component={CreateChannel} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (
