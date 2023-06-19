@@ -305,7 +305,7 @@ const SellPet = props => {
                       onPress={() => {
                         actionSheetRef.current?.show();
                       }}>
-                      <Entypo name="camera" color={Colors.white} size={40} />
+                      <Entypo name="plus" color={Colors.white} size={70} />
                     </TouchableOpacity>
                   );
                 }}
@@ -368,7 +368,7 @@ const SellPet = props => {
               <TextInputComp
                 value={age}
                 onChange={text => setAge(text)}
-                placeholder={'Enter Here'}
+                placeholder={'2 Years'}
                 // type={'email-address'}
               />
             </View>
@@ -382,7 +382,7 @@ const SellPet = props => {
               <TextInputComp
                 value={weight}
                 onChange={text => setWeight(text)}
-                placeholder={'Enter Here'}
+                placeholder={'5 kg'}
                 // type={'email-address'}
               />
             </View>
@@ -437,7 +437,7 @@ const SellPet = props => {
               value={isTopEnabled}
             />
           </View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -452,7 +452,7 @@ const SellPet = props => {
               onValueChange={toggleTenSwitch}
               value={isTopTenEnabled}
             />
-          </View>
+          </View> */}
           <View
             style={{
               marginVertical: Metrix.VerticalSize(15),

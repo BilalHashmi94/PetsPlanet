@@ -37,6 +37,7 @@ import ChatList from './src/screens/Auth/ChatList';
 import ChatListChat from './src/screens/Auth/ChatListChat';
 import SearchResults from './src/screens/SearchResults';
 import SignupAsA from './src/screens/Auth/SignupAsA';
+import Payment from './src/screens/Auth/Payment';
 
 const Stack = createStackNavigator();
 
@@ -124,6 +125,7 @@ class AppNavigation extends React.Component {
             <Stack.Screen name="ChatListChat" component={ChatListChat} />
             <Stack.Screen name="SearchResults" component={SearchResults} />
             <Stack.Screen name="SignupAsA" component={SignupAsA} />
+            <Stack.Screen name="Payment" component={Payment} />
           </Stack.Navigator>
         </NavigationContainer>
         {loading && (

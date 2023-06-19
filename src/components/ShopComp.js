@@ -18,8 +18,8 @@ const ShopComp = ({item}) => {
       onPress={() => NavigationService.navigate('ShopStore', {data: item})}
       style={{
         borderRadius: 20,
-        height: Metrix.VerticalSize(150),
-        width: Metrix.HorizontalSize(250),
+        height: Metrix.VerticalSize(180),
+        width: Metrix.HorizontalSize(320),
         // padding: 5,
         backgroundColor: Colors.black,
         marginHorizontal: 10,
@@ -51,6 +51,10 @@ const ShopComp = ({item}) => {
           paddingVertical: 10,
           position: 'absolute',
           bottom: 0,
+          backgroundColor: 'rgba(0,0,0, 0.5)',
+          width: '100%',
+          borderBottomRightRadius: 20,
+          borderBottomLeftRadius: 20,
         }}>
         <Text
           numberOfLines={1}
@@ -93,14 +97,14 @@ const ShopComp = ({item}) => {
           justifyContent: 'center',
         }}>
         <FontAwesome name={'heart'} color={Colors.red} size={20} />
-        <Text
+        {/* <Text
           style={{
             color: Colors.primary,
             fontSize: Metrix.customFontSize(10),
             fontWeight: 'bold',
           }}>
           {item.likes?.length}
-        </Text>
+        </Text> */}
       </View>
     </TouchableOpacity>
   );

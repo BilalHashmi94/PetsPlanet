@@ -33,7 +33,7 @@ const ShopStore = props => {
   const [followers, setFollowers] = useState('100');
   const [likes, setLikes] = useState(data?.likes?.length);
   const [like, setLike] = useState(
-    user ? data?.likes?.includes(user?.id) ? true : false : false,
+    user ? (data?.likes?.includes(user?.id) ? true : false) : false,
   );
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -142,7 +142,16 @@ const ShopStore = props => {
             </TouchableOpacity>
           ) : null}
         </View>
-        <View
+        <View style={{marginBottom: 20}}>
+          <Text style={{...CommonStyles.textStyles.semiHeading}}>About</Text>
+          <Text style={{...CommonStyles.textStyles.intro}}>
+            We deeply value our product and greatly appreciate your feedback. We
+            approach the app's development and enhancement as if it were our own
+            product, and we remain committed to continuous improvement in the
+            future.
+          </Text>
+        </View>
+        {/* <View
           style={{
             marginVertical: Metrix.VerticalSize(40),
             flexDirection: 'row',
@@ -154,8 +163,6 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            {/* <Text>{data.numberOfProducts}</Text>
-            <Text>Products</Text> */}
             <ProgressCircle
               percent={percentage}
               radius={40}
@@ -179,8 +186,6 @@ const ShopStore = props => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            {/* <Text>100</Text>
-            <Text>Followers</Text> */}
           </View>
           <View
             style={{
@@ -205,11 +210,11 @@ const ShopStore = props => {
               Likes
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <View>
           <View style={{marginBottom: Metrix.VerticalSize(20)}}>
-            <Text style={styles.textStyle}>Products</Text>
+            <Text style={{...CommonStyles.textStyles.semiHeading}}>Products</Text>
           </View>
           <FlatList
             data={products}

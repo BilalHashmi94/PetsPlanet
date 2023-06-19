@@ -161,6 +161,51 @@ const AddProduct = props => {
   }, []);
 
   const postAd = () => {
+    if (name === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Name is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (price === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Price is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (selectedCategory === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please select category',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (description === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please write description',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (pictures.length < 1) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Product pictures are required',
+        position: 'bottom',
+      });
+      return;
+    }
     dispatch(
       DataBaseMiddleware.PostProductAd({
         name: name,
@@ -367,7 +412,7 @@ const AddProduct = props => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginVertical: Metrix.VerticalSize(10),
-              alignItems: 'center'
+              alignItems: 'center',
             }}>
             <Text style={{color: Colors.black, ...styles.textInputText}}>
               Add your product in Top Products

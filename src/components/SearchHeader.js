@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Colors, Metrix, NavigationService} from '../config';
+import {Colors, CommonStyles, Metrix, NavigationService} from '../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const SearchHeader = ({
@@ -19,18 +19,20 @@ const SearchHeader = ({
 }) => {
   const [sendButton, setSendButton] = useState(false);
   const [search, setSearch] = useState('');
+  const [focus, setFocus] = useState(false);
 
   return (
-    <View
-      style={{
-        marginTop: top ? 0 : Metrix.VerticalSize(30),
-        marginBottom: Metrix.VerticalSize(10),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        ...containerStyle,
-        alignItems: 'center',
-      }}>
-      {/* {back ? (
+    <>
+      <View
+        style={{
+          marginTop: top ? 0 : Metrix.VerticalSize(30),
+          marginBottom: Metrix.VerticalSize(10),
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          ...containerStyle,
+          alignItems: 'center',
+        }}>
+        {/* {back ? (
         <TouchableOpacity
           onPress={() => {
             if (name === 'drList') {
@@ -47,26 +49,26 @@ const SearchHeader = ({
           />
         </TouchableOpacity>
       ) : null} */}
-      <View
-        style={{
-          paddingRight: Metrix.HorizontalSize(20),
-          paddingLeft: Metrix.HorizontalSize(20),
-          ...styles.searchBar,
-          borderColor: sendButton ? Colors.logoGreen : Colors.placeholderGray,
-          borderWidth: sendButton ? 2 : 1,
-          width: back ? '85%' : '85%',
-        }}>
-        <TextInput
-          value={search}
-          style={{width: '90%', height: 40, color: Colors.black}}
-          onChangeText={text => setSearch(text)}
-          placeholder={'Search anything'}
-          placeholderTextColor={Colors.placeholderGray}
-          onFocus={() => setSendButton(true)}
-          onBlur={() => setSendButton(false)}
-        />
-      </View>
-      <View style={{flex: 1, alignItems: 'center'}}>
+        <View
+          style={{
+            paddingRight: Metrix.HorizontalSize(20),
+            paddingLeft: Metrix.HorizontalSize(20),
+            ...styles.searchBar,
+            borderColor: sendButton ? Colors.logoGreen : Colors.placeholderGray,
+            borderWidth: sendButton ? 2 : 1,
+            width: back ? '85%' : '100%',
+          }}>
+          <TextInput
+            value={search}
+            style={{width: '90%', height: 40, color: Colors.black}}
+            onChangeText={text => setSearch(text)}
+            placeholder={'Search anything'}
+            placeholderTextColor={Colors.placeholderGray}
+            onFocus={() => setSendButton(true)}
+            onBlur={() => setSendButton(false)}
+          />
+        </View>
+        {/* <View style={{flex: 1, alignItems: 'center'}}>
         <TouchableOpacity onPress={() => getSearch(search)}>
           <AntDesign
             name={'search1'}
@@ -76,8 +78,33 @@ const SearchHeader = ({
             size={sendButton ? 40 : 40}
           />
         </TouchableOpacity>
+      </View> */}
       </View>
-    </View>
+      {sendButton ? (
+        <View>
+          <TouchableOpacity
+            onPress={() => getSearch(search)}
+            style={{
+              width: '100%',
+              height: Metrix.VerticalSize(40),
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: Colors.green,
+              marginBottom: 20,
+              marginTop: 10,
+            }}>
+            <Text
+              style={{
+                ...CommonStyles.textStyles.buttonText,
+                fontWeight: 'bold',
+              }}>
+              Search
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+    </>
   );
 };
 
