@@ -244,7 +244,7 @@ const SignUp = props => {
   };
 
   const Register = async () => {
-    if (!email) {
+    if (email.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
@@ -258,21 +258,21 @@ const SignUp = props => {
         text2: 'Please enter a valid email',
         position: 'bottom',
       });
-    } else if (!firstName) {
+    } else if (firstName.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
         text2: 'First Name is required',
         position: 'bottom',
       });
-    } else if (!lastName) {
+    } else if (lastName.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
         text2: 'Last Name is required',
         position: 'bottom',
       });
-    } else if (!password) {
+    } else if (password.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',

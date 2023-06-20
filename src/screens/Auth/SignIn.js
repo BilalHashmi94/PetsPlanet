@@ -20,6 +20,7 @@ import {
 import {useDispatch} from 'react-redux';
 import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import Toast from 'react-native-toast-message';
+import {emailValidityCheck} from '../../config/Constants';
 
 const SignIn = props => {
   const [email, setEmail] = useState('Nick@pp.com');
@@ -30,6 +31,33 @@ const SignIn = props => {
   // const dispatch = useDispatch(AuthMiddleware.LogIn({email, password}));
 
   const createLogin = () => {
+    if (email.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Email is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (!emailValidityCheck(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please enter a valid email',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (password.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Password is required',
+        position: 'bottom',
+      });
+      return;
+    }
     dispatch(
       AuthMiddleware.LoginWithEmail({
         email,
@@ -200,7 +228,8 @@ const SignIn = props => {
         <Text style={CommonStyles.textStyles.intro}>
           Don't have an account?{' '}
         </Text>
-        <TouchableOpacity onPress={() => NavigationService.navigate('SignupAsA')}>
+        <TouchableOpacity
+          onPress={() => NavigationService.navigate('SignupAsA')}>
           <Text
             style={{...CommonStyles.textStyles.intro, color: Colors.primary}}>
             {' '}

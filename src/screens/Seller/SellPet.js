@@ -157,6 +157,78 @@ const SellPet = props => {
   }, []);
 
   const postAd = () => {
+    if (pictures?.length < 1) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Pictures are required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (!selectedCategory) {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please select category',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (petName.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Pet Name is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (breed.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Breed is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (age.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Age is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (weight.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Weight is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (price.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Price is required',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (description.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Alert',
+        text2: 'Please write a short Description',
+        position: 'bottom',
+      });
+      return;
+    }
     dispatch(
       DataBaseMiddleware.PostPetAd({
         name: petName,
@@ -198,7 +270,7 @@ const SellPet = props => {
             NavigationService.goBack();
           } else {
             Toast.show({
-              type: 'success',
+              type: 'error',
               text1: 'Alert',
               text2: 'Something went wrong',
               position: 'bottom',

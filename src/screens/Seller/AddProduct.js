@@ -164,7 +164,7 @@ const AddProduct = props => {
   }, []);
 
   const postAd = () => {
-    if (name === '') {
+    if (name.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
@@ -173,7 +173,7 @@ const AddProduct = props => {
       });
       return;
     }
-    if (price === '') {
+    if (price.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
@@ -182,7 +182,7 @@ const AddProduct = props => {
       });
       return;
     }
-    if (selectedCategory === '') {
+    if (selectedCategory.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
@@ -191,7 +191,7 @@ const AddProduct = props => {
       });
       return;
     }
-    if (description === '') {
+    if (description.trim() === '') {
       Toast.show({
         type: 'error',
         text1: 'Alert',
