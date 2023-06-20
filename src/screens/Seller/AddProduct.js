@@ -69,20 +69,23 @@ const AddProduct = props => {
       ImageCropPicker.openPicker({
         mediaType: 'photo',
         cropping: false,
+        multiple: true,
       })
         .then(photo => {
-          console.log('success', photo.path);
-          let arr = photo.path.split('/');
-          let name = photo.path.split('/')[arr.length - 1];
-          let file = {
-            name,
-            uri: photo.path,
-            type: photo.mime,
-          };
-          // this.setState({profilePicture: file});
-          // setProfilePic(file)
-          // pictures.push(file);
-          setPictures([...pictures, file]);
+          console.log('success', photo);
+          photo.map(val => {
+            let arr = val.path.split('/');
+            let name = val.path.split('/')[arr.length - 1];
+            let file = {
+              name,
+              uri: val.path,
+              type: val.mime,
+            };
+            // this.setState({profilePicture: file});
+            // setProfilePic(file)
+            pictures.push(file);
+            setPictures([...pictures]);
+          });
         })
         .catch(err => {
           console.warn('Error', err);
@@ -227,6 +230,10 @@ const AddProduct = props => {
           console.log('callback res', res);
           if (res.status === 280) {
             setLimitModal(true);
+          } else if (res.status === 200) {
+            dispatch(
+              AuthAction.Signin({...user, currentAds: user?.currentAds + 1}),
+            );
           }
         },
       }),

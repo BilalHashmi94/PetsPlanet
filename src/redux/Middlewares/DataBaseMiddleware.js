@@ -664,6 +664,12 @@ export class DataBaseMiddleware extends Component {
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
               NavigationService.resetStack('BottomTabs');
+              Toast.show({
+                type: 'success',
+                text1: 'Alert',
+                text2: 'Ad Posted Successfully.',
+                position: 'bottom',
+              });
               dispatch(LoaderAction.LoaderFalse());
             } else if (response?.status == 280) {
               Toast.show({

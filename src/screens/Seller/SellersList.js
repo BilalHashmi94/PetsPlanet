@@ -7,7 +7,13 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Colors, Metrix, Images, NavigationService, CommonStyles} from '../../config';
+import {
+  Colors,
+  Metrix,
+  Images,
+  NavigationService,
+  CommonStyles,
+} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
@@ -143,7 +149,7 @@ const SellersList = props => {
       </View>
       {user?.shopIdentifier ? (
         <View>
-          <Text
+          {/* <Text
             style={{
               ...CommonStyles.textStyles.semiHeading,
               color: Colors.black,
@@ -151,7 +157,7 @@ const SellersList = props => {
               // textAlign: 'center',
             }}>
             Your current ads: {user?.currentAds}
-          </Text>
+          </Text> */}
           <Text
             style={{
               ...CommonStyles.textStyles.semiHeading,
@@ -159,7 +165,7 @@ const SellersList = props => {
               fontSize: 16,
               // textAlign: 'center',
             }}>
-            Your available ads: {user?.availableAds}
+            Your available ads: {user?.currentAds}/{user?.availableAds}
           </Text>
           {user?.currentAds === user?.availableAds ? (
             <Text
