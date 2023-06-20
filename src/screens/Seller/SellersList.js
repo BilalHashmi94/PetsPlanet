@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Colors, Metrix, Images, NavigationService} from '../../config';
+import {Colors, Metrix, Images, NavigationService, CommonStyles} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Header from '../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
@@ -141,6 +141,62 @@ const SellersList = props => {
           My List
         </Text>
       </View>
+      {user?.shopIdentifier ? (
+        <View>
+          <Text
+            style={{
+              ...CommonStyles.textStyles.semiHeading,
+              color: Colors.black,
+              fontSize: 16,
+              // textAlign: 'center',
+            }}>
+            Your current ads: {user?.currentAds}
+          </Text>
+          <Text
+            style={{
+              ...CommonStyles.textStyles.semiHeading,
+              color: Colors.black,
+              fontSize: 16,
+              // textAlign: 'center',
+            }}>
+            Your available ads: {user?.availableAds}
+          </Text>
+          {user?.currentAds === user?.availableAds ? (
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                color: Colors.red,
+                fontSize: 16,
+                marginTop: 10,
+                // textAlign: 'center',
+              }}>
+              Your ad reached its limit. You can extend you limit to 5 more ads
+              just for Rs.1000.{' '}
+              <Text
+                style={{color: Colors.primary, fontWeight: 'bold'}}
+                onPress={() => NavigationService.navigate('Payment')}>
+                Buy Now
+              </Text>
+            </Text>
+          ) : (
+            <Text
+              style={{
+                ...CommonStyles.textStyles.semiHeading,
+                color: Colors.black,
+                fontSize: 16,
+                marginTop: 10,
+                // textAlign: 'center',
+              }}>
+              You can extend you limit to 5 more ads just for Rs.1000.{' '}
+              <Text
+                style={{color: Colors.primary, fontWeight: 'bold'}}
+                onPress={() => NavigationService.navigate('Payment')}>
+                Buy Now
+              </Text>
+            </Text>
+          )}
+        </View>
+      ) : null}
       <View
         style={{
           marginTop: Metrix.VerticalSize(5),
