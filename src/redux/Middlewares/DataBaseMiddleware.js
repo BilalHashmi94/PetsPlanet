@@ -663,7 +663,6 @@ export class DataBaseMiddleware extends Component {
             console.log('postProductAd', response);
             dispatch(LoaderAction.LoaderFalse());
             if (response?.status == 200) {
-              NavigationService.resetStack('BottomTabs');
               Toast.show({
                 type: 'success',
                 text1: 'Alert',
@@ -740,8 +739,9 @@ export class DataBaseMiddleware extends Component {
                 text2: 'Somthing went wrong! Please try again later',
                 position: 'bottom',
               });
-              callback(response);
+              callback(null);
               dispatch(LoaderAction.LoaderFalse());
+              return response.json();
             }
           })
           .then(response => {

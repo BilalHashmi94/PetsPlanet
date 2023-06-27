@@ -75,7 +75,7 @@ const CreateShopTwo = props => {
         console.warn('Error', err);
       });
   };
-
+console.warn('user', user);
   const createShop = () => {
     dispatch(
       DataBaseMiddleware.CreateShop({
@@ -84,7 +84,7 @@ const CreateShopTwo = props => {
         shopName: shopName,
         callback: res => {
           console.warn('res', res);
-          if (res) {
+          if (res?.email) {
             dispatch(AuthAction.Signin(res));
             NavigationService.navigate('AddProduct');
           }

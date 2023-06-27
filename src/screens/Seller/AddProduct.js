@@ -231,6 +231,7 @@ const AddProduct = props => {
           if (res.status === 280) {
             setLimitModal(true);
           } else if (res.status === 200) {
+            NavigationService.resetStack('BottomTabs');
             dispatch(
               AuthAction.Signin({...user, currentAds: user?.currentAds + 1}),
             );

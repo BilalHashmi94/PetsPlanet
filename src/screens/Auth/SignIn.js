@@ -23,8 +23,8 @@ import Toast from 'react-native-toast-message';
 import {emailValidityCheck} from '../../config/Constants';
 
 const SignIn = props => {
-  const [email, setEmail] = useState('Nick@pp.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('muhammedbilalhashmi94@gmail.com');
+  const [password, setPassword] = useState('Facebook@123');
   const [secure, setSecure] = useState(true);
   const dispatch = useDispatch();
 
