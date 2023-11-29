@@ -6,10 +6,10 @@ import {Store} from '../redux';
 import {AuthAction} from '../redux/Actions';
 
 export var baseUrl = 'https://pets-planet.herokuapp.com/';
-// export var baseUrl = 'http://169.254.170.106:8000/';
+// export var baseUrl = 'http://localhost:8000/';
 
 export const Img_url = 'https://pets-planet.herokuapp.com/uploads/';
-// export const Img_url = 'http://169.254.170.106:8000/uploads/';
+// export const Img_url = 'http://localhost:8000/uploads/';
 
 const CancelToken = Axios.CancelToken.source();
 // create the source

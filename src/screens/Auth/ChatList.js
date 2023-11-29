@@ -31,7 +31,7 @@ const ChatList = () => {
   return (
     <View style={CommonStyles.container}>
       <Header />
-      <Text style={{...CommonStyles.textStyles.heading}}>My Chats</Text>
+      <Text style={{...CommonStyles.textStyles.heading, marginBottom: 20}}>My Chats</Text>
       <FlatList
         data={data}
         keyExtractor={(item, index) => index.toString()}
@@ -46,9 +46,9 @@ const ChatList = () => {
                 NavigationService.navigate('ChatListChat', {item: item})
               }
               style={{
-                marginVertical: 20,
+                marginVertical: 10,
                 // backgroundColor: 'pink',
-                height: Metrix.VerticalSize(80),
+                // height: Metrix.VerticalSize(80),
                 // alignItems: 'center',
                 justifyContent: 'center',
               }}>

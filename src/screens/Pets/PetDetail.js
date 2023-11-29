@@ -150,8 +150,8 @@ const PetDetail = props => {
             style={{
               width: width,
               height: 300,
-              borderBottomRightRadius: 30,
-              borderBottomLeftRadius: 30,
+              // borderBottomRightRadius: 30,
+              // borderBottomLeftRadius: 30,
               backgroundColor: 'black',
             }}
           />

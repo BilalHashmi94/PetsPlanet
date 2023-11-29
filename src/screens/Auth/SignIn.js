@@ -168,7 +168,10 @@ const SignIn = props => {
     // </ScrollView>
     <View style={CommonStyles.container}>
       <View style={styles.main}>
-        <Text style={CommonStyles.textStyles.heading}>Welcome Back</Text>
+        <Image
+          source={Images.logo}
+          style={{resizeMode: 'contain', width: 200, height: 100}}
+        />
         <Text
           style={{
             ...CommonStyles.textStyles.intro,
@@ -231,7 +234,7 @@ const SignIn = props => {
         <TouchableOpacity
           onPress={() => NavigationService.navigate('SignupAsA')}>
           <Text
-            style={{...CommonStyles.textStyles.intro, color: Colors.primary}}>
+            style={{...CommonStyles.textStyles.intro, color: Colors.logoGreen, marginVertical: 10}}>
             {' '}
             Sign Up
           </Text>
@@ -243,7 +246,7 @@ const SignIn = props => {
         onPress={() => NavigationService.navigate('BottomTabs')}>
         <Text
           style={{
-            color: Colors.blue,
+            color: Colors.logoGreen,
             textDecorationLine: 'underline',
             fontFamily: 'Lato-Regular',
             fontSize: Metrix.customFontSize(15),

@@ -370,6 +370,13 @@ const RegisterAsDoctor = () => {
         text2: 'City Field is Reqired',
         position: 'bottom',
       });
+    } else if (phone.length > 15 || phone.length < 11) {
+      Toast.show({
+        type: 'success',
+        text1: 'Alert',
+        text2: 'Please add a valid phone number',
+        position: 'bottom',
+      });
     } else {
       // dispatch(
       //   AuthMiddleware.Register({

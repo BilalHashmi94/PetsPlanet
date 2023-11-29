@@ -12,7 +12,7 @@ import {
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import gStyle from './../styles';
 import Header from '../../components/Header';
-import {Colors, Images, Metrix} from '../../config';
+import {Colors, Images, Metrix, NavigationService} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TextInputComp from '../../components/TextInputComp';
@@ -223,6 +223,13 @@ export default function ChatListChat({route}) {
           paddingHorizontal: Metrix.HorizontalSize(20),
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => NavigationService.goBack()} style={{marginRight: 20}}>
+            <Ionicons
+              name={'md-chevron-back-outline'}
+              color={Colors.black}
+              size={Metrix.customFontSize(25)}
+            />
+          </TouchableOpacity>
           {userData?.userData[0]?.profilePicture ? (
             <FastImage
               source={{

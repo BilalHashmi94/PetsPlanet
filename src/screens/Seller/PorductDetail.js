@@ -219,7 +219,24 @@ const PetDetail = props => {
                 style={{...styles.textStyle, color: Colors.placeholderGray}}>
                 Shop:
               </Text>
-              <Text style={{...styles.textStyle, color: Colors.black}}>
+              <Text
+                onPress={() => {
+                  dispatch(
+                    DataBaseMiddleware.GetShopsById({
+                      id: data.shopIdentifier,
+                      callback: res => {
+                        if (res) {
+                          NavigationService.navigate('ShopStore', {data: res});
+                        }
+                      },
+                    }),
+                  );
+                }}
+                style={{
+                  ...styles.textStyle,
+                  color: Colors.logoGreen,
+                  textDecorationLine: 'underline',
+                }}>
                 {data.shopName}
               </Text>
             </View>
@@ -313,18 +330,18 @@ const PetDetail = props => {
                   </View>
                   <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
-                    style={{
-                      width: 40,
-                      height: 40,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Feather
-                      name={'phone-call'}
-                      color={Colors.placeholderGray}
-                      size={25}
-                    />
-                  </TouchableOpacity>
+                      style={{
+                        width: 40,
+                        height: 40,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Feather
+                        name={'phone-call'}
+                        color={Colors.placeholderGray}
+                        size={25}
+                      />
+                    </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() =>
                         NavigationService.navigate('Chat', {item: data})

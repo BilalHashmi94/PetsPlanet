@@ -19,7 +19,7 @@ const Button = ({
       disabled={disabled}
       style={{
         // flex: 1,
-        backgroundColor: backColor ? backColor : Colors.primary,
+        backgroundColor: backColor ? backColor : Colors.logoGreen,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 103,

@@ -61,8 +61,7 @@ const Home = ({navigation}) => {
         callback: res => {
           let arr = [];
           arr.push(...res);
-          const data = arr.filter(val => val.topTen == true);
-          console.warn(data);
+          const data = arr.filter(val => val.topPet == true);
           setFavPets(data);
         },
       }),
@@ -129,8 +128,8 @@ const Home = ({navigation}) => {
             source={item.image}
             style={{
               resizeMode: 'contain',
-              width: Metrix.HorizontalSize(50),
-              height: Metrix.VerticalSize(50),
+              width: Metrix.HorizontalSize(30),
+              height: Metrix.VerticalSize(30),
             }}
           />
         </View>
@@ -206,10 +205,18 @@ const Home = ({navigation}) => {
           ) : null}
         </View>
       </View>
-      <View>
+      {/* <View>
         <BannerAd size={BannerAdSize.BANNER} unitId={TestIds.BANNER} />
-      </View>
-      <OwnerCard />
+      </View> */}
+      <FlatList
+        data={[1, 2]}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        key={({item, index}) => index.toString()}
+        renderItem={({item, index}) => {
+          return <View style={{marginRight: 20}}>{index === 0 ? <OwnerCard /> : <DoctorCard />}</View>;
+        }}
+      />
       <View style={{marginVertical: Metrix.VerticalSize(10)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text
@@ -240,12 +247,12 @@ const Home = ({navigation}) => {
           renderItem={item => renderItem(item)}
         />
       </View>
-      <View>
+      {/* <View>
         <BannerAd size={BannerAdSize.BANNER} unitId={TestIds.BANNER} />
-      </View>
-      <View style={{marginBottom: Metrix.VerticalSize(10)}}>
+      </View> */}
+      {/* <View style={{marginBottom: Metrix.VerticalSize(10)}}>
         <DoctorCard />
-      </View>
+      </View> */}
       <View style={{marginBottom: Metrix.VerticalSize(90)}}>
         <View style={{marginBottom: 15, ...styles.topView}}>
           <Text

@@ -10,7 +10,7 @@ import {
 import {useDispatch} from 'react-redux';
 import Button from '../../components/Button';
 import TextInputComp from '../../components/TextInputComp';
-import {Colors, Images, Metrix, NavigationService} from '../../config';
+import {Colors, CommonStyles, Images, Metrix, NavigationService} from '../../config';
 import Toast from 'react-native-toast-message';
 import AuthMiddleware from '../../redux/Middlewares/AuthMiddleware';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -601,9 +601,9 @@ const SignUp = props => {
           justifyContent: 'center',
           marginBottom: Metrix.VerticalSize(10),
         }}>
-        <Text style={styles.textInputText}>Already have an account? </Text>
+        <Text style={CommonStyles.textStyles.intro}>Already have an account? </Text>
         <TouchableOpacity onPress={() => NavigationService.navigate('SignIn')}>
-          <Text style={styles.resetText}>Login</Text>
+          <Text style={{...CommonStyles.textStyles.intro, color: Colors.logoGreen}}>Login</Text>
         </TouchableOpacity>
       </View>
       <ActionSheet

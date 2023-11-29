@@ -11,7 +11,7 @@ import {
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import gStyle from './../styles';
 import Header from '../../components/Header';
-import {Colors, Metrix} from '../../config';
+import {Colors, Metrix, NavigationService} from '../../config';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TextInputComp from '../../components/TextInputComp';
@@ -19,6 +19,7 @@ import IO from 'socket.io-client';
 import {baseUrl} from '../../config/ApiCaller';
 import {useSelector} from 'react-redux';
 import {log} from 'react-native-reanimated';
+import moment from 'moment';
 
 export default function Chat({route}) {
   const userData = route?.params?.item;
@@ -80,8 +81,7 @@ export default function Chat({route}) {
               ? Metrix.HorizontalSize(40)
               : Metrix.HorizontalSize(0),
         }}>
-        {item?.userID === user?.id && '...'} {item?.createdAt}{' '}
-        {!item?.userID === user?.id && '...'}
+        {moment(item?.createdAt).fromNow()}
       </Text>
       <View
         style={{
@@ -229,17 +229,31 @@ export default function Chat({route}) {
           paddingVertical: Metrix.VerticalSize(20),
           paddingHorizontal: Metrix.HorizontalSize(20),
         }}>
-        <Text style={{...gStyle.title, marginVertical: Metrix.VerticalSize(0)}}>
-          {userData?.seller_name}
-        </Text>
-        <Text
-          style={{
-            ...gStyle.title,
-            marginVertical: Metrix.VerticalSize(0),
-            fontSize: Metrix.customFontSize(14),
-          }}>
-          {userData?.shopName}
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity
+            onPress={() => NavigationService.goBack()}
+            style={{marginRight: 20}}>
+            <Ionicons
+              name={'md-chevron-back-outline'}
+              color={Colors.black}
+              size={Metrix.customFontSize(25)}
+            />
+          </TouchableOpacity>
+          <View>
+            <Text
+              style={{...gStyle.title, marginVertical: Metrix.VerticalSize(0)}}>
+              {userData?.seller_name}
+            </Text>
+            <Text
+              style={{
+                ...gStyle.title,
+                marginVertical: Metrix.VerticalSize(0),
+                fontSize: Metrix.customFontSize(14),
+              }}>
+              {userData?.shopName}
+            </Text>
+          </View>
+        </View>
       </View>
       <View style={{height: 0.5, backgroundColor: Colors.placeholderGray}} />
       <ScrollView

@@ -228,6 +228,7 @@ const Shop = props => {
       <View style={styles.horizontal}>
         <SearchHeader
           containerStyle={{marginTop: 0}}
+          shop={true}
           getSearch={text => {
             let searchItem = text.toLowerCase();
             const data = allProducts.filter(
@@ -241,11 +242,11 @@ const Shop = props => {
           }}
         />
       </View>
-      <View
+      {/* <View
         style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <BannerAd size={BannerAdSize.LARGE_BANNER} unitId={TestIds.BANNER} />
-      </View>
-      <View style={styles.bannerContainer}>
+      </View> */}
+      {/* <View style={styles.bannerContainer}>
         <View style={styles.bannerView} onLayout={e => onLayout(e)}>
           <SliderBox
             images={[Images.acc1, Images.acc2, Images.acc3, Images.acc4]}
@@ -262,14 +263,14 @@ const Shop = props => {
             resizeMode={'stretch'}
           />
         </View>
-      </View>
-      <View
+      </View> */}
+      {/* <View
         style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <BannerAd
           size={BannerAdSize.MEDIUM_RECTANGLE}
           unitId={TestIds.BANNER}
         />
-      </View>
+      </View> */}
       <View
         style={{
           paddingHorizontal: Metrix.HorizontalSize(5),
@@ -316,7 +317,7 @@ const Shop = props => {
               style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
               Trending Now
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => NavigationService.navigate('TopPets')}>
               <Text
                 style={{
@@ -326,7 +327,7 @@ const Shop = props => {
                 }}>
                 View All
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <FlatList
             data={topSelling}
@@ -339,7 +340,7 @@ const Shop = props => {
 
         {/* Top Sellers */}
 
-        <View style={{marginVertical: Metrix.VerticalSize(5)}}>
+        {/* <View style={{marginVertical: Metrix.VerticalSize(5)}}>
           <View style={{marginBottom: 15, ...styles.topView}}>
             <Text
               style={{fontWeight: 'bold', fontSize: Metrix.customFontSize(18)}}>
@@ -364,7 +365,7 @@ const Shop = props => {
             keyExtractor={index => index.toString()}
             renderItem={item => renderShopComp(item)}
           />
-        </View>
+        </View> */}
 
         {/* Products */}
 
